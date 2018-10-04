@@ -1,0 +1,12 @@
+{
+  "name": "MT Music Player",
+  "short_name": "MTPlayer",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A simply local music player app.",
+  "icons": [{
+    "src": "icons/icon.svg",
+    "type": "image/svg+xml"
+  }]
+}
