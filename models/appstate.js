@@ -1,6 +1,10 @@
 export default {
   toast: {
-    type: null,
+    type: 'info',
     text: null,
   },
+  menu: {
+    isOpen: true,
+  },
+  drawer: {},
 };

@@ -1,7 +1,8 @@
 import '../../icons/icon.js';
 import { html } from 'https://dev.jspm.io/lit-html';
+import Component from '../index.js';
 
-class AppSplash extends HTMLElement {
+class AppSplash extends Component {
   render() {
     return html`
       <style>

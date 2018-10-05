@@ -51,6 +51,9 @@ const createStore = (originStore) => {
   return createProxy(originStore);
 };
 
+/**
+ * @return {} property is `Store` nesting
+ */
 export const store = createStore({
   appState,
 });

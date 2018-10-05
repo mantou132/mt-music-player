@@ -7,12 +7,20 @@ class AppToast extends Component {
   constructor() {
     super();
     // data binding
-    this.state = store.appState.toast;
+    this.state = {
+      self: { currentState: true },
+      menu: store.appState.menu,
+      toast: store.appState.toast,
+    };
     appToast = this;
   }
 
   render() {
-    const { text } = this.state;
+    const {
+      self: { currentState },
+      toast: { text, type },
+      menu: { isOpen },
+    } = this.state;
     return html`
       <style>
         :host {
@@ -21,15 +29,20 @@ class AppToast extends Component {
           bottom: 1em;
         }
       </style>
-      <span>${text}</span>
+      <div>${type}</div>
+      <div>${text}</div>
+      <div>isOpen: ${isOpen}</div>
+      <div>currentState: ${currentState}</div>
     `;
   }
 }
 customElements.define('app-toast', AppToast);
 
-const update = () => setTimeout(() => {
+const update = () => requestAnimationFrame(() => {
   appToast.setState({
-    text: new Date().toISOString(),
+    toast: { text: new Date().toISOString(), type: Math.random() },
+    menu: { isOpen: Math.random() > 0.5 },
+    self: { currentState: Math.random() > 0.5 },
   });
   update();
 }, 100);
