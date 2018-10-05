@@ -6,7 +6,6 @@ let appToast;
 class AppToast extends Component {
   constructor() {
     super();
-    // data binding
     this.state = {
       self: { currentState: true },
       menu: store.appState.menu,
@@ -31,17 +30,17 @@ class AppToast extends Component {
       </style>
       <div>${type}</div>
       <div>${text}</div>
-      <div>isOpen: ${isOpen}</div>
+      <div>menu is open: ${isOpen}</div>
       <div>currentState: ${currentState}</div>
     `;
   }
 }
 customElements.define('app-toast', AppToast);
 
+// test
 const update = () => requestAnimationFrame(() => {
   appToast.setState({
     toast: { text: new Date().toISOString(), type: Math.random() },
-    menu: { isOpen: Math.random() > 0.5 },
     self: { currentState: Math.random() > 0.5 },
   });
   update();

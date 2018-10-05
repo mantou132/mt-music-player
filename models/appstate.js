@@ -4,7 +4,7 @@ export default {
     text: null,
   },
   menu: {
-    isOpen: true,
+    isOpen: false,
   },
   drawer: {},
 };

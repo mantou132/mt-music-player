@@ -54,6 +54,10 @@ export default class Component extends HTMLElement {
     disConnect(this.state[parentKey], this[uniqueUpdatePropMap.get(this)]);
   }
 
+  /**
+   * update component
+   * @param {object} payload Will be merged into the state object
+   */
   setState(payload) {
     if (typeof payload !== 'object') throw new Error('Must use the object');
     let changeStore = false;
@@ -74,7 +78,7 @@ export default class Component extends HTMLElement {
           if (!name) return;
           changeStore = true;
           const parent = this.state[key][parentKey];
-          parent[name] = mergeObject(parent[name], obj[key]);
+          parent[name] = mergeObject(parent[name], obj[key] || {});
           wrap[key] = parent[name];
         });
         return wrap;
