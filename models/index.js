@@ -6,6 +6,9 @@
 
 import appState from './appstate.js';
 
+export const parentKey = Symbol('parent');
+export const nameKey = Symbol('name');
+
 const handles = new WeakMap();
 
 const createStore = (originStore) => {
@@ -14,15 +17,18 @@ const createStore = (originStore) => {
       return target[key];
     },
     set(target, key, value, receiver) {
-      const listeners = handles.get(receiver);
-      if (listeners && value !== target[key]) {
-        listeners.forEach(func => func(value));
-      }
+      const oldValue = target[key];
       // value is Map, Set, Function ...
-      if (typeof value === 'object' && value !== null) {
-        target[key] = createProxy(value);
+      if (key === parentKey) {
+        target[key] = value;
+      } else if (typeof value === 'object' && value !== null) {
+        target[key] = createProxy(value, receiver, key);
       } else {
         target[key] = value;
+      }
+      const listeners = handles.get(receiver);
+      if (listeners && value !== oldValue) {
+        listeners.forEach(func => func(value));
       }
       return true;
     },
@@ -30,11 +36,13 @@ const createStore = (originStore) => {
       delete target[key];
     },
   };
-  const createProxy = (obj) => {
+  const createProxy = (obj, parentProxy, name) => {
     const proxy = new Proxy(obj, handler);
     const keys = Object.keys(obj);
     keys.forEach((key) => {
       proxy[key] = obj[key];
+      proxy[parentKey] = parentProxy;
+      proxy[nameKey] = name;
     });
 
     return proxy;
@@ -53,4 +61,9 @@ export const connect = (data, func) => {
   }
   const listeners = handles.get(data);
   listeners.add(func);
+};
+
+export const disConnect = (data, func) => {
+  const listeners = handles.get(data);
+  if (listeners) listeners.delete(func);
 };

@@ -1,31 +1,36 @@
-import { html } from '../../utils/html.js';
-import { store, connect } from '../../models/index.js';
+import { html } from 'https://dev.jspm.io/lit-html';
+import { store } from '../../models/index.js';
+import Component from '../index.js';
 
-const tempEle = html`
-  <style>
-    :host {
-      position: fixed;
-      left: 1em;
-      bottom: 1em;
-    }
-  </style>
-  <span id="text"></span>
-`;
-
-class AppToast extends HTMLElement {
+let appToast;
+class AppToast extends Component {
   constructor() {
     super();
+    // data binding
+    this.state = store.appState.toast;
+    appToast = this;
+  }
 
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-
-    shadowRoot.append(tempEle.content);
-    connect(store.appState, (value) => {
-      shadowRoot.querySelector('#text').innerHTML = value.text;
-    });
+  render() {
+    const { text } = this.state;
+    return html`
+      <style>
+        :host {
+          position: fixed;
+          left: 1em;
+          bottom: 1em;
+        }
+      </style>
+      <span>${text}</span>
+    `;
   }
 }
 customElements.define('app-toast', AppToast);
 
-document.onclick = ({ timeStamp }) => {
-  store.appState.toast = { text: timeStamp };
-};
+const update = () => setTimeout(() => {
+  appToast.setState({
+    text: new Date().toISOString(),
+  });
+  update();
+}, 100);
+update();

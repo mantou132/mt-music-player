@@ -1,6 +1,6 @@
 module.exports = {
   parserOptions: {
-    sourceType: 'module',
+    sourceType: "module",
     ecmaVersion: 2018
   },
   env: {
@@ -10,11 +10,18 @@ module.exports = {
     worker: true,
     serviceworker: true
   },
-  extends: [/* 'eslint:recommended',*/ 'airbnb-base'],
+  extends: [/* 'eslint:recommended',*/ "airbnb-base"],
   // https://eslint.org/docs/rules/
   rules: {
-    'import/extensions': 0,
-    'no-param-reassign': 0,
-    'no-use-before-define': 1
+    "import/extensions": 0,
+    "no-param-reassign": 0,
+    "no-use-before-define": 1,
+    "class-methods-use-this": [
+      "error",
+      {
+        exceptMethods: ["render"]
+      }
+    ],
+    "import/no-unresolved": [2, { ignore: ["^http"] }]
   }
 };
