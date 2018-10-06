@@ -1,72 +1,53 @@
-/**
- * goal:
- *  Data is bound to components in one direction
- *  Notify component when data is updated
- */
+import * as appState from './appstate.js';
 
-import appState from './appstate.js';
+export const PAGE_KEY = Symbol('page');
 
-export const parentKey = Symbol('parent');
-export const nameKey = Symbol('name');
-
-const handles = new WeakMap();
+const handles = new Map();
 
 const createStore = (originStore) => {
   const handler = {
+    has(target, key) {
+      return key in target;
+    },
     get(target, key) {
       return target[key];
     },
-    set(target, key, value, receiver) {
-      const oldValue = target[key];
-      // value is Map, Set, Function ...
-      if (key === parentKey) {
-        target[key] = value;
-      } else if (typeof value === 'object' && value !== null) {
-        target[key] = createProxy(value, receiver, key);
-      } else {
-        target[key] = value;
-      }
-      const listeners = handles.get(receiver);
-      if (listeners && value !== oldValue) {
-        listeners.forEach(func => func(value));
-      }
+    set(target, key, value) {
+      target[key] = value;
+      const listeners = handles.get(key);
+      listeners.forEach(func => func.connectedPage.has(key) && func(target[key]));
       return true;
     },
-    deleteProperty(target, key) {
-      delete target[key];
-    },
-  };
-  const createProxy = (obj, parentProxy, name) => {
-    const proxy = new Proxy(obj, handler);
-    const keys = Object.keys(obj);
-    keys.forEach((key) => {
-      proxy[key] = obj[key];
-      proxy[parentKey] = parentProxy;
-      proxy[nameKey] = name;
-    });
-
-    return proxy;
   };
 
-  return createProxy(originStore);
+  const proxy = new Proxy(originStore, handler);
+  const keys = Object.keys(originStore);
+  keys.forEach((key) => {
+    handles.set(key, new Set());
+    proxy[key] = originStore[key];
+    proxy[key][PAGE_KEY] = key;
+  });
+  return proxy;
 };
 
 /**
  * @return {} property is `Store` nesting
  */
 export const store = createStore({
-  appState,
+  ...appState,
 });
 
-export const connect = (data, func) => {
-  if (!handles.has(data)) {
-    handles.set(data, new Set());
-  }
-  const listeners = handles.get(data);
+// eslint-disable-next-line
+window._store = store;
+
+export const connect = (page, func) => {
+  const listeners = handles.get(page);
+  if (!func.connectedPage) func.connectedPage = new Set();
+  func.connectedPage.add(page);
   listeners.add(func);
 };
 
-export const disConnect = (data, func) => {
-  const listeners = handles.get(data);
-  if (listeners) listeners.delete(func);
+export const disConnect = (page, func) => {
+  const listeners = handles.get(page);
+  listeners.delete(func);
 };

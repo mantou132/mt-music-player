@@ -8,8 +8,8 @@ class AppToast extends Component {
     super();
     this.state = {
       self: { currentState: true },
-      menu: store.appState.menu,
-      toast: store.appState.toast,
+      toastState: store.toastState,
+      menuState: store.menuState,
     };
     appToast = this;
   }
@@ -17,20 +17,20 @@ class AppToast extends Component {
   render() {
     const {
       self: { currentState },
-      toast: { text, type },
-      menu: { isOpen },
+      toastState: { text, type },
+      menuState: { isOpen },
     } = this.state;
     return html`
       <style>
         :host {
-          position: fixed;
-          left: 1em;
-          bottom: 1em;
+          background: var(--toast-background-color);
+          color: var(--toast-text-color);
+          opacity: .5;
+          display: ${isOpen ? 'block' : 'none'};
         }
       </style>
       <div>${type}</div>
       <div>${text}</div>
-      <div>menu is open: ${isOpen}</div>
       <div>currentState: ${currentState}</div>
     `;
   }
@@ -39,10 +39,12 @@ customElements.define('app-toast', AppToast);
 
 // test
 const update = () => requestAnimationFrame(() => {
-  appToast.setState({
-    toast: { text: new Date().toISOString(), type: Math.random() },
-    self: { currentState: Math.random() > 0.5 },
-  });
+  if (appToast.state.menuState.isOpen) {
+    appToast.setState({
+      toastState: { text: new Date().toISOString(), type: Math.random() },
+      self: { currentState: Math.random() > 0.5 },
+    });
+  }
   update();
-}, 100);
+}, 1000);
 update();

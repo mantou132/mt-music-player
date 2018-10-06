@@ -1,8 +1,11 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
-
 html {
-  font-size: 16px;
+  font-size: 62.5%;
+}
+body {
+  font-size: 1.6rem;
 }

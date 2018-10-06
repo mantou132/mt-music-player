@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>MT Music Player</title>
 
+  <link rel="icon" type="image/png" href="icons/icon.png">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/index.css">
   <link rel="modulepreload" href="index.js">
   <script type="module" src="index.js"></script>
 </head>
+
 <body>
   <app-header></app-header>
   <app-list></app-list>
   <app-player></app-player>
   <app-menu></app-menu>
+  <app-modal></app-modal>
   <app-toast></app-toast>
-  <app-splash></app-splash>
+  <app-splash>
+    <style>
+      app-splash {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        background: var(--background-color);
+      }
+
+      app-splash img {
+        width: 16rem;
+        height: 16rem;
+      }
+    </style>
+    <img src="icons/icon.svg" alt="MT Music Player">
+  </app-splash>
 </body>
+
 </html>
-
-

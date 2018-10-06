@@ -5,23 +5,14 @@ import Component from '../index.js';
 class AppMenu extends Component {
   constructor() {
     super();
-    this.state = store.appState.menu;
+    this.state = store.menuState;
     document.addEventListener('click', () => {
-      this.setState({
-        isOpen: !this.state.isOpen,
-      });
+      this.setState({ isOpen: !this.state.isOpen });
     });
   }
 
   render() {
     return html`
-      <style>
-        :host {
-          position: fixed;
-          left: 1em;
-          bottom: 1em;
-        }
-      </style>
       
     `;
   }

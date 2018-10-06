@@ -1,10 +1,13 @@
-export default {
-  toast: {
-    type: 'info',
-    text: null,
-  },
-  menu: {
-    isOpen: false,
-  },
-  drawer: {},
+export const playerState = {
+  state: 'pause', // playing, pause, loading
+  songInfo: {},
+  progress: {},
 };
+export const toastState = {
+  type: 'info',
+  text: null,
+};
+export const menuState = {
+  isOpen: true,
+};
+export const drawerState = {};

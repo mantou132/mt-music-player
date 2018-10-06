@@ -1,11 +1,12 @@
 import { html, render } from 'https://dev.jspm.io/lit-html';
 import {
-  connect, disConnect, parentKey, nameKey,
+  store, connect, disConnect, PAGE_KEY,
 } from '../models/index.js';
 import { mergeObject } from '../utils/object.js';
 
 const uniqueDataPropMap = new WeakMap();
 const uniqueUpdatePropMap = new WeakMap();
+const uniqueConnectedPageMap = new WeakMap();
 
 export default class Component extends HTMLElement {
   constructor() {
@@ -13,37 +14,41 @@ export default class Component extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     uniqueDataPropMap.set(this, Symbol('data'));
     uniqueUpdatePropMap.set(this, Symbol('update'));
+    uniqueConnectedPageMap.set(this, new Set());
   }
 
   get state() {
-    return this[uniqueDataPropMap.get(this)];
+    const currentState = this[uniqueDataPropMap.get(this)];
+    if (currentState[PAGE_KEY]) {
+      return store[currentState[PAGE_KEY]];
+    }
+    return currentState;
   }
 
-  set state(v) {
-    if (typeof v !== 'object') throw new Error('Must use the object');
+  set state(value) {
+    if (typeof value !== 'object') throw new Error('Must use the object');
     if (!this[uniqueDataPropMap.get(this)]) {
-      const update = () => {
-        render(this.render(), this.shadowRoot);
-      };
+      const update = () => render(this.render(), this.shadowRoot);
       this[uniqueUpdatePropMap.get(this)] = update;
-      this[uniqueDataPropMap.get(this)] = v;
+      this[uniqueDataPropMap.get(this)] = value;
       const binding = (obj) => {
-        if (obj[parentKey]) {
+        if (obj[PAGE_KEY]) {
           connect(
-            obj[parentKey],
+            obj[PAGE_KEY],
             update,
           );
+          uniqueConnectedPageMap.get(this).add(obj[PAGE_KEY]);
         } else {
           const keys = Object.keys(obj);
           keys.forEach((key) => {
-            if (typeof obj[key] === 'object') binding(obj[key]);
+            if (typeof obj[key] === 'object' && obj[key]) binding(obj[key]);
           });
         }
       };
-      binding(v);
+      binding(value);
       return true;
     }
-    return false;
+    throw new Error('Prohibit multiple direct assignments');
   }
 
   connectedCallback() {
@@ -51,7 +56,9 @@ export default class Component extends HTMLElement {
   }
 
   disconnectedCallback() {
-    disConnect(this.state[parentKey], this[uniqueUpdatePropMap.get(this)]);
+    uniqueConnectedPageMap.get(this).forEach((page) => {
+      disConnect(page, this[uniqueUpdatePropMap.get(this)]);
+    });
   }
 
   /**
@@ -61,29 +68,26 @@ export default class Component extends HTMLElement {
   setState(payload) {
     if (typeof payload !== 'object') throw new Error('Must use the object');
     let changeStore = false;
-    if (this.state[nameKey]) {
-      changeStore = true;
-      const name = this.state[nameKey];
-      this.state[parentKey][name] = mergeObject(this.state[parentKey][name], payload);
-      this[uniqueDataPropMap.get(this)] = this.state[parentKey][name];
+    if (this.state[PAGE_KEY]) {
+      const page = this.state[PAGE_KEY];
+      // Cannot be merged into new objects
+      // Avoid `this.state` referencing obsolete objects
+      store[page] = mergeObject(this.state, payload);
     } else {
       // Only support for `Store` one layer packaging
       // ✔ correct: `{<Store>}` or `store`
       // ✖ error: `{{<Store>}}`
-      const generateNewDateProp = (obj) => {
-        const wrap = { ...obj };
-        const keys = Object.keys(this.state);
-        keys.forEach((key) => {
-          const name = this.state[key][nameKey];
-          if (!name) return;
+      const keys = Object.keys(this.state);
+      keys.forEach((key) => {
+        const page = this.state[key][PAGE_KEY];
+        if (!(key in payload)) return;
+        if (page) {
           changeStore = true;
-          const parent = this.state[key][parentKey];
-          parent[name] = mergeObject(parent[name], obj[key] || {});
-          wrap[key] = parent[name];
-        });
-        return wrap;
-      };
-      this[uniqueDataPropMap.get(this)] = generateNewDateProp(payload);
+          store[page] = mergeObject(this.state[key], payload[key]);
+        } else {
+          this.state[key] = payload[key];
+        }
+      });
     }
     if (!changeStore) this[uniqueUpdatePropMap.get(this)]();
   }

@@ -1,5 +1,20 @@
 :root {
   /* 如启动画面的背景颜色，组件为渲染时的背景颜色 */
   --background-color: white;
-  --theme-color: #18D150;
+  --theme-color: #18d150;
+
+  --list-background-color: #263238;
+  --list-text-primary-color: #fff;
+  --list-text-secondary-color: #707070;
+
+  --player-background-color: #202b27;
+  --player-separator-color: black;
+  --player-text-primary-color: #fff;
+  --player-text-secondary-color: #707070;
+
+  --toast-background-color: black;
+  --toast-text-color: #fff;
+}
+
+@media (min-width: 20em) and (max-width: 30em) {
 }
