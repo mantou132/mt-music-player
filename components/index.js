@@ -5,7 +5,6 @@ import {
 import { mergeObject } from '../utils/object.js';
 
 const uniqueDataPropMap = new WeakMap();
-const uniqueUpdatePropMap = new WeakMap();
 const uniqueConnectedPageMap = new WeakMap();
 
 export default class Component extends HTMLElement {
@@ -13,8 +12,14 @@ export default class Component extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     uniqueDataPropMap.set(this, Symbol('data'));
-    uniqueUpdatePropMap.set(this, Symbol('update'));
     uniqueConnectedPageMap.set(this, new Set());
+
+    this.update = this.update.bind(this);
+    this.render = this.render.bind(this);
+    this.connected = this.connected.bind(this);
+    this.disconnected = this.disconnected.bind(this);
+    this.attributeChanged = this.attributeChanged.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   get state() {
@@ -28,14 +33,12 @@ export default class Component extends HTMLElement {
   set state(value) {
     if (typeof value !== 'object') throw new Error('Must use the object');
     if (!this[uniqueDataPropMap.get(this)]) {
-      const update = () => render(this.render(), this.shadowRoot);
-      this[uniqueUpdatePropMap.get(this)] = update;
       this[uniqueDataPropMap.get(this)] = value;
       const binding = (obj) => {
         if (obj[PAGE_KEY]) {
           connect(
             obj[PAGE_KEY],
-            update,
+            this.update,
           );
           uniqueConnectedPageMap.get(this).add(obj[PAGE_KEY]);
         } else {
@@ -51,14 +54,31 @@ export default class Component extends HTMLElement {
     throw new Error('Prohibit multiple direct assignments');
   }
 
-  connectedCallback() {
+  update() {
     render(this.render(), this.shadowRoot);
   }
 
+  connected() {}
+
+  connectedCallback() {
+    this.update();
+    this.connected();
+  }
+
+  disconnected() {}
+
   disconnectedCallback() {
     uniqueConnectedPageMap.get(this).forEach((page) => {
-      disConnect(page, this[uniqueUpdatePropMap.get(this)]);
+      disConnect(page, this.update);
     });
+    this.disconnected();
+  }
+
+  attributeChanged() {}
+
+  attributeChangedCallback(...rest) {
+    this.attributeChanged(...rest);
+    if (this.isConnected && this.constructor.observedAttributes) this.update();
   }
 
   /**
@@ -89,7 +109,7 @@ export default class Component extends HTMLElement {
         }
       });
     }
-    if (!changeStore) this[uniqueUpdatePropMap.get(this)]();
+    if (!changeStore) this.update();
   }
 
   render() {

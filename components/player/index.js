@@ -13,7 +13,9 @@ customElements.define(
       super();
       this.state = store.playerState;
       document.addEventListener('mousemove', () => {
-        this.setState({ state: Math.random() > 0.5 ? 'pause' : 'playing' });
+        this.setState({
+          state: Math.random() > 0.5 ? 'pause' : 'playing',
+        });
       });
     }
 
@@ -28,6 +30,11 @@ customElements.define(
           player-song-info,
           player-volume {
             flex-grow: 1;
+          }
+          player-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
           }
         </style>
         <player-song-info></player-song-info>

@@ -1,5 +1,6 @@
 export const playerState = {
   state: 'pause', // playing, pause, loading
+  volume: 50,
   songInfo: {},
   progress: {},
 };

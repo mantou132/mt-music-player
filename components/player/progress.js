@@ -6,6 +6,13 @@ customElements.define(
   class extends Component {
     render() {
       return html`
+        <style>
+          :host {
+            width: 0%;
+            height: 3px;
+            background: var(--theme-color);
+          }
+        </style>
     `;
     }
   },
