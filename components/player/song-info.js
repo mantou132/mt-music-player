@@ -30,6 +30,18 @@ customElements.define(
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
             height: calc(var(--player-height) - (var(--padding)) * 2);
+            overflow: hidden;
+          }
+          img::before {
+            content: '';
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            background: var(--player-text-secondary-color) center no-repeat;
+            background-size: contain;
+          }
+          img:not([src])::before {
+            visibility: hidden;
           }
           .artist {
             margin-top: 0.28em;
@@ -37,7 +49,7 @@ customElements.define(
             color:  var(--player-text-secondary-color);
           }
           </style>
-        <img src="${album.cover}">
+        <img src="${album.cover || ''}">
         <div>
           <div class="song-name">${song.title}</div>
           <div class="artist">${artist.name}</div>

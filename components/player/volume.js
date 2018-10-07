@@ -9,10 +9,22 @@ customElements.define(
     constructor() {
       super();
       this.state = store.playerState;
+      this.changeHandle = this.changeHandle.bind(this);
+      this.clickHandle = this.clickHandle.bind(this);
     }
 
     render() {
-      const { volume } = this.state;
+      const { volume, muted } = this.state;
+      let icon;
+      if (volume === 0 || muted) {
+        icon = 'volume-off';
+      } else if (volume < 0.3) {
+        icon = 'volume-mute';
+      } else if (volume < 0.66) {
+        icon = 'volume-down';
+      } else {
+        icon = 'volume-up';
+      }
       return html`
         <style>
           :host {
@@ -28,9 +40,22 @@ customElements.define(
             margin-right: 2.4rem;
           }
         </style>
-        <app-range value="${volume}"></app-range>
-        <app-icon name="volume-down"></app-icon>
+        <app-range @change="${this.changeHandle}" value="${volume * 100}"></app-range>
+        <app-icon name="${icon}" @click="${this.clickHandle}"></app-icon>
     `;
+    }
+
+    changeHandle({ detail }) {
+      this.setState({
+        volume: detail / 100,
+      });
+    }
+
+    clickHandle() {
+      const { muted } = this.state;
+      this.setState({
+        muted: !muted,
+      });
     }
   },
 );

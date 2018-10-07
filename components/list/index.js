@@ -30,6 +30,9 @@ customElements.define(
             margin: auto;
             padding: 5.6rem;
           }
+          app-icon:not([hidden]) {
+            display: block;
+          }
         </style>
         <div class="wrap">
           <app-actions></app-actions>
@@ -40,13 +43,14 @@ customElements.define(
 
     renderItem(data) {
       const { currentSong, state } = this.state.playerState;
+      const playIcon = state === 'paused' || state === 'error' ? 'pause' : 'play-arrow';
       return html`
         <list-item
           id="${data.id}"
-          state="${state}"
-          ?current="${currentSong === data.id}"
-          @click="${this.clickHandle}"
-        ></list-item>
+          ?active="${currentSong === data.id}"
+          @click="${this.clickHandle}">
+          <app-icon name="${playIcon}" ?hidden="${currentSong !== data.id}"></app-icon>
+        </list-item>
       `;
     }
 

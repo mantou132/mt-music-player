@@ -7,15 +7,12 @@ customElements.define(
   'list-item',
   class extends Component {
     static get observedAttributes() {
-      return ['id', 'state', 'current'];
+      return ['id'];
     }
 
     render() {
       const { list } = store.songData;
-      const { currentSong } = store.playerState;
       const { list: artistList } = store.artistData;
-      const state = this.getAttribute('state');
-      const playIcon = state === 'paused' || state === 'error' ? 'pause' : 'play-arrow';
       const song = list.find(e => String(e.id) === this.id) || {};
       const artist = artistList.find(e => e.id === song.artistId) || {};
       return html`
@@ -27,7 +24,7 @@ customElements.define(
           :host(:hover) {
             background: var(--list-hover-background-color);
           }
-          :host([current]) {
+          :host([active]) {
             --list-item-playing-color: var(--theme-color);
           }
           .info {
@@ -37,7 +34,7 @@ customElements.define(
             color: var(--list-item-playing-color);
             fill: var(--list-item-playing-color);
           }
-          .title app-icon:not([hidden]) {
+          slot:not([hidden]) {
             display: inline-block;
             vertical-align: middle;
             margin: -.6rem 0 -.4rem -.5rem;
@@ -76,7 +73,7 @@ customElements.define(
         </style>
         <div class="info">
           <div class="title">
-            <app-icon name="${playIcon}" ?hidden="${currentSong !== Number(this.id)}"></app-icon>
+            <slot></slot>
             ${song.title}
           </div>
           <div class="name">${artist.name}</div>

@@ -8,6 +8,11 @@ customElements.define(
       return ['value'];
     }
 
+    constructor() {
+      super();
+      this.clickHandle = this.clickHandle.bind(this);
+    }
+
     render() {
       const value = this.getAttribute('value');
 
@@ -41,12 +46,19 @@ customElements.define(
             transform: translate(50%, -50%);
           }
         </style>
-        <div class="track">
+        <div class="track" @click="${this.clickHandle}">
           <div class="value" style="width: ${value}%">
             <div class="dot"></div>
           </div>
         </div>
     `;
+    }
+
+    clickHandle({ x }) {
+      const { left, width } = this.getBoundingClientRect();
+      const nextValue = Math.floor(((x - left) * 100) / width);
+      this.setAttribute('value', nextValue);
+      this.dispatchEvent(new CustomEvent('change', { detail: nextValue }));
     }
   },
 );
