@@ -1,10 +1,23 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../index.js';
+import { store } from '../../models/index.js';
 
 customElements.define(
   'player-song-info',
   class extends Component {
+    constructor() {
+      super();
+      this.state = store.playerState;
+    }
+
     render() {
+      const { currentSong } = this.state;
+      const { list } = store.songData;
+      const { list: albumList } = store.albumData;
+      const { list: artistList } = store.artistData;
+      const song = list.find(e => e.id === currentSong) || {};
+      const album = albumList.find(e => e.id === song.id) || {};
+      const artist = artistList.find(e => e.id === song.artistId) || {};
       return html`
         <style>
           :host {
@@ -24,10 +37,10 @@ customElements.define(
             color:  var(--player-text-secondary-color);
           }
           </style>
-        <img src="http://p2.music.126.net/bQWhKSp88vIwo85OV1zpNA==/109951163466323994.jpg?param=140y140">
+        <img src="${album.cover}">
         <div>
-          <div class="song-name">Song name</div>
-          <div class="artist">Artist</div>
+          <div class="song-name">${song.title}</div>
+          <div class="artist">${artist.name}</div>
         </div>
     `;
     }

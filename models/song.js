@@ -1,10 +1,18 @@
-export default [{
-  id: 1,
-  title: 'Song Title',
-  album: 1,
-  artist: 1,
-  year: '2014-01-01',
-  createTime: 24324234234,
-  updateTime: 24324234234,
-  body: '',
-}];
+const test = [];
+for (let i = 0; i < 1000; i += 1) {
+  test.push({
+    id: i,
+    title: `Song Title ${i}`,
+    duration: 180 + Math.floor(120 * Math.random()),
+    albumId: i,
+    artistId: i,
+    publishYear: 2014,
+    createTime: Date.now(),
+    updateTime: Date.now(),
+    src: 'https://axinga.xyz/take%20me%20hand.mp3',
+  });
+}
+
+export default {
+  list: test,
+};

@@ -1,4 +1,7 @@
 import * as appState from './appstate.js';
+import songData from './song.js';
+import albumData from './album.js';
+import artistData from './artist.js';
 
 export const PAGE_KEY = Symbol('page');
 
@@ -35,6 +38,9 @@ const createStore = (originStore) => {
  */
 export const store = createStore({
   ...appState,
+  songData,
+  artistData,
+  albumData,
 });
 
 // eslint-disable-next-line

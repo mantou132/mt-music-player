@@ -9,11 +9,6 @@ customElements.define(
     constructor() {
       super();
       this.state = store.playerState;
-      document.addEventListener('mousemove', () => {
-        this.setState({
-          volume: (Math.random() * 100).toFixed(2),
-        });
-      });
     }
 
     render() {

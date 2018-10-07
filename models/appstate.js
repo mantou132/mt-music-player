@@ -1,8 +1,8 @@
 export const playerState = {
-  state: 'pause', // playing, pause, loading
+  state: 'paused', // playing, paused, loading, error
+  currentSong: null,
   volume: 50,
-  songInfo: {},
-  progress: {},
+  currentTime: 0,
 };
 export const toastState = {
   type: 'info',
