@@ -11,7 +11,7 @@ customElements.define(
         audioState: store.audioState,
       };
       this.audio = new Audio();
-      this.audio.onended = this.endHandle;
+      this.audio.onended = this.endHandle.bind(this);
       this.audio.volume = store.playerState.volume;
       this.setCurrentTime();
     }
