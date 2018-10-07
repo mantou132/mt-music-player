@@ -26,10 +26,16 @@ customElements.define(
             display: flex;
             background: var(--player-background-color);
             border-top: 1px solid var(--player-separator-color);
+            color:  var(--player-text-primary-color);
+            fill:  var(--player-text-primary-color);
+          }
+          player-control {
+            flex-shrink: 0;
           }
           player-song-info,
           player-volume {
-            flex-grow: 1;
+            width: -moz-available;
+            width: -webkit-fill-available;
           }
           player-progress {
             position: absolute;

@@ -82,14 +82,20 @@ customElements.define(
 
     connectedCallback() {
       const name = this.getAttribute('name');
-      this.shadowRoot.innerHTML = getTemplate(name);
+      this.shadowRoot.innerHTML = `
+        <style>
+          :host {
+            width: 2.4rem;
+            height: 2.4rem;
+          }
+        </style>
+        ${getTemplate(name)}
+      `;
     }
 
-    attributeChangedCallback(attributeName, _, newValue) {
+    attributeChangedCallback(attributeName) {
       if (attributeName === 'name') {
-        if (this.isConnected) {
-          this.shadowRoot.innerHTML = getTemplate(newValue);
-        }
+        this.connectedCallback();
       }
     }
   },

@@ -11,7 +11,7 @@ customElements.define(
       this.state = store.playerState;
       document.addEventListener('mousemove', () => {
         this.setState({
-          volume: Math.random() * 100,
+          volume: (Math.random() * 100).toFixed(2),
         });
       });
     }
@@ -24,6 +24,13 @@ customElements.define(
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
+          }
+          app-icon {
+            margin-right: 1.6rem;
+          }
+          app-range {
+            width: 14.4rem;
+            margin-right: 2.4rem;
           }
         </style>
         <app-range value="${volume}"></app-range>
