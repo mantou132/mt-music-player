@@ -48,8 +48,8 @@ customElements.define(
             font-size: .85em;
             color:  var(--player-text-secondary-color);
           }
-          </style>
-        <img src="${album.cover || ''}">
+        </style>
+        <img alt="" src="${album.cover || ''}">
         <div>
           <div class="song-name">${song.title}</div>
           <div class="artist">${artist.name}</div>

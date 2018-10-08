@@ -25,6 +25,9 @@ customElements.define(
               width: 2.4rem;
               height: 2.4rem;
             }
+            :host(:not([hidden])) {
+              display: inline-block;
+            }
           </style>
           ${template.cloneNode(true).content}
         `,

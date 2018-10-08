@@ -1,7 +1,7 @@
 export const playerState = {
   state: 'paused', // playing, paused, loading, error
   currentSong: null,
-  volume: 0.5,
+  volume: 0.1,
   muted: false,
   shuffle: false,
   mode: 'repeat',
@@ -15,6 +15,15 @@ export const toastState = {
   text: null,
 };
 export const menuState = {
-  isOpen: true,
+  type: '',
+  position: {},
+  list: [],
 };
-export const drawerState = {};
+export const selectorState = {
+  type: '',
+  list: [],
+};
+export const uploaderState = {};
+export const drawerState = {
+  isOpen: false,
+};

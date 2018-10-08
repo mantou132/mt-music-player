@@ -15,6 +15,11 @@
 
   --toast-background-color: black;
   --toast-text-color: #fff;
+
+  --menu-background-color: #20272b;
+  --menu-hover-background-color: #263238;
+  --menu-text-color: #c3c3c3;
+  --menu-hover-text-color: #fff;
 }
 
 @media (min-width: 20em) and (max-width: 30em) {

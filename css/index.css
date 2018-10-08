@@ -1,5 +1,5 @@
 /* 写在这里和写在 html 文件中有区别吗？ */
 
-@import "color.css";
+@import "theme.css";
 @import "global.css";
 @import "layout.css";

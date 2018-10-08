@@ -1,11 +1,13 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../index.js';
 import './item.js';
+import '../action/index.js';
 import { store } from '../../models/index.js';
+import AppUpload from '../upload/index.js';
 
 customElements.define(
   'app-list',
-  class extends Component {
+  class AppList extends Component {
     constructor() {
       super();
       this.state = {
@@ -30,12 +32,19 @@ customElements.define(
             margin: auto;
             padding: 5.6rem;
           }
-          app-icon:not([hidden]) {
-            display: block;
+          app-action,
+          list-item {
+            padding: 1.6rem;
+          }
+          app-action app-icon {
+            margin-right: 1.6rem;
           }
         </style>
         <div class="wrap">
-          <app-actions></app-actions>
+          <app-action>
+            <app-icon @click="${AppList.upload}" slot="1" name="add"></app-icon>
+            <app-icon slot="2" name="search"></app-icon>
+          </app-action>
           ${list.map(this.renderItem)}
         </div>
     `;
@@ -61,6 +70,10 @@ customElements.define(
           state: 'playing',
         },
       });
+    }
+
+    static upload() {
+      AppUpload.instance.click();
     }
   },
 );

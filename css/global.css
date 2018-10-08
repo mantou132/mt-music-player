@@ -8,4 +8,6 @@ html {
 }
 body {
   font-size: 1.6rem;
+  cursor: default;
+  user-select: none;
 }

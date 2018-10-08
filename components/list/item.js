@@ -2,12 +2,34 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../index.js';
 import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
+import AppMenu from '../menu/index.js';
 
 customElements.define(
   'list-item',
   class extends Component {
     static get observedAttributes() {
       return ['id'];
+    }
+
+    constructor() {
+      super();
+      this.clickHandle = this.clickHandle.bind(this);
+    }
+
+    clickHandle(e) {
+      const { x, y } = e;
+      const { list } = store.songData;
+      const song = list.find(data => data.id === Number(this.id));
+      AppMenu.instance.setState({
+        position: { x, y },
+        list: [
+          {
+            text: song.title,
+            handle: console.log,
+          },
+        ],
+      });
+      e.stopPropagation();
     }
 
     render() {
@@ -19,7 +41,6 @@ customElements.define(
         <style>
           :host {
             display: flex;
-            padding: 1.6rem;
           }
           :host(:hover) {
             background: var(--list-hover-background-color);
@@ -34,8 +55,7 @@ customElements.define(
             color: var(--list-item-playing-color);
             fill: var(--list-item-playing-color);
           }
-          slot:not([hidden]) {
-            display: inline-block;
+          ::slotted(app-icon:not([hidden])) {
             vertical-align: middle;
             margin: -.6rem 0 -.4rem -.5rem;
           }
@@ -57,7 +77,6 @@ customElements.define(
             display: block;
           }
           .more app-icon {
-            display: inline-block;
             margin-top: -.2rem;
           }
           .more,
@@ -79,7 +98,7 @@ customElements.define(
           <div class="name">${artist.name}</div>
         </div>
         <div class="more">
-          <app-icon name="more-horiz"></app-icon>
+          <app-icon @click="${this.clickHandle}" name="more-horiz"></app-icon>
         </div>
         <div class="duration">
           ${secondToMinute(song.duration)}
