@@ -7,4 +7,4 @@ import './components/player/index.js';
 import './components/list/index.js';
 
 // test
-// import './test/models.test.js';
+// import './test/models.tests.js';
