@@ -4,6 +4,7 @@
   "description": "local music player by mantou",
   "main": "index.js",
   "scripts": {
+    "start": "node --experimental-modules --loader ./script/loader.mjs ./server/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,11 +17,16 @@
   },
   "author": "mantou",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.3"
+  },
   "devDependencies": {
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "prettier-eslint": "^8.8.2"
+  },
+  "engines": {
+    "node": ">=9.11"
   }
 }
