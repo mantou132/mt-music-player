@@ -20,6 +20,7 @@ customElements.define(
       const { x, y } = e;
       const { list } = store.songData;
       const song = list.find(data => data.id === Number(this.id));
+      this.classList.add('hover');
       AppMenu.instance.setState({
         position: { x, y },
         list: [
@@ -28,6 +29,7 @@ customElements.define(
             handle: console.log,
           },
         ],
+        closeCallback: () => this.classList.remove('hover'),
       });
       e.stopPropagation();
     }
@@ -42,7 +44,8 @@ customElements.define(
           :host {
             display: flex;
           }
-          :host(:hover) {
+          :host(:hover),
+          :host(.hover) {
             background: var(--list-hover-background-color);
           }
           :host([active]) {
@@ -73,7 +76,8 @@ customElements.define(
           .more {
             display: none;
           }
-          :host(:hover) .more {
+          :host(:hover) .more,
+          :host(.hover) .more {
             display: block;
           }
           .more app-icon {

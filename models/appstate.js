@@ -18,6 +18,7 @@ export const menuState = {
   type: '',
   position: {},
   list: [],
+  closeCallback: null,
 };
 export const selectorState = {
   type: '',

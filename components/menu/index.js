@@ -11,9 +11,11 @@ export default class AppMenu extends Component {
   }
 
   closeHandle() {
+    const { closeCallback } = this.state;
     this.setState({
       list: [],
     });
+    if (closeCallback) closeCallback();
   }
 
   render() {
@@ -22,6 +24,9 @@ export default class AppMenu extends Component {
       position: { x, y },
     } = this.state;
     if (!list || !list.length) return '';
+    const items = list.map(
+      (ele, index) => html`<li @click="${() => this.clickHandle(index)}">${ele.text}</li>`,
+    );
     return html`
       <style>
         :host {
@@ -57,9 +62,15 @@ export default class AppMenu extends Component {
       </style>
       <div @click="${this.closeHandle}" class="backdrop"></div>
       <ol style="left: ${x}px; top: ${y}px">
-        ${list.map(ele => html`<li>${ele.text}</li>`)}
+        ${items}
       </ol>
     `;
+  }
+
+  clickHandle(index) {
+    const { list } = this.state;
+    list[index].handle();
+    this.closeHandle();
   }
 }
 customElements.define('app-menu', AppMenu);
