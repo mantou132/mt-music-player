@@ -19,6 +19,7 @@ customElements.define(
         html`
           <style>
             :host {
+              position: relative;
               width: 2.4rem;
               height: 2.4rem;
             }
@@ -27,6 +28,7 @@ customElements.define(
             }
           </style>
           ${template.cloneNode(true).content}
+          <slot></slot>
         `,
         this.shadowRoot,
       );

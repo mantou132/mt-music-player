@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../index.js';
 import { store } from '../../models/index.js';
+import '../ripple/index.js';
 
 customElements.define(
   'player-control',
@@ -80,28 +81,39 @@ customElements.define(
             fill: var(--player-text-secondary-color);
           }
         </style>
+
         <app-icon
           @click="${this.clickShuffleHandle}"
           class="secondary"
           name="shuffle"
-          style="opacity: ${shuffle ? 1 : 0.5}"></app-icon>
+          style="opacity: ${shuffle ? 1 : 0.5}">
+          <app-ripple></app-ripple>
+        </app-icon>
         <app-icon
           @click="${this.clickPrevHandle}"
           class="secondary"
-          name="skip-previous"></app-icon>
+          name="skip-previous">
+          <app-ripple></app-ripple>
+        </app-icon>
         <!-- TODO: animate -->
         <app-icon
           @click="${this.clickPlayHandle}"
           class="primary"
-          name="${state === 'paused' ? 'play-arrow' : 'pause'}"></app-icon>
+          name="${state === 'paused' ? 'play-arrow' : 'pause'}">
+          <app-ripple></app-ripple>
+        </app-icon>
         <app-icon
           @click="${this.clickNextHandle}"
           class="secondary"
-          name="skip-next"></app-icon>
+          name="skip-next">
+          <app-ripple></app-ripple>
+        </app-icon>
         <app-icon
           @click="${this.clickModeHandle}"
           class="secondary"
-          name="${mode}"></app-icon>
+          name="${mode}">
+          <app-ripple></app-ripple>
+        </app-icon>
     `;
     }
   },

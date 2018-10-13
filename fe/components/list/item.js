@@ -4,6 +4,7 @@ import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
 import { del } from '../../services/song.js';
+import '../ripple/index.js';
 
 customElements.define(
   'list-item',
@@ -103,7 +104,9 @@ customElements.define(
           <div class="name">${song.artist || 'unknown'}</div>
         </div>
         <div class="more">
-          <app-icon @click="${this.clickHandle}" name="more-horiz"></app-icon>
+          <app-icon @click="${this.clickHandle}" name="more-horiz">
+            <app-ripple></app-ripple>
+          </app-icon>
         </div>
         <div class="duration">
           ${secondToMinute(song.duration)}

@@ -6,5 +6,11 @@ import './components/menu/index.js';
 import './components/player/index.js';
 import './components/list/index.js';
 
+if ('paintWorklet' in CSS) {
+  CSS.paintWorklet.addModule('paintworklet.js');
+}
+
+navigator.serviceWorker.register('serviceworker.js');
+
 // test
 // import './test/models.tests.js';
