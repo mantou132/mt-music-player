@@ -17,7 +17,14 @@ registerPaint(
   'ripple',
   class {
     static get inputProperties() {
-      return ['background-color', '--ripple-color', '--animation-tick', '--ripple-x', '--ripple-y'];
+      return [
+        'background-color',
+        '--ripple-color',
+        '--animation-duration',
+        '--animation-tick',
+        '--ripple-x',
+        '--ripple-y',
+      ];
     }
 
     /* eslint-disable-next-line class-methods-use-this */
@@ -26,20 +33,21 @@ registerPaint(
       const rippleColor = properties.get('--ripple-color').toString();
       const x = parseFloat(properties.get('--ripple-x').toString());
       const y = parseFloat(properties.get('--ripple-y').toString());
+      const duration = parseFloat(properties.get('--animation-duration').toString());
       let tick = parseFloat(properties.get('--animation-tick').toString());
       if (tick < 0) tick = 0;
-      if (tick > 1000) tick = 1000;
+      if (tick > duration) tick = duration;
 
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, geom.width, geom.height);
       ctx.fillRect(0, 0, geom.width, geom.height);
 
       ctx.fillStyle = rippleColor;
-      ctx.globalAlpha = 1 - tick / 1000;
+      ctx.globalAlpha = 1 - tick / duration;
       ctx.arc(
         x,
         y, // center
-        (geom.width * tick) / 1000, // radius
+        (geom.width * tick) / duration, // radius
         0, // startAngle
         2 * Math.PI, // endAngle
       );

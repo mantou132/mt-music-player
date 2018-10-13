@@ -105,7 +105,7 @@ customElements.define(
         </div>
         <div class="more">
           <app-icon @click="${this.clickHandle}" name="more-horiz">
-            <app-ripple></app-ripple>
+            <app-ripple circle></app-ripple>
           </app-icon>
         </div>
         <div class="duration">

@@ -87,32 +87,32 @@ customElements.define(
           class="secondary"
           name="shuffle"
           style="opacity: ${shuffle ? 1 : 0.5}">
-          <app-ripple></app-ripple>
+          <app-ripple circle></app-ripple>
         </app-icon>
         <app-icon
           @click="${this.clickPrevHandle}"
           class="secondary"
           name="skip-previous">
-          <app-ripple></app-ripple>
+          <app-ripple circle></app-ripple>
         </app-icon>
         <!-- TODO: animate -->
         <app-icon
           @click="${this.clickPlayHandle}"
           class="primary"
           name="${state === 'paused' ? 'play-arrow' : 'pause'}">
-          <app-ripple></app-ripple>
+          <app-ripple circle></app-ripple>
         </app-icon>
         <app-icon
           @click="${this.clickNextHandle}"
           class="secondary"
           name="skip-next">
-          <app-ripple></app-ripple>
+          <app-ripple circle></app-ripple>
         </app-icon>
         <app-icon
           @click="${this.clickModeHandle}"
           class="secondary"
           name="${mode}">
-          <app-ripple></app-ripple>
+          <app-ripple circle></app-ripple>
         </app-icon>
     `;
     }
