@@ -13,11 +13,7 @@ customElements.define(
     render() {
       const { currentSong } = this.state;
       const { list } = store.songData;
-      const { list: albumList } = store.albumData;
-      const { list: artistList } = store.artistData;
       const song = list.find(e => e.id === currentSong) || {};
-      const album = albumList.find(e => e.id === song.id) || {};
-      const artist = artistList.find(e => e.id === song.artistId) || {};
       return html`
         <style>
           :host {
@@ -49,10 +45,10 @@ customElements.define(
             color:  var(--player-text-secondary-color);
           }
         </style>
-        <img alt="" src="${album.cover || ''}">
+        <img alt="" src="${song.picture || ''}">
         <div>
           <div class="song-name">${song.title}</div>
-          <div class="artist">${artist.name}</div>
+          <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>
         </div>
     `;
     }

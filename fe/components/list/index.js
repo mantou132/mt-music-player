@@ -4,6 +4,7 @@ import './item.js';
 import '../action/index.js';
 import { store } from '../../models/index.js';
 import AppUpload from '../upload/index.js';
+import { get } from '../../services/song.js';
 
 customElements.define(
   'app-list',
@@ -16,6 +17,10 @@ customElements.define(
       };
       this.clickHandle = this.clickHandle.bind(this);
       this.renderItem = this.renderItem.bind(this);
+    }
+
+    connected() {
+      get();
     }
 
     render() {

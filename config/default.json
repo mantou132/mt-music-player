@@ -1,0 +1,12 @@
+{
+  "upyun": {
+    "name": "",
+    "operator": "",
+    "password": ""
+  },
+  "postgres": {
+    "database": "",
+    "username": "",
+    "password": ""
+  }
+}

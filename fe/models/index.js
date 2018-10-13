@@ -18,7 +18,7 @@ const createStore = (originStore) => {
     set(target, key, value) {
       target[key] = value;
       const listeners = handles.get(key);
-      listeners.forEach(func => func.connectedPage.has(key) && func(target[key]));
+      listeners.forEach(func => func.connectedPage.has(key) && func(value));
       return true;
     },
   };
@@ -45,6 +45,12 @@ export const store = createStore({
 
 // eslint-disable-next-line
 window._store = store;
+
+export const updateStore = (page, value) => {
+  Object.assign(store[page], value);
+  const listeners = handles.get(page);
+  listeners.forEach(func => func.connectedPage.has(page) && func(value));
+};
 
 export const connect = (page, func) => {
   const listeners = handles.get(page);

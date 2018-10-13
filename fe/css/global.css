@@ -8,6 +8,9 @@ html {
 }
 body {
   font-size: 1.6rem;
+  font-family: "Roboto", "Microsoft YaHei", "Wenquanyi Micro Hei",
+    "WenQuanYi Zen Hei", helvetica, sans-serif;
+  font-weight: lighter;
   cursor: default;
   user-select: none;
 }

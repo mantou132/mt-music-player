@@ -3,6 +3,7 @@ import Component from '../index.js';
 import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
+import { del } from '../../services/song.js';
 
 customElements.define(
   'list-item',
@@ -18,15 +19,17 @@ customElements.define(
 
     clickHandle(e) {
       const { x, y } = e;
-      const { list } = store.songData;
-      const song = list.find(data => data.id === Number(this.id));
       this.classList.add('hover');
       AppMenu.instance.setState({
         position: { x, y },
         list: [
           {
-            text: song.title,
+            text: 'edit',
             handle: console.log,
+          },
+          {
+            text: 'delete',
+            handle: () => del(Number(this.id)),
           },
         ],
         closeCallback: () => this.classList.remove('hover'),
@@ -36,9 +39,7 @@ customElements.define(
 
     render() {
       const { list } = store.songData;
-      const { list: artistList } = store.artistData;
       const song = list.find(e => String(e.id) === this.id) || {};
-      const artist = artistList.find(e => e.id === song.artistId) || {};
       return html`
         <style>
           :host {
@@ -99,7 +100,7 @@ customElements.define(
             <slot></slot>
             ${song.title}
           </div>
-          <div class="name">${artist.name}</div>
+          <div class="name">${song.artist || 'unknown'}</div>
         </div>
         <div class="more">
           <app-icon @click="${this.clickHandle}" name="more-horiz"></app-icon>

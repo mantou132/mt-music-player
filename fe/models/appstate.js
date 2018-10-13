@@ -1,3 +1,6 @@
+export const authState = {
+  key: '',
+};
 export const playerState = {
   state: 'paused', // playing, paused, loading, error
   currentSong: null,
@@ -17,6 +20,7 @@ export const toastState = {
 export const menuState = {
   type: '',
   position: {},
+  // {text, handle}
   list: [],
   closeCallback: null,
 };
@@ -24,7 +28,20 @@ export const selectorState = {
   type: '',
   list: [],
 };
-export const uploaderState = {};
+export const modalState = {
+  // modal state
+  // {title, key}
+  list: [],
+};
+export const historyState = {
+  // {path, query, state}
+  list: [],
+  currentIndex: 0,
+};
+export const uploaderState = {
+  // {file}
+  list: [],
+};
 export const drawerState = {
   isOpen: false,
 };

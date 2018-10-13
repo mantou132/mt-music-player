@@ -1,4 +1,9 @@
 module.exports = {
+  settings: {
+    'import/resolver': {
+      node: { extensions: ['.js', '.mjs'] },
+    },
+  },
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2018,

@@ -1,5 +1,6 @@
 import http from 'http';
 import express from 'express';
+import bodyParser from 'body-parser';
 import routes from './routers';
 
 const app = express();
@@ -7,6 +8,9 @@ const app = express();
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at:', p, 'reason:', reason);
 });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', routes);
 app.use('/', express.static('fe'));

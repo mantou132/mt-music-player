@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../index.js';
 import { store } from '../../models/index.js';
+import { upload } from '../../services/song.js';
 
 export default class AppUpload extends Component {
   constructor() {
@@ -28,6 +29,7 @@ export default class AppUpload extends Component {
 
   changeHandle() {
     const input = this.shadowRoot.querySelector('input');
+    upload(input.files);
     input.value = '';
   }
 }
