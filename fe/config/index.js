@@ -1,4 +1,4 @@
 export default {
-  api: 'localhost:7749/api',
+  api: `${window.location.host}/api`,
   storage: 'mt-music-storage.xianqiao.wang',
 };
