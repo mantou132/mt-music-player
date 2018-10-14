@@ -13,7 +13,7 @@ customElements.define(
     clickHandle() {
       const path = this.getAttribute('path');
       const title = this.getAttribute('title');
-      const query = this.getAttribute('query');
+      const query = this.getAttribute('query') || '';
       history.push({ title, path, query });
     }
 
