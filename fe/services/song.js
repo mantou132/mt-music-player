@@ -5,6 +5,7 @@ import config from '../config/index.js';
 export const get = async () => {
   const list = await request('/songs');
   updateStore('songData', { list: list.map(e => ({ ...e, src: `//${config.storage}/${e.src}` })) });
+  return list;
 };
 
 export const upload = (files) => {

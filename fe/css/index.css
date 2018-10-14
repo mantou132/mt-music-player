@@ -1,5 +1,36 @@
-/* 写在这里和写在 html 文件中有区别吗？ */
-
 @import "theme.css";
-@import "global.css";
-@import "layout.css";
+
+/* media-query
+  watch-max-width: 20em;
+  mobile-min-width: 20em;
+  mobile-max-width: 30em;
+  tablet-min-width: 30em;
+  tablet-max-width: 75em;
+  pc-min-width: 75em;
+*/
+
+:root {
+  --header-height: 5.6rem;
+  --player-height: 9rem;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 1.6rem;
+  font-family: "Roboto", "Microsoft YaHei", "Wenquanyi Micro Hei",
+    "WenQuanYi Zen Hei", helvetica, sans-serif;
+  font-weight: lighter;
+  cursor: default;
+  user-select: none;
+}

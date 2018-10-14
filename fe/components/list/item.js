@@ -1,5 +1,5 @@
 import { html } from 'https://dev.jspm.io/lit-html';
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';

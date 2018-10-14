@@ -1,5 +1,5 @@
 import { html } from 'https://dev.jspm.io/lit-html';
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 
 customElements.define(
   'app-ripple',

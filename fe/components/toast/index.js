@@ -1,6 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import { store } from '../../models/index.js';
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 
 let appToast;
 class AppToast extends Component {
@@ -23,6 +23,10 @@ class AppToast extends Component {
     return html`
       <style>
         :host {
+          z-index: 9;
+          position: fixed;
+          left: 1.6rem;
+          top: 1.6rem;
           background: var(--toast-background-color);
           color: var(--toast-text-color);
           opacity: .5;

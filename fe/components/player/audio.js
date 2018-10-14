@@ -1,5 +1,6 @@
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import { get } from '../../services/song.js';
 
 customElements.define(
   'player-audio',
@@ -103,6 +104,15 @@ customElements.define(
           });
         }
       }, 1000);
+    }
+
+    async connected() {
+      const list = await get();
+      if (list[0]) {
+        this.setState({
+          playerState: { currentSong: list[0].id },
+        });
+      }
     }
   },
 );

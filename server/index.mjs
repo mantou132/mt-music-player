@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', routes);
 app.use('/', express.static('fe'));
+app.use((req, res) => res.sendfile('./fe/index.html'));
 
 const server = http.createServer(app);
 

@@ -1,6 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import { store } from '../../models/index.js';
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 
 export default class AppMenu extends Component {
   constructor() {
@@ -30,6 +30,10 @@ export default class AppMenu extends Component {
     return html`
       <style>
         :host {
+          z-index: 10;
+          position: fixed;
+          left: 0;
+          top: 0;
           display: block;
           width: 0;
           height: 0;

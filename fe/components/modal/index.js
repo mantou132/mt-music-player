@@ -1,5 +1,5 @@
 import { html } from 'https://dev.jspm.io/lit-html';
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 
 customElements.define(
@@ -14,6 +14,10 @@ customElements.define(
       return html`
         <style>
           :host {
+            z-index: 8;
+            position: fixed;
+            top: 0;
+            left: 0;
             display: flex;
           }
         </style>

@@ -34,9 +34,10 @@ export const modalState = {
   list: [],
 };
 export const historyState = {
-  // {path, query, state}
+  // {path, query, title, state}
+  // state: {timestamp, close}
   list: [],
-  currentIndex: 0,
+  currentIndex: -1,
 };
 export const uploaderState = {
   // {file}

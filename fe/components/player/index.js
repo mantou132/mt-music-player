@@ -1,5 +1,5 @@
 import { html } from 'https://dev.jspm.io/lit-html';
-import Component from '../index.js';
+import Component from '../../lib/component.js';
 import './song-info.js';
 import './control.js';
 import './volume.js';
@@ -13,6 +13,10 @@ customElements.define(
       return html`
         <style>
           :host {
+            position: sticky;
+            bottom: 0;
+            flex-shrink: 0;
+            height: var(--player-height);
             display: flex;
             background: var(--player-background-color);
             border-top: 1px solid var(--player-separator-color);
