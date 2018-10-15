@@ -23,7 +23,7 @@ customElements.define(
       return html`
         <style>
           :host {
-            background: var(--list-background-color);
+            background: linear-gradient(to top, var(--list-background-color), var(--list-background-light-color));
             color: var(--list-text-primary-color);
             fill: var(--list-text-primary-color);
           }
@@ -52,7 +52,7 @@ customElements.define(
 
     renderItem(data) {
       const { currentSong, state } = this.state.playerState;
-      const playIcon = state === 'paused' || state === 'error' ? 'pause' : 'play-arrow';
+      const playIcon = state === 'paused' || state === 'error' ? 'pause' : 'playing';
       return html`
         <list-item
           id="${data.id}"

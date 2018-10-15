@@ -27,6 +27,7 @@ customElements.define(
             width: calc(var(--player-height) - (var(--padding)) * 2);
             height: calc(var(--player-height) - (var(--padding)) * 2);
             overflow: hidden;
+            box-shadow: var(--player-cover-box-shadow);
           }
           img::before {
             content: '';

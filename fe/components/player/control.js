@@ -71,12 +71,12 @@ customElements.define(
             justify-content: space-between;
             width: 24.6rem;
           }
-          app-icon.primary {
+          app-icon.play {
             padding: 1.3rem;
             border: 2px solid;
             border-radius: 100%;
           }
-          app-icon.secondary {
+          app-icon.edge {
             color: var(--player-text-secondary-color);
             fill: var(--player-text-secondary-color);
           }
@@ -84,33 +84,31 @@ customElements.define(
 
         <app-icon
           @click="${this.clickShuffleHandle}"
-          class="secondary"
+          class="edge"
           name="shuffle"
           style="opacity: ${shuffle ? 1 : 0.5}">
           <app-ripple circle></app-ripple>
         </app-icon>
         <app-icon
           @click="${this.clickPrevHandle}"
-          class="secondary"
           name="skip-previous">
           <app-ripple circle></app-ripple>
         </app-icon>
         <!-- TODO: animate -->
         <app-icon
           @click="${this.clickPlayHandle}"
-          class="primary"
+          class="play"
           name="${state === 'paused' ? 'play-arrow' : 'pause'}">
           <app-ripple circle></app-ripple>
         </app-icon>
         <app-icon
           @click="${this.clickNextHandle}"
-          class="secondary"
           name="skip-next">
           <app-ripple circle></app-ripple>
         </app-icon>
         <app-icon
           @click="${this.clickModeHandle}"
-          class="secondary"
+          class="edge"
           name="${mode}">
           <app-ripple circle></app-ripple>
         </app-icon>

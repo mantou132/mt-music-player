@@ -53,6 +53,7 @@ export default class AppMenu extends Component {
           border-radius: .2rem;
           background: var(--menu-background-color);
           color: var(--menu-text-color);
+          box-shadow: var(--menu-box-shadow);
         }
         li {
           padding: .8rem 1.6rem .8rem 2.4rem;

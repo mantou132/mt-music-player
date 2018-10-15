@@ -45,6 +45,7 @@ customElements.define(
         <style>
           :host {
             display: flex;
+            transition: background-color .3s;
           }
           :host(:hover),
           :host(.hover) {
