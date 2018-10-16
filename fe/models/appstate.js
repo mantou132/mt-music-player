@@ -2,8 +2,8 @@ export const authState = {
   key: '',
 };
 export const playerState = {
-  state: 'paused', // playing, paused, loading, error
   currentSong: null,
+  state: 'paused', // playing, paused, loading, error
   volume: 0.1,
   muted: false,
   shuffle: false,
@@ -29,9 +29,13 @@ export const selectorState = {
   list: [],
 };
 export const modalState = {
-  // modal state
-  // {title, key}
-  list: [],
+  title: '',
+  complete: 'ok',
+  cancel: 'cancel',
+  template: null,
+  onclose: null,
+  oncomplete: null,
+  oncancel: null,
 };
 export const historyState = {
   // {path, query, title, state}

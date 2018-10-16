@@ -56,6 +56,7 @@ customElements.define(
       return html`
         <list-item
           id="${data.id}"
+          updatedat="${data.updatedAt}"
           ?active="${currentSong === data.id}"
           @click="${this.clickHandle}">
           <app-icon name="${playIcon}" ?hidden="${currentSong !== data.id}"></app-icon>

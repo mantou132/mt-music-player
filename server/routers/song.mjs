@@ -17,9 +17,10 @@ export async function create(req, res) {
   let picture = '';
   if (tags.picture) {
     const hash1 = crypto.createHash('sha256');
-    hash1.update(file.buffer);
+    hash1.update(tags.picture);
     picture = hash1.digest('hex');
-    upyunClient.putFile(picture, tags.picture);
+    const exist1 = await upyunClient.headFile(picture);
+    if (!exist1) upyunClient.putFile(picture, tags.picture);
   }
 
   const transaction = await sequelize.transaction();
@@ -48,7 +49,35 @@ export async function create(req, res) {
   return res.status(200).json(data);
 }
 
-export function update() {}
+export async function update(req, res) {
+  const file = req.files && req.files[0];
+  const id = Number(req.param('id'));
+  if (!id) return res.send(400);
+
+  let picture;
+  if (file) {
+    const hash = crypto.createHash('sha256');
+    hash.update(file);
+    picture = hash.digest('hex');
+    const exist = await upyunClient.headFile(picture);
+    if (!exist) upyunClient.putFile(picture, file);
+  }
+
+  const user = req.header('x-user') || null;
+
+  try {
+    await Models.song.update(
+      { ...req.body, picture },
+      {
+        where: { user, id },
+      },
+    );
+  } catch (e) {
+    return res.send(400);
+  }
+
+  return res.status(200).json({ message: 'OK' });
+}
 
 export async function remove(req, res) {
   const id = Number(req.param('id'));
@@ -72,6 +101,7 @@ export async function get(req, res) {
     where: {
       user: req.header('x-user') || null,
     },
+    order: [['id', 'DESC']],
   });
   res.status(200).json(list);
 }

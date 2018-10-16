@@ -22,6 +22,7 @@ customElements.define(
         <style>
           :host {
             cursor: pointer;
+            display: contents;
           }
         </style>
         <slot></slot>

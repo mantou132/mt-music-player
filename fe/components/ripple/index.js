@@ -9,6 +9,7 @@ customElements.define(
       this.onclick = function ripple({ offsetX: x, offsetY: y }) {
         const isCircle = this.hasAttribute('circle');
         const duration = parseInt(this.getAttribute('duration'), 10) || 600;
+        const color = this.getAttribute('color') || 'rgba(255,255,255,0.46)';
 
         this.classList.add('animating');
         const { clientWidth, clientHeight } = this;
@@ -18,7 +19,7 @@ customElements.define(
           this.style.cssText = `
             --ripple-x: ${isCircle ? clientWidth / 2 : x};
             --ripple-y: ${isCircle ? clientHeight / 2 : y};
-            --ripple-color: rgba(255,255,255,0.54);
+            --ripple-color: ${color};
             --animation-tick: ${count};
             --animation-duration: ${duration};
           `;

@@ -7,6 +7,7 @@ import './components/toast/index.js';
 import './components/menu/index.js';
 import './components/player/index.js';
 import './components/router/index.js';
+import './components/modal/index.js';
 
 if ('paintWorklet' in CSS) {
   CSS.paintWorklet.addModule('paintworklet.js');

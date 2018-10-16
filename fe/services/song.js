@@ -24,7 +24,7 @@ export const upload = (files) => {
     list.splice(uploadedIndex, 1);
     updateStore('uploaderState', { list });
     updateStore('songData', {
-      list: store.songData.list.concat({ ...data, src: `//${config.storage}/${data.src}` }),
+      list: [{ ...data, src: `//${config.storage}/${data.src}` }].concat(store.songData.list),
     });
   });
 };
@@ -39,7 +39,11 @@ export const del = async (id) => {
 
 export const update = async (id, song) => {
   const { list } = store.songData;
-  await request(`/songs/${id}`, { method: 'put', body: JSON.stringify(song) });
-  Object.assign(list.find(({ id: i }) => i === id), song);
+  const { currentSong } = store.playerState;
+  await request(`/songs/${id}`, { method: 'put', body: song });
+  Object.assign(list.find(({ id: i }) => i === id), song, { updatedAt: new Date().toISOString() });
   updateStore('songData', { list });
+  if (currentSong === id) {
+    updateStore('playerState', {});
+  }
 };

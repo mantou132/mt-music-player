@@ -15,7 +15,7 @@ const upload = multer();
 router.get('/songs', Song.get);
 router.post('/songs', upload.any(), Song.create);
 router.delete('/songs/:id', Song.remove);
-// router.put('/songs/:id', Song.update);
+router.put('/songs/:id', upload.any(), Song.update);
 
 // router.get('/albums', Album);
 // router.put('/albums/:id', Album);

@@ -27,6 +27,11 @@
   --menu-text-color: #c3c3c3;
   --menu-hover-text-color: #fff;
   --menu-box-shadow: 0px 3px 6px #0007;
+
+  --modal-background-color: #fff;
+  --modal-text-primary-color: #000;
+  --modal-text-secondary-color: #707070;
+  --modal-box-shadow: 0px 9px 13px #0007;
 }
 
 @media (min-width: 20em) and (max-width: 30em) {

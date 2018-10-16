@@ -8,6 +8,13 @@ export default async function request(path, options = {}) {
       'x-user': store.authState.key,
     };
   }
+  if (options.body && !(options.body instanceof FormData) && typeof options.body === 'object') {
+    options.body = JSON.stringify(options.body);
+    options.headers = {
+      ...options.headers,
+      'content-type': 'application/json',
+    };
+  }
   const res = await fetch(`//${config.api}${path}`, options);
   const data = await res.json();
   return data;
