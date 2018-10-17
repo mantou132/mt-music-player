@@ -56,7 +56,10 @@ export default class Component extends HTMLElement {
 
   update() {
     render(this.render(), this.shadowRoot);
+    this.updated();
   }
+
+  updated() {}
 
   connected() {}
 
