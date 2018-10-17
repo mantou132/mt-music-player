@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import config from '../../config/index.js';
 
 customElements.define(
   'player-song-info',
@@ -26,6 +27,7 @@ customElements.define(
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
             height: calc(var(--player-height) - (var(--padding)) * 2);
+            object-fit: cover;
             overflow: hidden;
             box-shadow: var(--player-cover-box-shadow);
           }
@@ -46,7 +48,7 @@ customElements.define(
             color:  var(--player-text-secondary-color);
           }
         </style>
-        <img alt="" src="${song.picture || ''}">
+        <img alt="" src="${song.picture ? `//${config.storage}/${song.picture}` : ''}">
         <div>
           <div class="song-name">${song.title}</div>
           <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>

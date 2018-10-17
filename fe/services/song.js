@@ -40,8 +40,8 @@ export const del = async (id) => {
 export const update = async (id, song) => {
   const { list } = store.songData;
   const { currentSong } = store.playerState;
-  await request(`/songs/${id}`, { method: 'put', body: song });
-  Object.assign(list.find(({ id: i }) => i === id), song, { updatedAt: new Date().toISOString() });
+  const data = await request(`/songs/${id}`, { method: 'put', body: song });
+  Object.assign(list.find(({ id: i }) => i === id), data);
   updateStore('songData', { list });
   if (currentSong === id) {
     updateStore('playerState', {});

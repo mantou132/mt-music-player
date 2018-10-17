@@ -22,12 +22,13 @@ customElements.define(
           button {
             position: relative;
             overflow: hidden;
-            padding: 1em;
+            padding: 1rem;
             border: none;
             border-radius: 2px;
             background: transparent;
             text-transform: uppercase;
             color: var(--theme-color);
+            font-size: 1.4rem;
             font-weight: bolder;
           }
           button.secondary {

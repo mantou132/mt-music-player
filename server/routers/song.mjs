@@ -1,26 +1,18 @@
 import mm from 'music-metadata';
-import crypto from 'crypto';
-import Models from '../models/index.mjs';
+import Models from '../models';
 import sequelize from '../db/postgres';
-import upyunClient from '../storage/index.mjs';
+import upyunClient from '../storage';
 
 export async function create(req, res) {
   const file = req.files[0];
-  const { common: tags, format } = await mm.parseBuffer(file.buffer);
+  const [{ common: tags, format }, src] = await Promise.all([
+    mm.parseBuffer(file.buffer),
+    upyunClient.putFile(file.buffer),
+  ]);
 
-  const hash = crypto.createHash('sha256');
-  hash.update(file.buffer);
-  const src = hash.digest('hex');
-  const exist = await upyunClient.headFile(src);
-  if (!exist) await upyunClient.putFile(src, file.buffer);
-
-  let picture = '';
+  let picture;
   if (tags.picture) {
-    const hash1 = crypto.createHash('sha256');
-    hash1.update(tags.picture);
-    picture = hash1.digest('hex');
-    const exist1 = await upyunClient.headFile(picture);
-    if (!exist1) upyunClient.putFile(picture, tags.picture);
+    picture = await upyunClient.putFile(tags.picture);
   }
 
   const transaction = await sequelize.transaction();
@@ -56,11 +48,7 @@ export async function update(req, res) {
 
   let picture;
   if (file) {
-    const hash = crypto.createHash('sha256');
-    hash.update(file);
-    picture = hash.digest('hex');
-    const exist = await upyunClient.headFile(picture);
-    if (!exist) upyunClient.putFile(picture, file);
+    picture = await upyunClient.putFile(file.buffer);
   }
 
   const user = req.header('x-user') || null;
@@ -76,7 +64,10 @@ export async function update(req, res) {
     return res.send(400);
   }
 
-  return res.status(200).json({ message: 'OK' });
+  const data = await Models.song.findOne({
+    where: { user, id },
+  });
+  return res.status(200).json(data);
 }
 
 export async function remove(req, res) {

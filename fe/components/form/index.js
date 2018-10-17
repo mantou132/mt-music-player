@@ -6,13 +6,13 @@ customElements.define(
   class extends Component {
     get value() {
       const elements = this.querySelectorAll('[name]');
-      const value = {};
+      const formData = new FormData();
       elements.forEach((ele) => {
         if ('value' in ele) {
-          value[ele.getAttribute('name')] = ele.value;
+          formData.append(ele.getAttribute('name'), ele.value);
         }
       });
-      return value;
+      return formData;
     }
 
     render() {

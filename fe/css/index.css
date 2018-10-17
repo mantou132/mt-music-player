@@ -9,10 +9,6 @@
   pc-min-width: 75em;
 */
 
-:root {
-  --header-height: 5.6rem;
-  --player-height: 9rem;
-}
 html,
 body {
   margin: 0;

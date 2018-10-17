@@ -1,4 +1,6 @@
 :root {
+  --header-height: 5.6rem;
+
   /* 如启动画面的背景颜色，组件为渲染时的背景颜色 */
   --background-color: white;
   --theme-color: #18d150;
@@ -13,6 +15,7 @@
   --notfound-text-primary-color: #fff;
   --notfound-text-secondary-color: #707070;
 
+  --player-height: 9rem;
   --player-background-color: #202b27;
   --player-separator-color: black;
   --player-text-primary-color: #fff;
@@ -28,6 +31,7 @@
   --menu-hover-text-color: #fff;
   --menu-box-shadow: 0px 3px 6px #0007;
 
+  --modal-margin: 2.4rem;
   --modal-background-color: #fff;
   --modal-text-primary-color: #000;
   --modal-text-secondary-color: #707070;

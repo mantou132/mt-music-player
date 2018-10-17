@@ -105,11 +105,12 @@ export default class Component extends HTMLElement {
       // ✖ error: `{{<Store>}}`
       const keys = Object.keys(this.state);
       keys.forEach((key) => {
-        const page = this.state[key][PAGE_KEY];
+        const value = this.state[key];
+        const page = value && value[PAGE_KEY];
         if (!(key in payload)) return;
         if (page) {
           changeStore = true;
-          store[page] = mergeObject(this.state[key], payload[key]);
+          store[page] = mergeObject(value, payload[key]);
         } else {
           this.state[key] = payload[key];
         }

@@ -9,6 +9,8 @@ import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
 import '../form/text.js';
 import '../form/index.js';
+import '../form/image.js';
+import config from '../../config/index.js';
 
 customElements.define(
   'list-item',
@@ -50,9 +52,28 @@ customElements.define(
       const form = document.createElement('app-form');
       render(
         html`
-          <form-text label="title" name="title" value="${song.title || ''}"></form-text>
-          <form-text label="artist" name="artist" value="${song.artist || ''}"></form-text>
-          <form-text label="album" name="album" value="${song.album || ''}"></form-text>
+          <style>
+            app-form {
+              display: flex;
+            }
+            form-img {
+              width: 10rem;
+              height: 10rem;
+              margin-right: var(--modal-margin);
+            }
+            .text {
+              flex-grow: 1;
+            }
+          </style>
+          <form-img
+            name="picture"
+            src="${song.picture ? `//${config.storage}/${song.picture}` : ''}">
+          </form-img>
+          <div class="text">
+            <form-text label="title" name="title" value="${song.title || ''}"></form-text>
+            <form-text label="artist" name="artist" value="${song.artist || ''}"></form-text>
+            <form-text label="album" name="album" value="${song.album || ''}"></form-text>
+          </div>
         `,
         form,
       );

@@ -87,7 +87,7 @@ export default class Modal extends Component {
           flex-shrink: 1;
           position: absolute;
           width: 45rem;
-          padding: 1.6rem;
+          padding: var(--modal-margin);
           border-radius: .2rem;
           background: var(--modal-background-color);
           color: var(--modal-text-primary-color);
@@ -112,7 +112,7 @@ export default class Modal extends Component {
         }
         modal-body {
           display: block;
-          padding: 2rem 0;
+          padding: 2.4rem 0;
         }
         .footer {
           display: flex;
