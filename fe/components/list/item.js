@@ -24,11 +24,9 @@ customElements.define(
       this.deleteHandle = this.deleteHandle.bind(this);
     }
 
-    clickHandle(e) {
-      const { x, y } = e;
+    clickHandle(event) {
       this.classList.add('hover');
       AppMenu.open({
-        position: { x, y },
         list: [
           {
             text: 'edit',
@@ -39,9 +37,11 @@ customElements.define(
             handle: this.deleteHandle,
           },
         ],
+        target: event.target,
+        stage: this.getRootNode().host,
         onclose: () => this.classList.remove('hover'),
       });
-      e.stopPropagation();
+      event.stopPropagation();
     }
 
     editHandle() {

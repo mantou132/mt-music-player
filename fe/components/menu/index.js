@@ -35,11 +35,21 @@ export default class AppMenu extends Component {
   }
 
   render() {
-    const {
-      list,
-      position: { x, y },
-    } = this.state;
+    const { list, target, stage } = this.state;
     if (!list || !list.length) return '';
+
+    const stageRect = stage.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    const position = { x: targetRect.x, y: targetRect.y + targetRect.height };
+    const translate = { x: 0, y: 0 };
+    if (stageRect.right - targetRect.right < 169) {
+      translate.x = -100;
+      position.x = targetRect.x + targetRect.width;
+    }
+    if (stageRect.bottom - targetRect.bottom < list.length * 34 + 16) {
+      translate.y = -100;
+      position.y = targetRect.y;
+    }
     const items = list.map(
       (ele, index) => html`<li @click="${() => this.clickHandle(index)}">${ele.text}</li>`,
     );
@@ -74,6 +84,7 @@ export default class AppMenu extends Component {
         li {
           padding: .8rem 1.6rem .8rem 2.4rem;
           list-style: none;
+          text-transform: capitalize;
         }
         li:hover {
           cursor: default;
@@ -82,7 +93,12 @@ export default class AppMenu extends Component {
         }
       </style>
       <div @click="${this.closeHandle}" class="backdrop"></div>
-      <ol style="left: ${x}px; top: ${y}px">
+      <ol
+        style="
+          left: ${position.x}px;
+          top: ${position.y}px;
+          transform: translate(${translate.x}%, ${translate.y}%);
+        ">
         ${items}
       </ol>
     `;

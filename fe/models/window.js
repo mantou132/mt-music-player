@@ -21,7 +21,8 @@ export const confirmState = {
 };
 export const menuState = {
   type: '',
-  position: {},
+  target: null,
+  stage: document.body,
   // {text, handle}
   list: [],
   onclose: null,
