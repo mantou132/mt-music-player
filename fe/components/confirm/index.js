@@ -2,15 +2,13 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
-import '../ripple/index.js';
 import '../form/button.js';
-import './body.js';
 
-const InitData = Object.assign({}, store.modalState);
+const InitData = Object.assign({}, store.confirmState);
 
-export default class Modal extends Component {
+export default class Confirm extends Component {
   static open(state) {
-    updateStore('modalState', {
+    updateStore('confirmState', {
       ...InitData,
       ...state,
     });
@@ -18,18 +16,17 @@ export default class Modal extends Component {
       title: state.title,
       path: window.location.pathname,
       query: window.location.search,
-      close: Modal.close,
+      close: Confirm.close,
     });
   }
 
   static close() {
-    updateStore('modalState', InitData);
+    updateStore('confirmState', InitData);
   }
 
   constructor() {
     super();
-    this.state = store.modalState;
-    this.closeHandle = this.closeHandle.bind(this);
+    this.state = store.confirmState;
     this.okHandle = this.okHandle.bind(this);
     this.cancelHandle = this.cancelHandle.bind(this);
   }
@@ -37,28 +34,22 @@ export default class Modal extends Component {
   okHandle() {
     const { oncomplete } = this.state;
     if (oncomplete) oncomplete();
-    Modal.close();
+    Confirm.close();
     history.back();
   }
 
   cancelHandle() {
     const { oncancel } = this.state;
     if (oncancel) oncancel();
-    Modal.close();
-    history.back();
-  }
-
-  closeHandle() {
-    const { onclose } = this.state;
-    if (onclose) onclose();
+    Confirm.close();
     history.back();
   }
 
   render() {
     const {
-      title, complete, cancel, template,
+      title, complete, cancel, text,
     } = this.state;
-    if (!template) {
+    if (!text) {
       this.hidden = true;
       return html``;
     }
@@ -66,7 +57,7 @@ export default class Modal extends Component {
     return html`
       <style>
         :host {
-          z-index: 8;
+          z-index: 10;
           position: fixed;
           top: 0;
           left: 0;
@@ -86,7 +77,7 @@ export default class Modal extends Component {
         .warp {
           flex-shrink: 1;
           position: absolute;
-          width: 45rem;
+          width: 25rem;
           padding: 1.6rem;
           border-radius: .2rem;
           background: var(--modal-background-color);
@@ -94,9 +85,6 @@ export default class Modal extends Component {
           fill: var(--modal-text-primary-color);
           box-shadow: var(--modal-box-shadow);
           overflow: auto;
-        }
-        .titlebar {
-          display: flex;
         }
         .title {
           flex-grow: 1;
@@ -106,13 +94,8 @@ export default class Modal extends Component {
           font-weight: bolder;
           text-transform: capitalize;
         }
-        .close {
-          color: var(--modal-text-secondary-color);
-          fill: var(--modal-text-secondary-color);
-        }
-        modal-body {
-          display: block;
-          padding: 2rem 0;
+        .body {
+          min-height: 5em;
         }
         .footer {
           display: flex;
@@ -121,13 +104,8 @@ export default class Modal extends Component {
       </style>
       <div class="backdrop"></div>
       <div class="warp">
-        <div class="titlebar">
-          <h1 class="title">${title}</h1>
-          <app-icon name="clear" class="close" @click="${this.closeHandle}">
-            <app-ripple circle color="rgba(0,0,0,0.54)"></app-ripple>
-          </app-icon>
-        </div>
-        <modal-body></modal-body>
+        <h1 class="title" ?hidden="${!title}">${title}</h1>
+      <div class="body">${text}</div>
         <div class="footer">
             <form-button
               @click="${this.okHandle}"
@@ -146,4 +124,4 @@ export default class Modal extends Component {
   }
 }
 
-customElements.define('app-modal', Modal);
+customElements.define('app-confirm', Confirm);

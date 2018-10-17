@@ -6,6 +6,7 @@ import AppMenu from '../menu/index.js';
 import { del, update } from '../../services/song.js';
 import '../ripple/index.js';
 import Modal from '../modal/index.js';
+import Confirm from '../confirm/index.js';
 import '../form/text.js';
 import '../form/index.js';
 
@@ -20,6 +21,7 @@ customElements.define(
       super();
       this.clickHandle = this.clickHandle.bind(this);
       this.editHandle = this.editHandle.bind(this);
+      this.deleteHandle = this.deleteHandle.bind(this);
     }
 
     clickHandle(e) {
@@ -34,7 +36,7 @@ customElements.define(
           },
           {
             text: 'delete',
-            handle: () => del(Number(this.id)),
+            handle: this.deleteHandle,
           },
         ],
         onclose: () => this.classList.remove('hover'),
@@ -63,6 +65,15 @@ customElements.define(
         cancel: 'cancel',
         template: form,
         oncomplete,
+      });
+    }
+
+    deleteHandle() {
+      Confirm.open({
+        complete: 'confirm',
+        cancel: 'cancel',
+        text: 'delete song?',
+        oncomplete: () => del(Number(this.id)),
       });
     }
 

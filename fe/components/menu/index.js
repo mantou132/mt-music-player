@@ -1,9 +1,8 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import { store, updateStore } from '../../models/index.js';
 import Component from '../../lib/component.js';
-import { mergeObject } from '../../utils/object.js';
 
-const InitData = mergeObject({}, store.menuState);
+const InitData = Object.assign({}, store.menuState);
 
 export default class AppMenu extends Component {
   static open(state) {

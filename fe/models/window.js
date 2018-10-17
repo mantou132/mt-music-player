@@ -11,6 +11,14 @@ export const modalState = {
   oncomplete: null,
   oncancel: null,
 };
+export const confirmState = {
+  title: '',
+  complete: 'confirm',
+  cancel: 'cancel',
+  text: null,
+  oncomplete: null,
+  oncancel: null,
+};
 export const menuState = {
   type: '',
   position: {},
