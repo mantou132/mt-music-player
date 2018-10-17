@@ -61,7 +61,11 @@ export default class Modal extends Component {
     const {
       title, complete, cancel, template,
     } = this.state;
-    if (!template) return html``;
+    if (!template) {
+      this.hidden = true;
+      return html``;
+    }
+    this.hidden = false;
     return html`
       <style>
         :host {

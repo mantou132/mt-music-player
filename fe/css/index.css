@@ -33,3 +33,7 @@ body {
   cursor: default;
   user-select: none;
 }
+
+[hidden] {
+  display: none;
+}
