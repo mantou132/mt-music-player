@@ -3,12 +3,19 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { upload } from '../../services/song.js';
 
+let Instance;
+
 export default class AppUpload extends Component {
+  static open() {
+    const input = Instance.shadowRoot.querySelector('input');
+    input.click();
+  }
+
   constructor() {
     super();
     this.state = store.playerState;
     this.changeHandle = this.changeHandle.bind(this);
-    AppUpload.instance = this;
+    Instance = this;
   }
 
   render() {
@@ -20,11 +27,6 @@ export default class AppUpload extends Component {
       </style>
       <input @change="${this.changeHandle}" type="file" multiple accept="audio/*">
     `;
-  }
-
-  click() {
-    const input = this.shadowRoot.querySelector('input');
-    input.click();
   }
 
   changeHandle() {

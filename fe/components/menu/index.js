@@ -1,21 +1,38 @@
 import { html } from 'https://dev.jspm.io/lit-html';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import Component from '../../lib/component.js';
+import { mergeObject } from '../../utils/object.js';
+
+const InitData = mergeObject({}, store.menuState);
 
 export default class AppMenu extends Component {
+  static open(state) {
+    updateStore('menuState', {
+      ...InitData,
+      ...state,
+    });
+  }
+
+  static close() {
+    updateStore('menuState', InitData);
+  }
+
   constructor() {
     super();
-    AppMenu.instance = this;
     this.state = store.menuState;
     this.closeHandle = this.closeHandle.bind(this);
   }
 
   closeHandle() {
-    const { closeCallback } = this.state;
-    this.setState({
-      list: [],
-    });
-    if (closeCallback) closeCallback();
+    const { onclose } = this.state;
+    AppMenu.close();
+    if (onclose) onclose();
+  }
+
+  clickHandle(index) {
+    const { list } = this.state;
+    list[index].handle();
+    this.closeHandle();
   }
 
   render() {
@@ -70,12 +87,6 @@ export default class AppMenu extends Component {
         ${items}
       </ol>
     `;
-  }
-
-  clickHandle(index) {
-    const { list } = this.state;
-    list[index].handle();
-    this.closeHandle();
   }
 }
 customElements.define('app-menu', AppMenu);

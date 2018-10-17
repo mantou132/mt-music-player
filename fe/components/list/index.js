@@ -74,7 +74,7 @@ customElements.define(
     }
 
     static upload() {
-      AppUpload.instance.click();
+      AppUpload.open();
     }
   },
 );

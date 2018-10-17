@@ -25,7 +25,7 @@ customElements.define(
     clickHandle(e) {
       const { x, y } = e;
       this.classList.add('hover');
-      AppMenu.instance.setState({
+      AppMenu.open({
         position: { x, y },
         list: [
           {
@@ -37,7 +37,7 @@ customElements.define(
             handle: () => del(Number(this.id)),
           },
         ],
-        closeCallback: () => this.classList.remove('hover'),
+        onclose: () => this.classList.remove('hover'),
       });
       e.stopPropagation();
     }
@@ -48,9 +48,9 @@ customElements.define(
       const form = document.createElement('app-form');
       render(
         html`
-          <form-text label="title" name="title" value="${song.title}"></form-text>
-          <form-text label="artist" name="artist" value="${song.artist}"></form-text>
-          <form-text label="album" name="album" value="${song.album}"></form-text>
+          <form-text label="title" name="title" value="${song.title || ''}"></form-text>
+          <form-text label="artist" name="artist" value="${song.artist || ''}"></form-text>
+          <form-text label="album" name="album" value="${song.album || ''}"></form-text>
         `,
         form,
       );
@@ -62,9 +62,7 @@ customElements.define(
         complete: 'ok',
         cancel: 'cancel',
         template: form,
-        onclose: null,
         oncomplete,
-        oncancel: null,
       });
     }
 

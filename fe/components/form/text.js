@@ -48,6 +48,7 @@ customElements.define(
             border-color: var(--form-text-secondary-color);
             border-style: solid;
             color: var(--form-text-primary-color);
+            caret-color: var(--theme-color);
             font-size: inherit;
           }
           input + .border {

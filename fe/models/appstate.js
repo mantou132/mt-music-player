@@ -1,4 +1,6 @@
-export const authState = {
+export const userData = {
+  name: '',
+  avatar: '',
   key: '',
 };
 export const playerState = {
@@ -17,25 +19,9 @@ export const toastState = {
   type: 'info',
   text: null,
 };
-export const menuState = {
-  type: '',
-  position: {},
-  // {text, handle}
-  list: [],
-  closeCallback: null,
-};
 export const selectorState = {
   type: '',
   list: [],
-};
-export const modalState = {
-  title: '',
-  complete: 'ok',
-  cancel: 'cancel',
-  template: null,
-  onclose: null,
-  oncomplete: null,
-  oncancel: null,
 };
 export const historyState = {
   // {path, query, title, state}
@@ -46,7 +32,4 @@ export const historyState = {
 export const uploaderState = {
   // {file}
   list: [],
-};
-export const drawerState = {
-  isOpen: false,
 };

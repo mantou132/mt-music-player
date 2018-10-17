@@ -1,4 +1,4 @@
-import request from './request.js';
+import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
 import config from '../config/index.js';
 

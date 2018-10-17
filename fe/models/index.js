@@ -1,4 +1,5 @@
 import * as appState from './appstate.js';
+import * as windowState from './window.js';
 import songData from './song.js';
 import albumData from './album.js';
 import artistData from './artist.js';
@@ -38,6 +39,7 @@ const createStore = (originStore) => {
  */
 export const store = createStore({
   ...appState,
+  ...windowState,
   songData,
   artistData,
   albumData,

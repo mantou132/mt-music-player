@@ -1,14 +1,20 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
+import { mergeObject } from '../../utils/object.js';
 import { store, updateStore } from '../../models/index.js';
 import '../ripple/index.js';
 import '../form/button.js';
 import './body.js';
 
+const InitData = mergeObject({}, store.modalState);
+
 export default class Modal extends Component {
   static open(state) {
-    updateStore('modalState', state);
+    updateStore('modalState', {
+      ...InitData,
+      ...state,
+    });
     history.push({
       title: state.title,
       path: window.location.pathname,
@@ -18,15 +24,7 @@ export default class Modal extends Component {
   }
 
   static close() {
-    updateStore('modalState', {
-      title: '',
-      complete: 'ok',
-      cancel: 'cancel',
-      template: null,
-      onclose: null,
-      oncomplete: null,
-      oncancel: null,
-    });
+    updateStore('modalState', InitData);
   }
 
   constructor() {
