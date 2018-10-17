@@ -3,6 +3,7 @@ import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
 import '../ripple/index.js';
+import '../form/button.js';
 import './body.js';
 
 export default class Modal extends Component {
@@ -102,10 +103,19 @@ export default class Modal extends Component {
           padding: 0;
           font-size: 2rem;
           font-weight: bolder;
+          text-transform: capitalize;
         }
         .close {
           color: var(--modal-text-secondary-color);
           fill: var(--modal-text-secondary-color);
+        }
+        modal-body {
+          display: block;
+          padding: 2rem 0;
+        }
+        .footer {
+          display: flex;
+          flex-direction: row-reverse;
         }
       </style>
       <div class="backdrop"></div>
@@ -117,9 +127,18 @@ export default class Modal extends Component {
           </app-icon>
         </div>
         <modal-body></modal-body>
-        <div name="footer">
-            <button @click="${this.okHandle}" ?hidden="${!complete}">${complete}</button>
-            <button @click="${this.cancelHandle}" ?hidden="${!cancel}">${cancel}</button>
+        <div class="footer">
+            <form-button
+              @click="${this.okHandle}"
+              ?hidden="${!complete}">
+              ${complete}
+            </form-button>
+            <form-button
+              @click="${this.cancelHandle}"
+              ?hidden="${!cancel}"
+              type="secondary">
+              ${cancel}
+            </form-button>
         </div>
       </div>
     `;

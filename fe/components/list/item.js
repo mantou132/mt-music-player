@@ -6,6 +6,8 @@ import AppMenu from '../menu/index.js';
 import { del, update } from '../../services/song.js';
 import '../ripple/index.js';
 import Modal from '../modal/index.js';
+import '../form/text.js';
+import '../form/index.js';
 
 customElements.define(
   'list-item',
@@ -43,39 +45,17 @@ customElements.define(
     editHandle() {
       const { list } = store.songData;
       const song = list.find(e => String(e.id) === this.id);
-      const form = document.createElement('form');
+      const form = document.createElement('app-form');
       render(
         html`
-          <style>
-            input {
-              box-sizing: border-box;
-              display: block;
-              width: 100%;
-              margin-bottom: 1em;
-              font: inherit;
-            }
-          </style>
-          <label>
-            <span>title</span>
-            <input name="title" value="${song.title}">
-          </label>
-          <label>
-            <span>artist</span>
-          <input name="artist" value="${song.artist || ''}">
-          </label>
-          <label>
-            <span>album</span>
-          <input name="album" value="${song.album || ''}">
-          </label>
+          <form-text label="title" name="title" value="${song.title}"></form-text>
+          <form-text label="artist" name="artist" value="${song.artist}"></form-text>
+          <form-text label="album" name="album" value="${song.album}"></form-text>
         `,
         form,
       );
       const oncomplete = () => {
-        update(Number(this.id), {
-          title: form.title.value,
-          artist: form.artist.value,
-          album: form.album.value,
-        });
+        update(Number(this.id), form.value);
       };
       Modal.open({
         title: 'edit music info',

@@ -6,7 +6,7 @@ customElements.define(
   class extends Component {
     constructor() {
       super();
-      this.onclick = function ripple({ offsetX: x, offsetY: y }) {
+      this.onmousedown = function ripple({ offsetX: x, offsetY: y }) {
         const isCircle = this.hasAttribute('circle');
         const duration = parseInt(this.getAttribute('duration'), 10) || 600;
         const color = this.getAttribute('color') || 'rgba(255,255,255,0.46)';
