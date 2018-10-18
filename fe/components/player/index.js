@@ -13,6 +13,7 @@ customElements.define(
       return html`
         <style>
           :host {
+            position: -webkit-sticky;
             position: sticky;
             bottom: 0;
             flex-shrink: 0;

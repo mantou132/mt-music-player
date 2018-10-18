@@ -27,6 +27,7 @@ body {
   font-family: system-ui, sans-serif;
   font-weight: lighter;
   cursor: default;
+  -webkit-user-select: none;
   user-select: none;
 }
 
