@@ -24,8 +24,9 @@ export const selectorState = {
   list: [],
 };
 export const historyState = {
+  // coupling `lib/history.js`, `lib/component.js`
   // {path, query, title, state}
-  // state: {timestamp, close}
+  // state: {$key, $close, ...}
   list: [],
   currentIndex: -1,
 };

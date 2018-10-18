@@ -1,3 +1,5 @@
+// use in component, history
+
 import * as appState from './appstate.js';
 import * as windowState from './window.js';
 import songData from './song.js';
