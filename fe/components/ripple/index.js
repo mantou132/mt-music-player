@@ -6,32 +6,37 @@ customElements.define(
   class extends Component {
     constructor() {
       super();
-      this.onmousedown = function ripple({ offsetX: x, offsetY: y }) {
-        const isCircle = this.hasAttribute('circle');
-        const duration = parseInt(this.getAttribute('duration'), 10) || 600;
-        const color = this.getAttribute('color') || 'rgba(255,255,255,0.46)';
+      this.onmousedown = this.mouseDownHandle;
+    }
 
-        this.classList.add('animating');
-        const { clientWidth, clientHeight } = this;
-        const start = performance.now();
-        const raf = (now) => {
-          const count = Math.floor(now - start);
-          this.style.cssText = `
-            --ripple-x: ${isCircle ? clientWidth / 2 : x};
-            --ripple-y: ${isCircle ? clientHeight / 2 : y};
-            --ripple-color: ${color};
-            --animation-tick: ${count};
-            --animation-duration: ${duration};
-          `;
-          if (count > duration) {
-            this.classList.remove('animating');
-            this.style.cssText = '--animation-tick: 0';
-            return;
-          }
-          requestAnimationFrame(raf);
-        };
+    mouseDownHandle({ offsetX: x, offsetY: y }) {
+      const isCircle = this.hasAttribute('circle');
+
+      const duration = parseInt(this.getAttribute('duration'), 10) || 600;
+      const color = this.getAttribute('color') || 'rgba(255,255,255,0.46)';
+      const scale = this.getAttribute('scale') || 1;
+
+      this.classList.add('animating');
+      const { clientWidth, clientHeight } = this;
+      const start = performance.now();
+      const raf = (now) => {
+        const count = Math.floor(now - start);
+        this.style.cssText = `
+          --ripple-x: ${isCircle ? clientWidth / 2 : x};
+          --ripple-y: ${isCircle ? clientHeight / 2 : y};
+          --ripple-color: ${color};
+          --animation-tick: ${count};
+          --animation-duration: ${duration};
+          transform: scale(${scale});
+        `;
+        if (count > duration) {
+          this.classList.remove('animating');
+          this.style.cssText = '--animation-tick: 0';
+          return;
+        }
         requestAnimationFrame(raf);
       };
+      requestAnimationFrame(raf);
     }
 
     render() {
