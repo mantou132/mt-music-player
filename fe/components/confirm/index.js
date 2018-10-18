@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
+import { capitalize } from '../../utils/string.js';
 import { store, updateStore } from '../../models/index.js';
 import '../form/button.js';
 
@@ -77,7 +78,7 @@ export default class Confirm extends Component {
         .warp {
           flex-shrink: 1;
           position: absolute;
-          width: 25rem;
+          width: 28rem;
           padding: 1.6rem;
           border-radius: .2rem;
           background: var(--modal-background-color);
@@ -88,14 +89,15 @@ export default class Confirm extends Component {
         }
         .title {
           flex-grow: 1;
-          margin: 0;
+          margin: 0 0 1.4rem;
           padding: 0;
           font-size: 2rem;
           font-weight: bolder;
           text-transform: capitalize;
         }
         .body {
-          min-height: 5em;
+          min-height: 4em;
+          margin-bottom: 1em;
         }
         .footer {
           display: flex;
@@ -105,7 +107,7 @@ export default class Confirm extends Component {
       <div class="backdrop"></div>
       <div class="warp">
         <h1 class="title" ?hidden="${!title}">${title}</h1>
-      <div class="body">${text}</div>
+      <div class="body">${capitalize(text)}</div>
         <div class="footer">
             <form-button
               @click="${this.okHandle}"
