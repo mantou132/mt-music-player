@@ -3,6 +3,7 @@ import * as windowState from './window.js';
 import songData from './song.js';
 import albumData from './album.js';
 import artistData from './artist.js';
+import searchData from './search.js';
 
 export const PAGE_KEY = Symbol('page');
 
@@ -43,6 +44,7 @@ export const store = createStore({
   songData,
   artistData,
   albumData,
+  searchData,
 });
 
 // eslint-disable-next-line

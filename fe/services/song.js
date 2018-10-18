@@ -1,6 +1,7 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
 import config from '../config/index.js';
+import { toQuerystring } from '../utils/object.js';
 
 export const get = async () => {
   const list = await request('/songs');
@@ -46,4 +47,9 @@ export const update = async (id, song) => {
   if (currentSong === id) {
     updateStore('playerState', {});
   }
+};
+
+export const search = async (text) => {
+  const list = await request(`/search?${toQuerystring({ q: text, type: 'song' })}`);
+  updateStore('searchData', { list, text });
 };

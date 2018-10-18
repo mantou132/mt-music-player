@@ -1,6 +1,7 @@
 import { store, updateStore } from '../models/index.js';
 
 const colseHandleMap = new Map();
+const privateKey = Symbol('private');
 
 window.addEventListener('popstate', (event) => {
   // forward or back
@@ -56,14 +57,21 @@ const history = {
     window.history.back();
   },
 
-  push({
-    data = {}, title, path, query = '', close,
-  }) {
+  push(options) {
+    const {
+      data = {}, title, path, query = '', close,
+    } = options;
+    const { list } = store.historyState;
+
+    // same router
+    if (options === list[list.length - 1]) {
+      updateStore('historyState', {});
+    }
+
     const state = generateState(data, close);
     window.history.pushState(state, title, path + query);
 
     if (title) document.title = title;
-    const { list } = store.historyState;
     const newList = list.concat({
       path,
       query,

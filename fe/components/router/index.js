@@ -17,18 +17,20 @@ customElements.define(
       let content;
       switch (pathname) {
         case '/':
-          content = html`<app-list class="page"></app-list>`;
+          content = html`<app-list type="song"></app-list>`;
+          break;
+        case '/search':
+          content = html`<app-list type="search"></app-list>`;
           break;
         default:
-          content = html`<app-notfound class="page"></app-notfound>`;
-          break;
+          content = html`<app-notfound></app-notfound>`;
       }
       return html`
         <style>
           :host {
             display: contents;
           }
-          .page {
+          :host > * {
             flex-grow: 1;
             overflow: auto;
           }

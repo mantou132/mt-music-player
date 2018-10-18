@@ -2,24 +2,50 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import './item.js';
 import '../action/index.js';
+import '../ripple/index.js';
+import '../link/index.js';
+import '../form/text.js';
 import { store } from '../../models/index.js';
 import AppUpload from '../upload/index.js';
+import { search } from '../../services/song.js';
 
 customElements.define(
   'app-list',
-  class AppList extends Component {
+  class extends Component {
     constructor() {
       super();
+      let data;
+      switch (this.type) {
+        case 'search':
+          data = store.searchData;
+          break;
+        default:
+          data = store.songData;
+      }
+
       this.state = {
         playerState: store.playerState,
-        songData: store.songData,
+        songData: data,
       };
       this.clickHandle = this.clickHandle.bind(this);
       this.renderItem = this.renderItem.bind(this);
     }
 
+    get type() {
+      return this.getAttribute('type');
+    }
+
+    clickHandle({ target }) {
+      this.setState({
+        playerState: {
+          currentSong: Number(target.id),
+          state: 'playing',
+        },
+      });
+    }
+
     render() {
-      const { list } = this.state.songData;
+      const { list, text = '' } = this.state.songData;
       return html`
         <style>
           :host {
@@ -42,8 +68,25 @@ customElements.define(
         </style>
         <div class="wrap">
           <app-action>
-            <app-icon @click="${AppList.upload}" slot="1" name="add"></app-icon>
-            <app-icon slot="2" name="search"></app-icon>
+            <app-icon
+              slot="1"
+              ?hidden="${this.type === 'search'}"
+              @click="${AppUpload.open}"
+              name="add">
+              <app-ripple circle></app-ripple>
+            </app-icon>
+            <app-link slot="2" path="/search">
+              <app-icon name="search">
+                <app-ripple circle></app-ripple>
+              </app-icon>
+            </app-link>
+            <form-text
+              slot="3"
+              ?hidden="${this.type === 'song'}"
+              value="${text}"
+              autofocus
+              @change="${({ detail }) => search(detail)}">
+            </form-text>
           </app-action>
           ${list.map(this.renderItem)}
         </div>
@@ -62,19 +105,6 @@ customElements.define(
           <app-icon name="${playIcon}" ?hidden="${currentSong !== data.id}"></app-icon>
         </list-item>
       `;
-    }
-
-    clickHandle({ target }) {
-      this.setState({
-        playerState: {
-          currentSong: Number(target.id),
-          state: 'playing',
-        },
-      });
-    }
-
-    static upload() {
-      AppUpload.open();
     }
   },
 );

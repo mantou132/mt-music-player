@@ -9,6 +9,7 @@ customElements.define(
         <style>
           :host {
             display: flex;
+            align-items: center;
           }
         </style>
         <slot name="1"></slot>

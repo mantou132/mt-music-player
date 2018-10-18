@@ -21,7 +21,6 @@ customElements.define(
       return html`
         <style>
           :host {
-            cursor: pointer;
             display: contents;
           }
         </style>

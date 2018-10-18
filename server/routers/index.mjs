@@ -17,6 +17,8 @@ router.post('/songs', upload.any(), Song.create);
 router.delete('/songs/:id', Song.remove);
 router.put('/songs/:id', upload.any(), Song.update);
 
+router.get('/search', Song.search);
+
 // router.get('/albums', Album);
 // router.put('/albums/:id', Album);
 

@@ -20,6 +20,7 @@ customElements.define(
         <style>
           :host {
             display: block;
+            color: var(--form-text-primary-color);
           }
         </style>
         <slot></slot>

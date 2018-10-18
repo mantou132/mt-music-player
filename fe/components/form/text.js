@@ -1,11 +1,19 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
+import { throttle } from '../../utils/misc.js';
 
 customElements.define(
   'form-text',
   class extends Component {
     static get observedAttributes() {
-      return ['name', 'label', 'value', 'placeholder', 'disabled'];
+      return ['name', 'label', 'value', 'placeholder', 'disabled', 'autofocus'];
+    }
+
+    constructor() {
+      super();
+      this.isComposition = false;
+      this.inputHandle = this.inputHandle.bind(this);
+      this.compositionHandle = this.compositionHandle.bind(this);
     }
 
     get value() {
@@ -16,15 +24,30 @@ customElements.define(
       this.shadowRoot.querySelector('input').value = v;
     }
 
+    inputHandle() {
+      if (!this.isComposition) {
+        this.dispatchEvent(new CustomEvent('change', { detail: this.value }));
+      }
+    }
+
+    compositionHandle({ type }) {
+      this.isComposition = type !== 'compositionend';
+    }
+
     render() {
       const name = this.getAttribute('name');
       const label = this.getAttribute('label');
-      const disabled = this.getAttribute('disabled');
       const value = this.getAttribute('value') || '';
       const placeholder = this.getAttribute('placeholder') || '';
 
+      const disabled = this.hasAttribute('disabled');
+
       return html`
         <style>
+          :host(:not([hidden])) {
+            display: block;
+            flex-grow: 1;
+          }
           :focus {
             outline: none;
           }
@@ -42,12 +65,12 @@ customElements.define(
             display: block;
             box-sizing: border-box;
             width: 100%;
-            margin-bottom: 2em;
             padding: .5em 0;
             border-width: 0 0 1px;
             border-color: var(--form-text-secondary-color);
             border-style: solid;
-            color: var(--form-text-primary-color);
+            background: transparent;
+            color: inherit;
             caret-color: var(--theme-color);
             font-size: inherit;
           }
@@ -72,17 +95,33 @@ customElements.define(
           }
         </style>
         <label class="wrap">
-          <div class="label">${label}</div>
+          <div class="label" ?hidden="${label}">${label}</div>
           <input
             name="${name}"
             type="text"
             value="${value}"
             placeholder="${placeholder}"
+            autocomplete="off"
+            @input="${throttle(this.inputHandle, 1000)}"
+            @compositionstart="${this.compositionHandle}"
+            @compositionupdate="${this.compositionHandle}"
+            @compositionend="${this.compositionHandle}"
             ?disabled="${disabled}"
             spellcheck="false">
           <div class="border"></div>
         </label>
       `;
+    }
+
+    connected() {
+      const autofocus = this.hasAttribute('autofocus');
+      if (autofocus) {
+        this.focus();
+      }
+    }
+
+    focus() {
+      this.shadowRoot.querySelector('input').focus();
     }
   },
 );

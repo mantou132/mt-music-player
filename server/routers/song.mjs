@@ -1,7 +1,10 @@
+import Sequelize from 'sequelize';
 import mm from 'music-metadata';
 import Models from '../models';
 import sequelize from '../db/postgres';
 import upyunClient from '../storage';
+
+const { like, or } = Sequelize.Op;
 
 export async function create(req, res) {
   const file = req.files[0];
@@ -91,6 +94,18 @@ export async function get(req, res) {
   const list = await Models.song.findAll({
     where: {
       user: req.header('x-user') || null,
+    },
+    order: [['id', 'DESC']],
+  });
+  res.status(200).json(list);
+}
+
+export async function search(req, res) {
+  const q = `%${req.query.q}%`;
+  const list = await Models.song.findAll({
+    where: {
+      user: req.header('x-user') || null,
+      [or]: [{ title: { [like]: q } }, { album: { [like]: q } }, { artist: { [like]: q } }],
     },
     order: [['id', 'DESC']],
   });

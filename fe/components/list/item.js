@@ -61,6 +61,9 @@ customElements.define(
               height: 10rem;
               margin-right: var(--modal-margin);
             }
+            form-text {
+              margin-bottom: 2em;
+            }
             .text {
               flex-grow: 1;
             }
