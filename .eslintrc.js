@@ -24,7 +24,14 @@ module.exports = {
     'class-methods-use-this': [
       'error',
       {
-        exceptMethods: ['render', 'updated', 'connected', 'disconnected', 'attributeChanged'],
+        exceptMethods: [
+          'render',
+          'shouldUpdate',
+          'updated',
+          'connected',
+          'disconnected',
+          'attributeChanged',
+        ],
       },
     ],
     'import/no-unresolved': [2, { ignore: ['^http'] }],

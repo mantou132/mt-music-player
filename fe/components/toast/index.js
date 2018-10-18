@@ -1,54 +1,98 @@
 import { html } from 'https://dev.jspm.io/lit-html';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import Component from '../../lib/component.js';
 
-let appToast;
-class AppToast extends Component {
+const LIFE_TIME = 3000;
+const InitData = Object.assign({}, store.toastState);
+
+const showToastList = [];
+let showUploaderState = 0;
+
+export default class AppToast extends Component {
+  static open(state) {
+    updateStore('toastState', state);
+    setTimeout(() => {
+      updateStore('toastState', InitData);
+    }, LIFE_TIME);
+  }
+
   constructor() {
     super();
     this.state = {
-      self: { currentState: true },
       toastState: store.toastState,
-      menuState: store.menuState,
+      uploaderState: store.uploaderState,
     };
-    appToast = this;
+  }
+
+  preprocess() {
+    const {
+      toastState: { text },
+      uploaderState: { list },
+    } = this.state;
+    if (list.length) {
+      showUploaderState = list.length;
+    } else if (showUploaderState) {
+      showUploaderState = 'uploaded';
+      setTimeout(() => {
+        showUploaderState = 0;
+        this.update();
+      }, LIFE_TIME);
+    }
+
+    if (text) {
+      const index = showToastList.findIndex(({ text: t }) => t === text);
+      if (index > -1) {
+        const toast = showToastList[index];
+        clearTimeout(toast.timer);
+        showToastList.splice(index, 1);
+      }
+      showToastList.push({
+        text,
+        timer: setTimeout(() => {
+          showToastList.splice(showToastList.findIndex(({ text: t }) => t === text), 1);
+          this.update();
+        }, LIFE_TIME),
+      });
+    }
   }
 
   render() {
-    const {
-      self: { currentState },
-      toastState: { text, type },
-      menuState: { isOpen },
-    } = this.state;
+    this.preprocess();
+
+    if (!showToastList.length && !showUploaderState) return html``;
+
     return html`
-      <style>
-        :host {
-          z-index: 9;
-          position: fixed;
-          left: 1.6rem;
-          top: 1.6rem;
-          background: var(--toast-background-color);
-          color: var(--toast-text-color);
-          opacity: .5;
-          display: ${isOpen ? 'block' : 'none'};
-        }
-      </style>
-      <div>${type}</div>
-      <div>${text}</div>
-      <div>currentState: ${currentState}</div>
-    `;
+    <style>
+      :host {
+        z-index: 9;
+        position: fixed;
+        left: 1.6rem;
+        bottom: calc(1.6rem + var(--player-height));
+        display: flex;
+        flex-direction: column;
+        color: var(--toast-text-color);
+        font-size: 1.4rem;
+      }
+      div {
+        min-width: 20em;
+        padding: .6em;
+        border: 1px solid var(--toast-border-color);
+        background: var(--toast-background-color);
+      }
+      div:not(:last-of-type) {
+        margin-bottom: .6em;
+      }
+    </style>
+    ${showToastList.map(({ text }) => html`<div>${text}</div>`)}
+    <div ?hidden="${!showUploaderState}">
+      ${
+  showUploaderState === 'uploaded'
+    ? 'upload compelete'
+    : `${showUploaderState} songs are being uploaded...`
+}
+    </div>
+  `;
   }
 }
-customElements.define('app-toast', AppToast);
 
-// test
-const update = () => requestAnimationFrame(() => {
-  if (appToast.state.menuState.isOpen) {
-    appToast.setState({
-      toastState: { text: new Date().toISOString(), type: Math.random() },
-      self: { currentState: Math.random() > 0.5 },
-    });
-  }
-  update();
-}, 1000);
-update();
+customElements.define('app-toast', AppToast);

@@ -22,8 +22,9 @@
   --player-text-secondary-color: #707070;
   --player-cover-box-shadow: 0px 1px 3px #0007;
 
-  --toast-background-color: black;
+  --toast-background-color: #202b27;
   --toast-text-color: #fff;
+  --toast-border-color: #000;
 
   --menu-background-color: #20272b;
   --menu-hover-background-color: #263238;
