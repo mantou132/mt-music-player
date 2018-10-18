@@ -10,7 +10,7 @@ export async function create(req, res) {
   const file = req.files[0];
   const [{ common: tags, format }, src] = await Promise.all([
     mm.parseBuffer(file.buffer),
-    upyunClient.putFile(file.buffer),
+    upyunClient.putFile(file.buffer, { 'content-type': file.mimetype }),
   ]);
 
   let picture;

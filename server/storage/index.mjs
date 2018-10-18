@@ -11,12 +11,12 @@ const service = new upyun.Service(
 const client = new upyun.Client(service);
 
 export default {
-  async putFile(file) {
+  async putFile(file, option) {
     const hash = crypto.createHash('sha256');
     hash.update(file);
     const path = hash.digest('hex');
     const exist = await client.headFile(path);
-    if (!exist) await client.putFile(path, file);
+    if (!exist) await client.putFile(path, file, option);
     return path;
   },
 };
