@@ -1,6 +1,7 @@
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { get } from '../../services/song.js';
+import mediaSession from './mediasession.js';
 
 customElements.define(
   'player-audio',
@@ -15,6 +16,7 @@ customElements.define(
       this.audio.onended = this.endHandle.bind(this);
       this.audio.volume = store.playerState.volume;
       this.setCurrentTime();
+
       this.randomPlay = this.randomPlay.bind(this);
       this.nextPlay = this.nextPlay.bind(this);
       this.playError = this.playError.bind(this);
@@ -117,6 +119,7 @@ customElements.define(
         this.setState({
           audioState: { currentTime: 0 },
         });
+        mediaSession.setMetadata(song);
       }
       // play
       if (state === 'playing' && this.audio.paused) {

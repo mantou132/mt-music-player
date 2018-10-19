@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import mediaSession from './mediasession.js';
 
 customElements.define(
   'player-control',
@@ -13,6 +14,11 @@ customElements.define(
       this.clickPlayHandle = this.clickPlayHandle.bind(this);
       this.clickNextHandle = this.clickNextHandle.bind(this);
       this.clickModeHandle = this.clickModeHandle.bind(this);
+
+      mediaSession.onplay = this.clickPlayHandle;
+      mediaSession.onpause = this.clickPlayHandle;
+      mediaSession.onprevioustrack = this.clickPrevHandle;
+      mediaSession.onnexttrack = this.clickNextHandle;
     }
 
     clickShuffleHandle() {
