@@ -1,8 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
-import '../list/index.js';
-import '../notfound/index.js';
 
 customElements.define(
   'app-router',

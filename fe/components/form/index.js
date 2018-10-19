@@ -1,6 +1,10 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 
+import './button.js';
+import './image.js';
+import './text.js';
+
 customElements.define(
   'app-form',
   class extends Component {

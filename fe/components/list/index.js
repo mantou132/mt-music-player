@@ -1,13 +1,10 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
-import './item.js';
-import '../action/index.js';
-import '../ripple/index.js';
-import '../link/index.js';
-import '../form/text.js';
 import { store } from '../../models/index.js';
 import AppUpload from '../upload/index.js';
 import { search } from '../../services/song.js';
+
+import './item.js';
 
 customElements.define(
   'app-list',

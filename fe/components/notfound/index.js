@@ -1,6 +1,5 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
-import '../link/index.js';
 
 customElements.define(
   'app-notfound',

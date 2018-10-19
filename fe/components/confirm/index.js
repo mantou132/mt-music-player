@@ -3,7 +3,6 @@ import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { capitalize } from '../../utils/string.js';
 import { store, updateStore } from '../../models/index.js';
-import '../form/button.js';
 
 const InitData = Object.assign({}, store.confirmState);
 

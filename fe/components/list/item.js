@@ -4,12 +4,8 @@ import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
 import { del, update } from '../../services/song.js';
-import '../ripple/index.js';
 import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
-import '../form/text.js';
-import '../form/index.js';
-import '../form/image.js';
 import config from '../../config/index.js';
 
 customElements.define(

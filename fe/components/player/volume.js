@@ -1,8 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
-import '../range/index.js';
 import { store } from '../../models/index.js';
-import '../ripple/index.js';
 
 customElements.define(
   'player-volume',

@@ -2,8 +2,7 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
-import '../ripple/index.js';
-import '../form/button.js';
+
 import './body.js';
 
 const InitData = Object.assign({}, store.modalState);
