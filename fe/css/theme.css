@@ -4,6 +4,7 @@
   /* 如启动画面的背景颜色，组件为渲染时的背景颜色 */
   --background-color: white;
   --theme-color: #18d150;
+  --error-color: red;
 
   --list-background-color: #263238;
   --list-background-light-color: #34434a;

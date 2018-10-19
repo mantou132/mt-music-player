@@ -117,6 +117,9 @@ customElements.define(
           :host([active]) {
             --list-item-playing-color: var(--theme-color);
           }
+          :host([error]) {
+            --list-item-playing-color: var(--error-color);
+          }
           .info {
             flex-grow: 1;
           }

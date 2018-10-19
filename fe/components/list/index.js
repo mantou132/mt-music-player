@@ -94,15 +94,20 @@ customElements.define(
     }
 
     renderItem(data) {
-      const { currentSong, state } = this.state.playerState;
-      const playIcon = state === 'paused' || state === 'error' ? 'pause' : 'playing';
+      const { errorList, currentSong, state } = this.state.playerState;
+      const playIcon = state === 'paused' ? 'pause' : 'playing';
+      const isError = errorList.includes(data.id);
       return html`
         <list-item
           id="${data.id}"
           updatedat="${data.updatedAt}"
+          ?error="${isError}"
           ?active="${currentSong === data.id}"
           @click="${this.clickHandle}">
-          <app-icon name="${playIcon}" ?hidden="${currentSong !== data.id}"></app-icon>
+          <app-icon
+            name="${playIcon}"
+            ?hidden="${currentSong !== data.id || isError}">
+          </app-icon>
         </list-item>
       `;
     }

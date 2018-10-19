@@ -15,32 +15,76 @@ customElements.define(
       this.audio.onended = this.endHandle.bind(this);
       this.audio.volume = store.playerState.volume;
       this.setCurrentTime();
+      this.randomPlay = this.randomPlay.bind(this);
+      this.nextPlay = this.nextPlay.bind(this);
+      this.playError = this.playError.bind(this);
+      this.playSuccess = this.playSuccess.bind(this);
     }
 
     endHandle() {
       const {
-        playerState: { currentSong, shuffle, mode },
+        playerState: { shuffle, mode },
       } = this.state;
-      const { list } = store.songData;
       if (shuffle) {
-        const randomIndex = Math.floor(Math.random() * list.length);
-        this.setState({
-          playerState: { currentSong: list[randomIndex].id },
-        });
+        this.randomPlay();
       } else if (mode === 'repeat') {
-        const currentIndex = list.findIndex(data => data.id === currentSong);
-        let nextIndex;
-        if (currentIndex === list.length - 1) {
-          nextIndex = 0;
-        } else {
-          nextIndex = currentIndex + 1;
-        }
-        this.setState({
-          playerState: { currentSong: list[nextIndex].id },
-        });
+        this.nextPlay();
       } else {
+        // repeat-one
         this.audio.play();
       }
+    }
+
+    randomPlay() {
+      const { list } = store.songData;
+      const randomIndex = Math.floor(Math.random() * list.length);
+      this.setState({
+        playerState: { currentSong: list[randomIndex].id },
+      });
+    }
+
+    nextPlay() {
+      const {
+        playerState: { currentSong },
+      } = this.state;
+      const { list } = store.songData;
+      const currentIndex = list.findIndex(data => data.id === currentSong);
+      let nextIndex;
+      if (currentIndex === list.length - 1) {
+        nextIndex = 0;
+      } else {
+        nextIndex = currentIndex + 1;
+      }
+
+      this.setState({
+        playerState: { state: 'playing', currentSong: list[nextIndex].id },
+      });
+    }
+
+    playSuccess() {
+      const {
+        playerState: { currentSong, errorList },
+      } = this.state;
+
+      const index = errorList.indexOf(currentSong);
+      if (index > -1) {
+        errorList.splice(index, 1);
+        this.setState({
+          errorList,
+        });
+      }
+    }
+
+    playError() {
+      const {
+        playerState: { currentSong, errorList },
+      } = this.state;
+
+      if (!errorList.includes(currentSong)) errorList.push(currentSong);
+      this.setState({
+        errorList,
+        playerState: { state: 'error' },
+      });
     }
 
     render() {
@@ -65,24 +109,21 @@ customElements.define(
       // Adjust playback position
       if (Math.abs(currentTime - this.audio.currentTime) > 1.2) {
         this.audio.currentTime = currentTime;
-        this.audio.play();
       }
       // Change track
       if (String(song.id) !== this.id) {
         this.id = song.id;
         this.audio.src = song.src;
-        this.audio.play().catch(() => {
-          this.setState({
-            audioState: { state: 'error' },
-          });
-        });
         this.setState({
           audioState: { currentTime: 0 },
         });
       }
       // play
       if (state === 'playing' && this.audio.paused) {
-        this.audio.play();
+        this.audio
+          .play()
+          .then(this.playSuccess)
+          .catch(this.playError);
       }
       // pause
       if (state === 'paused' && !this.audio.paused) {
