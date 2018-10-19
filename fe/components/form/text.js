@@ -95,7 +95,7 @@ customElements.define(
           }
         </style>
         <label class="wrap">
-          <div class="label" ?hidden="${label}">${label}</div>
+          <div class="label" ?hidden="${!label}">${label}</div>
           <input
             name="${name}"
             type="text"
