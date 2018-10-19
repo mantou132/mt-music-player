@@ -72,8 +72,9 @@ customElements.define(
               margin: 0;
             }
             :host-context(app-player[maximize]) .wrap {
-              width: auto;
-              margin: 1.6rem;
+              box-sizing: border-box;
+              width: var(--player-info-width);
+              padding: 1.6rem 0;
               text-align: center;
             }
             :host-context(app-player[maximize]) .name {

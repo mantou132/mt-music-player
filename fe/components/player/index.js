@@ -79,7 +79,7 @@ customElements.define(
               transition: height .3s;
             }
             :host([maximize]) {
-              position: absolute;
+              position: fixed;
               flex-direction: column;
               width: 100%;
               height: 100%;

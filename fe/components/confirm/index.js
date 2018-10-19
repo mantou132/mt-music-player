@@ -64,15 +64,15 @@ export default class Confirm extends Component {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100%;
         }
         .backdrop {
           position: absolute;
           top: 0;
           left: 0;
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100%;
         }
         .warp {
           flex-shrink: 1;
