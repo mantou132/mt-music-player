@@ -1,5 +1,6 @@
 import { store, updateStore } from '../models/index.js';
 import storage from '../utils/storage.js';
+import { isEqual } from '../utils/object.js';
 
 const colseHandleMap = new WeakMap();
 
@@ -33,22 +34,23 @@ const history = {
     const title = options.title || document.title;
 
     const { list, currentIndex } = store.historyState;
-
-    // same router
-    if (options === list[list.length - 1]) {
-      updateStore('historyState', {});
-      return;
-    }
-
     const state = generateState(data, close);
-    window.history.pushState(state, title, path + query);
-
-    const newList = list.slice(0, currentIndex + 1).concat({
+    const historyItem = {
       state,
       title,
       path,
       query,
-    });
+    };
+
+    // same router
+    if (isEqual(historyItem, list[currentIndex], { ignores: ['$key'] })) {
+      updateStore('historyState', {});
+      return;
+    }
+
+    window.history.pushState(state, title, path + query);
+
+    const newList = list.slice(0, currentIndex + 1).concat(historyItem);
     updateStore('historyState', {
       list: newList,
       currentIndex: newList.length - 1,
