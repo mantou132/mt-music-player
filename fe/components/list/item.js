@@ -59,13 +59,18 @@ customElements.define(
             form-img {
               width: 10rem;
               height: 10rem;
-              margin-right: var(--modal-margin);
+              margin: 0 var(--modal-margin) var(--modal-margin) 0;
             }
             form-text {
               margin-bottom: 2em;
             }
             .text {
               flex-grow: 1;
+            }
+            @media (min-width: 20em) and (max-width: 30em) {
+              app-form {
+                flex-direction: column;
+              }
             }
           </style>
           <form-img
@@ -122,6 +127,7 @@ customElements.define(
           }
           .info {
             flex-grow: 1;
+            width: 0;
           }
           .title {
             color: var(--list-item-playing-color);
@@ -130,6 +136,12 @@ customElements.define(
           ::slotted(app-icon:not([hidden])) {
             vertical-align: middle;
             margin: -.6rem 0 -.4rem -.5rem;
+          }
+          .title,
+          .name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .name {
             margin-top: .25em;
@@ -161,6 +173,12 @@ customElements.define(
           .duration {
             padding-top: .125em;
             color: var(--list-item-playing-color);
+          }
+
+          @media (min-width: 20em) and (max-width: 30em) {
+            .more {
+              display: block;
+            }
           }
         </style>
         <div class="info">

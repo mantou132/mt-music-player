@@ -24,7 +24,7 @@ customElements.define(
             align-items: center;
           }
           .track {
-            width: 14.4rem;
+            width: 100%;
             height: 2px;
             padding: calc((1em - 2px) / 2) 0;
             background: var(--player-text-secondary-color);

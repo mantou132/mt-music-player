@@ -2,6 +2,7 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import '../range/index.js';
 import { store } from '../../models/index.js';
+import '../ripple/index.js';
 
 customElements.define(
   'player-volume',
@@ -29,19 +30,23 @@ customElements.define(
         <style>
           :host {
             display: flex;
-            flex-direction: row-reverse;
+            justify-content: flex-end;
             align-items: center;
           }
           app-icon {
             margin-right: 1.6rem;
           }
           app-range {
-            width: 14.4rem;
+            max-width: 14.4rem;
             margin-right: 2.4rem;
+            flex-shrink: 1;
+            flex-grow: 1;
           }
         </style>
+        <app-icon name="${icon}" @click="${this.clickHandle}">
+          <app-ripple circle></app-ripple>
+        </app-icon>
         <app-range @change="${this.changeHandle}" value="${volume * 100}"></app-range>
-        <app-icon name="${icon}" @click="${this.clickHandle}"></app-icon>
     `;
     }
 

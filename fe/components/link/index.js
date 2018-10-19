@@ -1,23 +1,46 @@
 import { html } from 'https://dev.jspm.io/lit-html';
+import { store } from '../../models/index.js';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
+import { isEqual } from '../../utils/object.js';
 
 customElements.define(
   'app-link',
   class extends Component {
     constructor() {
       super();
+      this.state = store.historyState;
       this.onclick = this.clickHandle.bind(this);
+    }
+
+    get active() {
+      const path = this.getAttribute('path');
+      const query = this.getAttribute('query') || '';
+
+      const { list, currentIndex } = this.state;
+      const currentState = list[currentIndex];
+      if (isEqual(currentState, { path, query }, { ignores: ['state', 'title'] })) {
+        return true;
+      }
+      return false;
     }
 
     clickHandle() {
       const path = this.getAttribute('path');
       const title = this.getAttribute('title');
       const query = this.getAttribute('query') || '';
-      history.push({ title, path, query });
+      if (!this.active) {
+        history.push({ title, path, query });
+      }
     }
 
     render() {
+      if (this.active) {
+        this.setAttribute('active', '');
+      } else {
+        this.removeAttribute('active');
+      }
+
       return html`
         <style>
           :host {

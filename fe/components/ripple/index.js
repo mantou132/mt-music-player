@@ -13,6 +13,8 @@ customElements.define(
       const isCircle = this.hasAttribute('circle');
 
       const duration = parseInt(this.getAttribute('duration'), 10) || 600;
+      // currentColor?
+      // https://github.com/servo/servo/pull/7120
       const color = this.getAttribute('color') || 'rgba(255,255,255,0.46)';
       const scale = this.getAttribute('scale') || 1;
 

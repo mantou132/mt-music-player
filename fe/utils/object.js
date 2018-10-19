@@ -25,28 +25,21 @@ export function toQuerystring(obj) {
   return query.toString();
 }
 
-export function isEqual(obj, objNext, option = {}) {
-  if (!obj || !objNext) {
-    if (obj !== objNext) {
-      return false;
-    }
-    return true;
+export function isEqual(obj, obj2, option = {}) {
+  if (!obj || !obj2) {
+    return obj === obj2;
   }
   const ignores = option.ignores || [];
-  const keys1 = Object.keys(obj);
-  const keys2 = Object.keys(objNext);
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
+  const keys = [...new Set(Object.keys(obj).concat(Object.keys(obj2)))];
 
-  for (let i = 0; i < keys1.length; i += 1) {
-    const key = keys1[i];
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
     if (!ignores.includes(key)) {
       if (obj[key] && typeof obj[key] === 'object') {
-        if (!isEqual(obj[key], objNext[key], option)) {
+        if (!isEqual(obj[key], obj2[key], option)) {
           return false;
         }
-      } else if (obj[key] !== objNext[key]) {
+      } else if (obj[key] !== obj2[key]) {
         return false;
       }
     }

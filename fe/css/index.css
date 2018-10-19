@@ -25,7 +25,7 @@ body {
   overflow: hidden;
   font-size: 1.6rem;
   font-family: system-ui, sans-serif;
-  font-weight: lighter;
+  font-weight: normal;
   cursor: default;
   -webkit-user-select: none;
   user-select: none;

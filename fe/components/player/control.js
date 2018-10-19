@@ -80,6 +80,21 @@ customElements.define(
             color: var(--player-text-secondary-color);
             fill: var(--player-text-secondary-color);
           }
+          @media (min-width: 20em) and (max-width: 30em) {
+            :host-context(app-player:not([maximize])) {
+              width: auto;
+            }
+            :host-context(app-player:not([maximize])) app-icon:not(.play) {
+              display: none;
+            }
+            :host-context(app-player:not([maximize])) app-icon.play {
+              padding: 1.6rem;
+              border: none;
+            }
+            :host-context(app-player[maximize]) {
+              margin: 2.4rem auto;
+            }
+          }
         </style>
 
         <app-icon

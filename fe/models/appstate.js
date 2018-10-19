@@ -4,6 +4,7 @@ export const userData = {
   key: '',
 };
 export const playerState = {
+  maximize: false,
   errorList: [],
   currentSong: null,
   state: 'paused', // playing, paused, loading, error

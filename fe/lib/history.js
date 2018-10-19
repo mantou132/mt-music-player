@@ -1,6 +1,5 @@
 import { store, updateStore } from '../models/index.js';
 import storage from '../utils/storage.js';
-import { isEqual } from '../utils/object.js';
 
 const colseHandleMap = new WeakMap();
 
@@ -41,12 +40,6 @@ const history = {
       path,
       query,
     };
-
-    // same router
-    if (isEqual(historyItem, list[currentIndex], { ignores: ['$key'] })) {
-      updateStore('historyState', {});
-      return;
-    }
 
     window.history.pushState(state, title, path + query);
 

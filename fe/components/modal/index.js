@@ -83,12 +83,12 @@ export default class Modal extends Component {
           width: 100vw;
           height: 100vh;
         }
-        .warp {
+        .modal {
           flex-shrink: 1;
           position: absolute;
           width: 45rem;
           padding: var(--modal-margin);
-          border-radius: .2rem;
+          border-radius: 2px;
           background: var(--modal-background-color);
           color: var(--modal-text-primary-color);
           fill: var(--modal-text-primary-color);
@@ -116,11 +116,45 @@ export default class Modal extends Component {
         }
         .footer {
           display: flex;
-          flex-direction: row-reverse;
+          justify-content: flex-end;
+        }
+        .footer form-button:not(:last-of-type) {
+          margin-right: .8rem;
+        }
+        @media (min-width: 20em) and (max-width: 30em) {
+          .backdrop {
+            background: var(--backdrop-color);
+          }
+          .modal {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            border-radius: 0;
+          }
+          .titlebar {
+            height: var(--header-height);
+            align-items: center;
+          }
+          .title {
+            padding-left: 1.6rem;
+          }
+          .close {
+            padding: 1.6rem;
+          }
+          modal-body {
+            flex-grow: 1;
+            padding: 0 1.6rem;
+            overflow: auto;
+          }
+          .footer {
+            padding: .8rem 1.6rem;
+          }
         }
       </style>
       <div class="backdrop"></div>
-      <div class="warp">
+      <div class="modal">
         <div class="titlebar">
           <h1 class="title">${title}</h1>
           <app-icon name="clear" class="close" @click="${this.closeHandle}">
@@ -129,17 +163,17 @@ export default class Modal extends Component {
         </div>
         <modal-body></modal-body>
         <div class="footer">
-            <form-button
-              @click="${this.okHandle}"
-              ?hidden="${!complete}">
-              ${complete}
-            </form-button>
-            <form-button
-              @click="${this.cancelHandle}"
-              ?hidden="${!cancel}"
-              type="secondary">
-              ${cancel}
-            </form-button>
+          <form-button
+            @click="${this.cancelHandle}"
+            ?hidden="${!cancel}"
+            type="secondary">
+            ${cancel}
+          </form-button>
+          <form-button
+            @click="${this.okHandle}"
+            ?hidden="${!complete}">
+            ${complete}
+          </form-button>
         </div>
       </div>
     `;

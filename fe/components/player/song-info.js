@@ -24,6 +24,7 @@ customElements.define(
           }
           img {
             --padding: 1.6rem;
+            flex-shrink: 0;
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
             height: calc(var(--player-height) - (var(--padding)) * 2);
@@ -42,15 +43,50 @@ customElements.define(
           img:not([src])::before {
             visibility: hidden;
           }
+          .wrap {
+            width: 0;
+            flex-grow: 1;
+          }
+          .name,
+          .artist {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
           .artist {
             margin-top: 0.28em;
             font-size: .85em;
             color:  var(--player-text-secondary-color);
           }
+          @media (min-width: 20em) and (max-width: 30em) {
+            :host-context(app-player:not([maximize])) img {
+              display: none;
+            }
+            :host-context(app-player[maximize]) {
+              flex-direction: column;
+              font-size: 1.6rem;
+            }
+            :host-context(app-player[maximize]) img {
+              width: var(--player-info-width);
+              height: var(--player-info-width);
+              margin: 0;
+            }
+            :host-context(app-player[maximize]) .wrap {
+              width: auto;
+              margin: 1.6rem;
+              text-align: center;
+            }
+            :host-context(app-player[maximize]) .name {
+              width: auto;
+            }
+            :host-context(app-player[maximize]) .artist {
+              width: auto;
+            }
+          }
         </style>
         <img alt="" src="${song.picture ? `//${config.storage}/${song.picture}` : ''}">
-        <div>
-          <div class="song-name">${song.title}</div>
+        <div class="wrap">
+          <div class="name">${song.title}</div>
           <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>
         </div>
     `;

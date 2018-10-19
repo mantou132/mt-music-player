@@ -56,7 +56,7 @@ customElements.define(
           .wrap {
             max-width: 103.2rem;
             margin: auto;
-            padding: 5.6rem;
+            padding: var(--list-padding);
           }
           app-action,
           list-item {
