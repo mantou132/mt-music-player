@@ -23,7 +23,7 @@ export function getPinYin(汉字) {
 
 export function getSrc(src) {
   if (!src) return '';
-  if (String(src).match(/^(https?:|blob:|data:)/)) {
+  if (String(src).match(/^(\/\/|https?:|blob:|data:)/)) {
     return src;
   }
   return `//${config.storage}/${src}`;
