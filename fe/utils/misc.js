@@ -1,4 +1,4 @@
-import { importModule } from 'https://uupaa.github.io/dynamic-import-polyfill/importModule.js';
+import { importModule } from '../polyfill/importModule.js';
 import config from '../config/index.js';
 
 export function throttle(fn, delay = 500) {
