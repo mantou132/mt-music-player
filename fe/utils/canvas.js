@@ -37,4 +37,51 @@ export function transformTextToImage(text, { width = 512, height = 512 } = {}) {
   return canvas.toDataURL();
 }
 
-export const a = 1;
+export const blobToDataURL = (blob) => {
+  const reader = new FileReader();
+  return new Promise((resolve) => {
+    reader.addEventListener(
+      'load',
+      () => {
+        resolve(reader.result);
+      },
+      false,
+    );
+
+    reader.readAsDataURL(blob);
+  });
+};
+
+export const compressionImg = async ({ img = new Image(), file }, limit, option) => {
+  const canvas = document.createElement('canvas');
+  try {
+    if (!img.naturalWidth) {
+      img.src = await blobToDataURL(file);
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+    }
+    const rate = Math.min(
+      limit.filesize ? Math.sqrt(limit.filesize / file.size) : 1,
+      limit.size ? limit.size.width / img.naturalWidth : 1,
+      limit.size ? limit.size.height / img.naturalHeight : 1,
+    );
+    if (rate >= 1) return Promise.resolve();
+    canvas.width = img.naturalWidth * rate;
+    canvas.height = img.naturalHeight * rate;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    if (option && option.output === 'dataUrl') return Promise.resolve(canvas.toDataURL());
+    return new Promise(resolve => canvas.toBlob((blob) => {
+      resolve(
+        new File([blob], file.name, {
+          type: blob.type,
+        }),
+      );
+    }, file.type));
+  } catch (err) {
+    throw new Error('compressionImg error');
+  }
+};

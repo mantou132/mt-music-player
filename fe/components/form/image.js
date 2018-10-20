@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { getSrc } from '../../utils/misc.js';
+import { compressionImg } from '../../utils/canvas.js';
 
 customElements.define(
   'form-img',
@@ -30,12 +31,22 @@ customElements.define(
 
     changeHandle() {
       const input = this.shadowRoot.querySelector('input');
-      this.revokeURL();
       const file = input.files[0];
-      this.setState({
-        file,
-        blobUrl: URL.createObjectURL(file),
-      });
+      if (this.limit) {
+        compressionImg({ file }, this.limit).then((f) => {
+          this.revokeURL();
+          this.setState({
+            file: f,
+            blobUrl: URL.createObjectURL(f),
+          });
+        });
+      } else {
+        this.revokeURL();
+        this.setState({
+          file,
+          blobUrl: URL.createObjectURL(file),
+        });
+      }
       input.value = '';
     }
 

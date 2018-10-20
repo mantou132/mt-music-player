@@ -71,6 +71,7 @@ customElements.define(
           </style>
           <form-img
             name="picture"
+            .limit="${{ size: { width: 512, height: 512 }, filesize: 200 * 1024 }}"
             src="${getSrc(song.picture)}">
           </form-img>
           <div class="text">
