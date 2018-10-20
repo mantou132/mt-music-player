@@ -1,5 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
+import { getSrc } from '../../utils/misc.js';
 
 customElements.define(
   'form-img',
@@ -80,7 +81,7 @@ customElements.define(
           }
         </style>
         <input type="file" accept="image/*" @change="${this.changeHandle}" name="${name}" hidden>
-        <img src="${blobUrl || src || ''}">
+        <img src="${getSrc(blobUrl || src)}">
         <div class="hint">change picture</div>
       `;
     }

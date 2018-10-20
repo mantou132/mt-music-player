@@ -1,11 +1,10 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
-import config from '../config/index.js';
 import { toQuerystring } from '../utils/object.js';
 
 export const get = async () => {
   const list = await request('/songs');
-  updateStore('songData', { list: list.map(e => ({ ...e, src: `//${config.storage}/${e.src}` })) });
+  updateStore('songData', { list });
   return list;
 };
 
@@ -25,7 +24,7 @@ export const upload = (files) => {
     list.splice(uploadedIndex, 1);
     updateStore('uploaderState', { list });
     updateStore('songData', {
-      list: [{ ...data, src: `//${config.storage}/${data.src}` }].concat(store.songData.list),
+      list: [data].concat(store.songData.list),
     });
   });
 };
@@ -42,7 +41,7 @@ export const update = async (id, song) => {
   const { list } = store.songData;
   const { currentSong } = store.playerState;
   const data = await request(`/songs/${id}`, { method: 'put', body: song });
-  Object.assign(list.find(({ id: i }) => i === id), data);
+  Object.assign(list.find(({ id: i }) => i === id), data, { picture: data.picture || undefined });
   updateStore('songData', { list });
   if (currentSong === id) {
     updateStore('playerState', {});

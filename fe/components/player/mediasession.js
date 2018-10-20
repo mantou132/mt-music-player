@@ -1,4 +1,4 @@
-import config from '../../config/index.js';
+import { getSrc } from '../../utils/misc.js';
 
 const emptyFunction = () => {};
 
@@ -14,7 +14,7 @@ const mediaSession = {
       if (picture) {
         metadata.artwork = [
           {
-            src: `//${config.storage}/${picture}`,
+            src: getSrc(picture),
           },
         ];
       } else {

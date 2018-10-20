@@ -6,7 +6,7 @@ import AppMenu from '../menu/index.js';
 import { del, update } from '../../services/song.js';
 import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
-import config from '../../config/index.js';
+import { getSrc } from '../../utils/misc.js';
 
 customElements.define(
   'list-item',
@@ -71,7 +71,7 @@ customElements.define(
           </style>
           <form-img
             name="picture"
-            src="${song.picture ? `//${config.storage}/${song.picture}` : ''}">
+            src="${getSrc(song.picture)}">
           </form-img>
           <div class="text">
             <form-text label="title" name="title" value="${song.title || ''}"></form-text>
