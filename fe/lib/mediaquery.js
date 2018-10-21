@@ -21,6 +21,16 @@ const mediaQuery = {
   get isSmallPhone() {
     return window.matchMedia(this.SMALL_PHONE).matches;
   },
+
+  WATCH: '(max-width: 320px), (max-height: 320px)',
+  get isWatch() {
+    return window.matchMedia(this.PHONE).matches;
+  },
+
+  PWA: 'display-mode: standalone',
+  get isPWA() {
+    return window.matchMedia(this.PWA).matches;
+  },
 };
 
 window.mediaQuery = mediaQuery;

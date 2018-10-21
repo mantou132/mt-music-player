@@ -86,6 +86,10 @@ customElements.define(
             color: var(--player-text-secondary-color);
             fill: var(--player-text-secondary-color);
           }
+          [error] {
+            color: var(--error-color);
+            fill: var(--error-color);
+          }
           @media ${mediaQuery.PHONE} {
             :host-context(app-player:not([maximize])) {
               width: auto;
@@ -119,6 +123,7 @@ customElements.define(
         <app-icon
           @click="${this.clickPlayHandle}"
           class="play"
+          ?error="${state === 'error'}"
           name="${state === 'paused' ? 'play-arrow' : 'pause'}">
           <app-ripple circle></app-ripple>
         </app-icon>

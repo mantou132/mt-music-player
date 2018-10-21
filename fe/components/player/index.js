@@ -90,13 +90,30 @@ customElements.define(
               width: auto;
               flex-grow: initial;
             }
-            player-volume {
-              display: none;
-            }
             app-icon {
               display: block;
               padding: 1.6rem;
               margin-right: 1.6rem;
+            }
+          }
+          @media ${mediaQuery.WATCH}, ${mediaQuery.PHONE} {
+            player-volume {
+              display: none;
+            }
+          }
+          @media ${mediaQuery.WATCH} {
+            :host {
+              position: fixed;
+              flex-direction: column;
+              justify-content: space-evenly;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+            }
+            player-song-info {
+              width: 90%;
+              flex-grow: initial;
+              text-align: center;
             }
           }
         </style>

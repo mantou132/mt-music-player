@@ -68,13 +68,11 @@ customElements.define(
                 --list-text-primary-color: #000;
 
                 --player-height: 5.6rem;
-                --player-info-width: calc(100vw - 3.2em);
               }
             }
-
-            @media ${mediaQuery.SMALL_PHONE} {
+            @media ${mediaQuery.WATCH} {
               :root {
-                --player-info-width: 29.6rem;
+                --player-height: 100%;
               }
             }
           </style>

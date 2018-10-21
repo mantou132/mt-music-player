@@ -78,12 +78,12 @@ customElements.define(
               font-size: 1.6rem;
             }
             :host-context(app-player[maximize]) .img {
-              width: var(--player-info-width);
+              width: calc(100vw - 3.2em);
               margin: 0;
             }
             :host-context(app-player[maximize]) .wrap {
               box-sizing: border-box;
-              width: var(--player-info-width);
+              width: calc(100vw - 3.2em);
               padding: 1.6rem 0;
               text-align: center;
             }
@@ -92,6 +92,20 @@ customElements.define(
             }
             :host-context(app-player[maximize]) .artist {
               width: auto;
+            }
+          }
+          @media ${mediaQuery.SMALL_PHONE} {
+            :host-context(app-player[maximize]) .img {
+              display: flex;
+              flex-shrink: 1;
+            }
+          }
+          @media ${mediaQuery.WATCH} {
+            .img {
+              display: none;
+            }
+            .wrap {
+              width: 100%;
             }
           }
         </style>
