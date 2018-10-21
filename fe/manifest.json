@@ -1,9 +1,10 @@
 {
   "name": "MT Music Player",
   "short_name": "MTPlayer",
+  "theme_color": "#202b27",
+  "background_color": "#fff",
   "start_url": "./?utm_source=web_app_manifest",
   "display": "standalone",
-  "background_color": "#fff",
   "description": "A simply web music player app.",
   "icons": [
     {
@@ -32,7 +33,7 @@
     },
     {
       "src": "icons/icon.svg",
-      "sizes": "72x72 96x96 128x128 256x256"
+      "sizes": "72x72 96x96 128x128 256x256 512x512"
     }
   ]
 }
