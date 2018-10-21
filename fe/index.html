@@ -73,6 +73,22 @@
     <img src="icons/icon.svg" alt="MT Music Player">
   </app-splash>
 
+  <noscript>
+    <style>
+      app-splash {
+        display: none;
+      }
+
+      dialog {
+        margin-top: 5em;
+        max-width: 80%;
+      }
+    </style>
+    <dialog open>
+      <p>⚠️ Need to open JavaScript to function properly</p>
+    </dialog>
+  </noscript>
+
   <!-- https://material.io/tools/icons/?icon=arrow_back&style=baseline -->
   <template id="icon-expand-less">
     <svg width="24" height="24" viewBox="0 0 24 24">
