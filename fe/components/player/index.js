@@ -8,6 +8,7 @@ import './control.js';
 import './volume.js';
 import './progress.js';
 import './audio.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'app-player',
@@ -73,7 +74,7 @@ customElements.define(
           app-icon {
             display: none;
           }
-          @media (min-width: 20em) and (max-width: 30em) {
+          @media ${mediaQuery.PHONE} {
             :host {
               border-top: none;
               transition: height .3s;
@@ -81,11 +82,13 @@ customElements.define(
             :host([maximize]) {
               position: fixed;
               flex-direction: column;
+              justify-content: space-between;
               width: 100%;
               height: 100%;
             }
             :host([maximize]) player-song-info {
               width: auto;
+              flex-grow: initial;
             }
             player-volume {
               display: none;
@@ -97,7 +100,7 @@ customElements.define(
             }
           }
         </style>
-        <player-audio></player-audio>
+        <player-audio hidden></player-audio>
         <app-icon
           @click="${this.clickHandle}"
           name="${maximize ? 'expand-more' : 'expand-less'}">

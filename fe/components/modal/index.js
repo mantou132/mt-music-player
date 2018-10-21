@@ -4,6 +4,7 @@ import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
 
 import './body.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 const InitData = Object.assign({}, store.modalState);
 
@@ -120,7 +121,7 @@ export default class Modal extends Component {
         .footer form-button:not(:last-of-type) {
           margin-right: .8rem;
         }
-        @media (min-width: 20em) and (max-width: 30em) {
+        @media ${mediaQuery.PHONE} {
           .backdrop {
             background: var(--backdrop-color);
           }

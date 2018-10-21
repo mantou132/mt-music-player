@@ -2,6 +2,7 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'player-progress',
@@ -37,11 +38,11 @@ customElements.define(
           .times {
             display: none;
           }
-          @media (min-width: 20em) and (max-width: 30em) {
+          @media ${mediaQuery.PHONE} {
             :host-context(app-player[maximize]) {
               position: static;
               width: var(--player-info-width);
-              margin: auto auto 1.125em;
+              margin: 1.125em auto;
             }
             :host-context(app-player[maximize]) .track {
               background: var(--player-text-secondary-color);

@@ -2,6 +2,7 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { getSrc } from '../../utils/misc.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'player-song-info',
@@ -22,15 +23,25 @@ customElements.define(
             align-items: center;
             font-size: 1.4rem;
           }
-          img {
+          .img {
             --padding: 1.6rem;
+            position: relative;
             flex-shrink: 0;
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
-            height: calc(var(--player-height) - (var(--padding)) * 2);
+            box-shadow: var(--player-cover-box-shadow);
+          }
+          .img::after {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
+          }
+          img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             overflow: hidden;
-            box-shadow: var(--player-cover-box-shadow);
           }
           img::before {
             content: '';
@@ -58,17 +69,16 @@ customElements.define(
             font-size: .85em;
             color:  var(--player-text-secondary-color);
           }
-          @media (min-width: 20em) and (max-width: 30em) {
-            :host-context(app-player:not([maximize])) img {
+          @media ${mediaQuery.PHONE} {
+            :host-context(app-player:not([maximize])) .img {
               display: none;
             }
             :host-context(app-player[maximize]) {
               flex-direction: column;
               font-size: 1.6rem;
             }
-            :host-context(app-player[maximize]) img {
+            :host-context(app-player[maximize]) .img {
               width: var(--player-info-width);
-              height: var(--player-info-width);
               margin: 0;
             }
             :host-context(app-player[maximize]) .wrap {
@@ -85,7 +95,9 @@ customElements.define(
             }
           }
         </style>
-        <img alt="" src="${getSrc(song.picture)}">
+        <div class="img">
+          <img alt="" src="${getSrc(song.picture)}">
+        </div>
         <div class="wrap">
           <div class="name">${song.title}</div>
           <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>

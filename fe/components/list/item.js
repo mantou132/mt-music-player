@@ -7,6 +7,7 @@ import { del, update } from '../../services/song.js';
 import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
 import { getSrc } from '../../utils/misc.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'list-item',
@@ -63,7 +64,7 @@ customElements.define(
             .text {
               flex-grow: 1;
             }
-            @media (min-width: 20em) and (max-width: 30em) {
+            @media ${mediaQuery.PHONE} {
               app-form {
                 flex-direction: column;
               }
@@ -172,7 +173,7 @@ customElements.define(
             color: var(--list-item-playing-color);
           }
 
-          @media (min-width: 20em) and (max-width: 30em) {
+          @media ${mediaQuery.PHONE} {
             .more {
               display: block;
             }

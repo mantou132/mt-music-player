@@ -2,6 +2,7 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import mediaSession from './mediasession.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'player-control',
@@ -85,7 +86,7 @@ customElements.define(
             color: var(--player-text-secondary-color);
             fill: var(--player-text-secondary-color);
           }
-          @media (min-width: 20em) and (max-width: 30em) {
+          @media ${mediaQuery.PHONE} {
             :host-context(app-player:not([maximize])) {
               width: auto;
             }

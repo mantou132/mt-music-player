@@ -1,3 +1,5 @@
+import './theme.js';
+
 import './icons/index.js';
 
 import './components/action/index.js';
