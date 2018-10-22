@@ -36,7 +36,7 @@ export default class AppMenu extends Component {
   closeHandle() {
     const { onclose } = this.state;
     AppMenu.close();
-    history.back();
+    if (mediaQuery.isPhone) history.back();
     if (onclose) onclose();
   }
 
