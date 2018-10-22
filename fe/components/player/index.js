@@ -9,6 +9,8 @@ import './volume.js';
 import './progress.js';
 import './audio.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import Modal from '../modal/index.js';
+import getSongEditModal from '../modals/song-edit.js';
 
 customElements.define(
   'app-player',
@@ -17,6 +19,7 @@ customElements.define(
       super();
       this.state = store.playerState;
       this.clickHandle = this.clickHandle.bind(this);
+      this.editHandle = this.editHandle.bind(this);
       this.close = this.close.bind(this);
     }
 
@@ -42,6 +45,13 @@ customElements.define(
           close: this.close,
         });
       }
+    }
+
+    editHandle() {
+      const { currentSong } = this.state;
+      const { list } = store.songData;
+      const song = list.find(e => e.id === currentSong);
+      Modal.open(getSongEditModal(song));
     }
 
     render() {
@@ -72,7 +82,7 @@ customElements.define(
             flex-grow: 1;
             width: 0;
           }
-          app-icon {
+          .header {
             display: none;
           }
           @media ${mediaQuery.PHONE} {
@@ -90,10 +100,19 @@ customElements.define(
               width: auto;
               flex-grow: initial;
             }
-            app-icon {
-              display: block;
-              padding: 1.6rem;
+            .header {
+              display: flex;
+              flex-shrink: 0;
+              justify-content: space-between;
+            }
+            :host(:not([maximize])) .header {
               margin-right: 1.6rem;
+            }
+            :host(:not([maximize])) .header [name=edit] {
+              display: none;
+            }
+            .header app-icon {
+              padding: 1.6rem;
             }
           }
           @media ${mediaQuery.WATCH}, ${mediaQuery.PHONE}, ${mediaQuery.SHORT} {
@@ -121,11 +140,18 @@ customElements.define(
           }
         </style>
         <player-audio hidden></player-audio>
-        <app-icon
-          @click="${this.clickHandle}"
-          name="${maximize ? 'expand-more' : 'expand-less'}">
-          <app-ripple circle></app-ripple>
-        </app-icon>
+        <div class="header">
+          <app-icon
+            @click="${this.clickHandle}"
+            name="${maximize ? 'expand-more' : 'expand-less'}">
+            <app-ripple circle></app-ripple>
+          </app-icon>
+          <app-icon
+            @click="${this.editHandle}"
+            name="edit">
+            <app-ripple circle></app-ripple>
+          </app-icon>
+        </div>
         <player-song-info ?maximize="${maximize}"></player-song-info>
         <player-progress ?maximize="${maximize}"></player-progress>
         <player-control ?maximize="${maximize}"></player-control>
