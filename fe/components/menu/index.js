@@ -51,7 +51,11 @@ export default class AppMenu extends Component {
 
   render() {
     const { list, target, stage } = this.state;
-    if (!list || !list.length) return '';
+    if (!list || !list.length) {
+      this.hidden = true;
+      return html``;
+    }
+    this.hidden = false;
 
     const stageRect = stage.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
