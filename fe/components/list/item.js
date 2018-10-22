@@ -1,13 +1,13 @@
-import { html, render } from 'https://dev.jspm.io/lit-html';
+import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
-import { del, update } from '../../services/song.js';
+import { del } from '../../services/song.js';
 import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
-import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import getSongEditModal from '../modals/song-edit.js';
 
 customElements.define(
   'list-item',
@@ -46,53 +46,7 @@ customElements.define(
     editHandle() {
       const { list } = store.songData;
       const song = list.find(e => String(e.id) === this.id);
-      const form = document.createElement('app-form');
-      render(
-        html`
-          <style>
-            app-form {
-              display: flex;
-            }
-            form-img {
-              width: 10rem;
-              height: 10rem;
-              margin: 0 var(--modal-margin) var(--modal-margin) 0;
-            }
-            form-text {
-              margin-bottom: 2em;
-            }
-            .text {
-              flex-grow: 1;
-            }
-            @media ${mediaQuery.PHONE} {
-              app-form {
-                flex-direction: column;
-              }
-            }
-          </style>
-          <form-img
-            name="picture"
-            .limit="${{ size: { width: 512, height: 512 }, filesize: 200 * 1024 }}"
-            src="${getSrc(song.picture)}">
-          </form-img>
-          <div class="text">
-            <form-text label="title" name="title" value="${song.title || ''}"></form-text>
-            <form-text label="artist" name="artist" value="${song.artist || ''}"></form-text>
-            <form-text label="album" name="album" value="${song.album || ''}"></form-text>
-          </div>
-        `,
-        form,
-      );
-      const oncomplete = () => {
-        update(Number(this.id), form.value);
-      };
-      Modal.open({
-        title: 'edit music info',
-        complete: 'ok',
-        cancel: 'cancel',
-        template: form,
-        oncomplete,
-      });
+      Modal.open(getSongEditModal(song));
     }
 
     deleteHandle() {
