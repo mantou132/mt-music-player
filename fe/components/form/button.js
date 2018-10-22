@@ -11,7 +11,6 @@ customElements.define(
     render() {
       const disabled = this.getAttribute('disabled');
       const type = this.getAttribute('type') || '';
-      const color = type === 'secondary' ? '' : 'var(--theme-color)';
 
       return html`
         <style>
@@ -43,7 +42,7 @@ customElements.define(
         </style>
         <button class="${type}" ?disabled="${disabled}">
           <slot></slot>
-          <app-ripple color="${color}"></app-ripple>
+          <app-ripple ?disabled="${disabled}"></app-ripple>
         </button>
       `;
     }

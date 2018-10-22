@@ -41,6 +41,9 @@ customElements.define(
 
     mouseDownHandle(event) {
       const { offsetX: x, offsetY: y } = event;
+      const disabled = this.hasAttribute('disabled');
+      if (disabled) return;
+
       const isCircle = this.hasAttribute('circle');
 
       const duration = parseInt(this.getAttribute('duration'), 10) || 600;
