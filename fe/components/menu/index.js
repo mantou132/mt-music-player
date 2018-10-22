@@ -11,6 +11,7 @@ export default class AppMenu extends Component {
     updateStore('menuState', {
       ...InitData,
       ...state,
+      isOpen: true,
     });
     if (mediaQuery.isPhone) {
       history.push({
@@ -23,7 +24,7 @@ export default class AppMenu extends Component {
   }
 
   static close() {
-    updateStore('menuState', InitData);
+    updateStore('menuState', { isOpen: false });
   }
 
   constructor() {
@@ -42,41 +43,41 @@ export default class AppMenu extends Component {
   clickHandle(index) {
     const { list } = this.state;
     this.closeHandle();
-    if (mediaQuery.isPhone) {
-      setTimeout(list[index].handle, 100);
-    } else {
-      list[index].handle();
-    }
+    setTimeout(list[index].handle, 100);
   }
 
   render() {
     const { list, target, stage } = this.state;
-    if (!list || !list.length) {
-      this.hidden = true;
-      return html``;
-    }
-    this.hidden = false;
 
-    const stageRect = stage.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-    const position = { x: targetRect.x, y: targetRect.y + targetRect.height };
+    const position = { x: 0, y: 0 };
     const translate = { x: 0, y: 0 };
-    if (stageRect.right - targetRect.right < 169) {
-      translate.x = -100;
-      position.x = targetRect.x + targetRect.width;
-      if (mediaQuery.isPhone) {
-        position.y -= targetRect.height;
+    if (stage && target) {
+      const stageRect = stage.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      if (stageRect.right - targetRect.right < 169) {
+        translate.x = -100;
+        position.x = targetRect.x + targetRect.width;
+        position.y = targetRect.y + targetRect.height;
+        if (mediaQuery.isPhone) {
+          position.y -= targetRect.height;
+        }
       }
-    }
-    if (stageRect.bottom - targetRect.bottom < list.length * 34 + 16) {
-      translate.y = -100;
-      position.y = targetRect.y;
-      if (mediaQuery.isPhone) {
-        position.y += targetRect.height;
+      if (stageRect.bottom - targetRect.bottom < list.length * 34 + 16) {
+        translate.y = -100;
+        position.x = targetRect.x;
+        position.y = targetRect.y;
+        if (mediaQuery.isPhone) {
+          position.y += targetRect.height;
+        }
       }
     }
     const items = list.map(
-      (ele, index) => html`<li @click="${() => this.clickHandle(index)}">${ele.text}</li>`,
+      (ele, index) => html`
+        <li @click="${() => this.clickHandle(index)}">
+          ${ele.text}
+          <app-ripple type="touch" scale="1"></app-ripple>
+        </li>
+      `,
     );
     return html`
       <style>
@@ -88,6 +89,12 @@ export default class AppMenu extends Component {
           display: block;
           width: 100%;
           height: 100%;
+          opacity: 0;
+          pointer-events: none;
+        }
+        :host(.open) {
+          opacity: 1;
+          pointer-events: auto;
         }
         .backdrop {
           position: absolute;
@@ -96,18 +103,26 @@ export default class AppMenu extends Component {
           width: 100%;
           height: 100%;
         }
-        ol {
+        .menu {
           position: absolute;
-          width: 16.9rem;
-          margin: 0;
-          padding: .8rem 0;
+          overflow: hidden;
           border-radius: .2rem;
-          background: var(--menu-background-color);
-          color: var(--menu-text-color);
           box-shadow: var(--menu-box-shadow);
         }
+        ol {
+          width: 16.9rem;
+          margin: 0 0 -2rem -3rem;
+          padding: .8rem 0;
+          background: var(--menu-background-color);
+          color: var(--menu-text-color);
+        }
+        :host(.open) ol {
+          margin: 0;
+        }
         li {
-          padding: .8rem 1.6rem .8rem 2.4rem;
+          position: relative;
+          line-height: 4.4rem;
+          padding: 0px 1.4rem;
           list-style: none;
           text-transform: capitalize;
         }
@@ -118,17 +133,38 @@ export default class AppMenu extends Component {
             color: var(--menu-hover-text-color);
           }
         }
+        @media ${mediaQuery.PHONE} {
+          ol {
+            padding: 0;
+          }
+
+          :host,
+          ol {
+            transition-duration: .1s;
+            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+          }
+        }
       </style>
       <div @click="${this.closeHandle}" class="backdrop"></div>
-      <ol
+      <div
+        class="menu"
         style="
           left: ${position.x}px;
           top: ${position.y}px;
           transform: translate(${translate.x}%, ${translate.y}%);
         ">
-        ${items}
-      </ol>
+        <ol>${items}</ol>
+      </div>
     `;
+  }
+
+  updated() {
+    const { isOpen } = this.state;
+    if (isOpen) {
+      this.classList.add('open');
+    } else {
+      this.classList.remove('open');
+    }
   }
 }
 customElements.define('app-menu', AppMenu);

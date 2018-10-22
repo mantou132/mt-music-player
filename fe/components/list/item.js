@@ -36,7 +36,7 @@ customElements.define(
             handle: this.deleteHandle,
           },
         ],
-        target: event.target,
+        target: event.currentTarget,
         stage: mediaQuery.isPhone ? document.body : this.getRootNode().host,
         onclose: () => this.classList.remove('hover'),
       });

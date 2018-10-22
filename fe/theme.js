@@ -44,7 +44,7 @@ customElements.define(
               --menu-hover-background-color: #263238;
               --menu-text-color: #c3c3c3;
               --menu-hover-text-color: #fff;
-              --menu-box-shadow: 0 10px 24px rgba(0, 0, 0, .2);
+              --menu-box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
 
               --modal-margin: 2.4rem;
               --modal-background-color: #fff;

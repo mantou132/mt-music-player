@@ -20,6 +20,7 @@ export const confirmState = {
   oncancel: null,
 };
 export const menuState = {
+  isOpen: false,
   type: '',
   target: null,
   stage: document.body,
