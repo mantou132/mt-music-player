@@ -3,6 +3,7 @@ import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { capitalize } from '../../utils/string.js';
 import { store, updateStore } from '../../models/index.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 const InitData = Object.assign({}, store.confirmState);
 
@@ -101,6 +102,11 @@ export default class Confirm extends Component {
         .footer {
           display: flex;
           flex-direction: row-reverse;
+        }
+        @media ${mediaQuery.PHONE} {
+          .backdrop {
+            background: var(--backdrop-color);
+          }
         }
       </style>
       <div class="backdrop"></div>

@@ -37,7 +37,7 @@ customElements.define(
           },
         ],
         target: event.target,
-        stage: this.getRootNode().host,
+        stage: mediaQuery.isPhone ? document.body : this.getRootNode().host,
         onclose: () => this.classList.remove('hover'),
       });
       event.stopPropagation();

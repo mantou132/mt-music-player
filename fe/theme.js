@@ -44,7 +44,7 @@ customElements.define(
               --menu-hover-background-color: #263238;
               --menu-text-color: #c3c3c3;
               --menu-hover-text-color: #fff;
-              --menu-box-shadow: 0px 3px 6px #0007;
+              --menu-box-shadow: 0 10px 24px rgba(0, 0, 0, .2);
 
               --modal-margin: 2.4rem;
               --modal-background-color: #fff;
@@ -66,6 +66,11 @@ customElements.define(
                 --list-background-light-color: #fff;
                 --list-hover-background-color: #fff;
                 --list-text-primary-color: #000;
+
+                --menu-background-color: #fff;
+                --menu-hover-background-color: #eee;
+                --menu-text-color: #000;
+                --menu-hover-text-color: #000;
 
                 --player-height: 5.6rem;
               }

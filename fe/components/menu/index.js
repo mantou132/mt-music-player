@@ -1,6 +1,8 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import { store, updateStore } from '../../models/index.js';
 import Component from '../../lib/component.js';
+import history from '../../lib/history.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 const InitData = Object.assign({}, store.menuState);
 
@@ -10,6 +12,14 @@ export default class AppMenu extends Component {
       ...InitData,
       ...state,
     });
+    if (mediaQuery.isPhone) {
+      history.push({
+        title: state.title,
+        path: window.location.pathname,
+        query: window.location.search,
+        close: AppMenu.close,
+      });
+    }
   }
 
   static close() {
@@ -25,13 +35,18 @@ export default class AppMenu extends Component {
   closeHandle() {
     const { onclose } = this.state;
     AppMenu.close();
+    history.back();
     if (onclose) onclose();
   }
 
   clickHandle(index) {
     const { list } = this.state;
-    list[index].handle();
     this.closeHandle();
+    if (mediaQuery.isPhone) {
+      setTimeout(list[index].handle);
+    } else {
+      list[index].handle();
+    }
   }
 
   render() {
@@ -45,10 +60,16 @@ export default class AppMenu extends Component {
     if (stageRect.right - targetRect.right < 169) {
       translate.x = -100;
       position.x = targetRect.x + targetRect.width;
+      if (mediaQuery.isPhone) {
+        position.y -= targetRect.height;
+      }
     }
     if (stageRect.bottom - targetRect.bottom < list.length * 34 + 16) {
       translate.y = -100;
       position.y = targetRect.y;
+      if (mediaQuery.isPhone) {
+        position.y += targetRect.height;
+      }
     }
     const items = list.map(
       (ele, index) => html`<li @click="${() => this.clickHandle(index)}">${ele.text}</li>`,
