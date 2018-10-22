@@ -3,10 +3,11 @@
 // May modify the history stack
 
 export const modalState = {
+  isOpen: false,
   title: '',
   complete: 'ok',
   cancel: 'cancel',
-  template: null,
+  template: '',
   onclose: null,
   oncomplete: null,
   oncancel: null,

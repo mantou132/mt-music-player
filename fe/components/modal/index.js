@@ -13,6 +13,7 @@ export default class Modal extends Component {
     updateStore('modalState', {
       ...InitData,
       ...state,
+      isOpen: true,
     });
     history.push({
       title: state.title,
@@ -23,7 +24,7 @@ export default class Modal extends Component {
   }
 
   static close() {
-    updateStore('modalState', InitData);
+    updateStore('modalState', { isOpen: false });
   }
 
   constructor() {
@@ -55,14 +56,8 @@ export default class Modal extends Component {
   }
 
   render() {
-    const {
-      title, complete, cancel, template,
-    } = this.state;
-    if (!template) {
-      this.hidden = true;
-      return html``;
-    }
-    this.hidden = false;
+    const { title, complete, cancel } = this.state;
+
     return html`
       <style>
         :host {
@@ -75,6 +70,14 @@ export default class Modal extends Component {
           align-items: center;
           width: 100%;
           height: 100%;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(30%);
+        }
+        :host(.open) {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
         }
         .backdrop {
           position: absolute;
@@ -122,6 +125,10 @@ export default class Modal extends Component {
           margin-right: .8rem;
         }
         @media ${mediaQuery.PHONE} {
+          :host {
+            transition-duration: .2s;
+            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+          }
           .backdrop {
             background: var(--backdrop-color);
           }
@@ -177,6 +184,15 @@ export default class Modal extends Component {
         </div>
       </div>
     `;
+  }
+
+  updated() {
+    const { isOpen } = this.state;
+    if (isOpen) {
+      this.classList.add('open');
+    } else {
+      this.classList.remove('open');
+    }
   }
 }
 
