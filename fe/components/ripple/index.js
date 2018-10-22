@@ -1,22 +1,52 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
+import { isEqual } from '../../utils/object.js';
 
 customElements.define(
   'app-ripple',
   class extends Component {
     constructor() {
       super();
-      this.onmousedown = this.mouseDownHandle;
+      const type = this.getAttribute('type');
+      if (type === 'touch') {
+        this.touchHandleTimer = null;
+        this.ontouchstart = this.touchStartHandle;
+        this.ontouchend = this.touchEndHandle;
+      } else {
+        this.onmousedown = this.mouseDownHandle;
+      }
     }
 
-    mouseDownHandle({ offsetX: x, offsetY: y }) {
+    touchStartHandle({ targetTouches: [touche] }) {
+      const { left, top } = this.getBoundingClientRect();
+      const x = touche.clientX - left;
+      const y = touche.clientY - top;
+
+      const touchHandleTimer = setTimeout(() => {
+        const { left: currentLeft, top: currentTop } = this.getBoundingClientRect();
+        if (
+          isEqual({ left: currentLeft, top: currentTop }, { left, top })
+          && this.touchHandleTimer === touchHandleTimer
+        ) {
+          this.mouseDownHandle({ offsetX: x, offsetY: y });
+        }
+      }, 200);
+      this.touchHandleTimer = touchHandleTimer;
+    }
+
+    touchEndHandle() {
+      clearTimeout(this.touchHandleTimer);
+      this.touchHandleTimer = null;
+    }
+
+    mouseDownHandle(event) {
+      const { offsetX: x, offsetY: y } = event;
       const isCircle = this.hasAttribute('circle');
 
       const duration = parseInt(this.getAttribute('duration'), 10) || 600;
-      // currentColor?
-      // https://github.com/servo/servo/pull/7120
-      const color = this.getAttribute('color') || 'rgba(255,255,255,0.46)';
-      const scale = this.getAttribute('scale') || 1;
+      const color = this.getAttribute('color') || window.getComputedStyle(this).color;
+      const scale = this.getAttribute('scale') || 1.5;
+      const opacity = this.getAttribute('opacity') || 0.08;
 
       this.classList.add('animating');
       const { clientWidth, clientHeight } = this;
@@ -30,6 +60,7 @@ customElements.define(
           --animation-tick: ${count};
           --animation-duration: ${duration};
           transform: scale(${scale});
+          opacity: ${opacity};
         `;
         if (count > duration) {
           this.classList.remove('animating');

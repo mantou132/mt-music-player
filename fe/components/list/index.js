@@ -3,7 +3,6 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import AppUpload from '../upload/index.js';
 import { search } from '../../services/song.js';
-import mediaQuery from '../../lib/mediaquery.js';
 
 import './item.js';
 
@@ -71,11 +70,11 @@ customElements.define(
               ?hidden="${this.type === 'search'}"
               @click="${AppUpload.open}"
               name="add">
-              <app-ripple circle scale="1.5"></app-ripple>
+              <app-ripple circle></app-ripple>
             </app-icon>
             <app-link slot="2" path="/search">
               <app-icon name="search">
-                <app-ripple circle scale="1.5"></app-ripple>
+                <app-ripple circle></app-ripple>
               </app-icon>
             </app-link>
             <form-text

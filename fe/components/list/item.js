@@ -111,6 +111,7 @@ customElements.define(
         <style>
           :host {
             contain: content;
+            position: relative;
             display: flex;
             transition: background-color .3s;
           }
@@ -151,6 +152,9 @@ customElements.define(
           }
           .more app-icon {
             margin-top: -.2rem;
+          }
+          .more app-ripple {
+            z-index: 1;
           }
           .more,
           .duration {
@@ -194,6 +198,7 @@ customElements.define(
         <div class="duration">
           ${secondToMinute(song.duration)}
         </div>
+        <app-ripple type="touch"></app-ripple>
     `;
     }
   },
