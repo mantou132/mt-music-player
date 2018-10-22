@@ -2,6 +2,12 @@
 
 In development
 
+- [x] Global state management
+- [x] Router
+- [x] Components
+- [ ] Playlist
+- [ ] User
+
 ## Introduction
 
 A music player created using modern web technology,
