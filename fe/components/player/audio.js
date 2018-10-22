@@ -16,7 +16,6 @@ customElements.define(
       };
       this.audio = new Audio();
       this.audio.onended = this.endHandle.bind(this);
-      this.audio.volume = store.playerState.volume;
       this.setCurrentTime();
 
       this.randomPlay = this.randomPlay.bind(this);
