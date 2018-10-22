@@ -4,6 +4,7 @@ import { get } from '../../services/song.js';
 import mediaSession from './mediasession.js';
 import { transformTextToImage } from '../../utils/canvas.js';
 import { getPinYin, getSrc } from '../../utils/misc.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'player-audio',
@@ -107,7 +108,7 @@ customElements.define(
         this.audio.muted = muted;
       }
       // Change volume
-      if (volume !== this.audio.volume) {
+      if (!mediaQuery.isPhone && volume !== this.audio.volume) {
         this.audio.volume = volume;
       }
       // Adjust playback position
