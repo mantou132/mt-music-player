@@ -13,10 +13,11 @@ export const modalState = {
   oncancel: null,
 };
 export const confirmState = {
+  isOpen: false,
   title: '',
   complete: 'confirm',
   cancel: 'cancel',
-  text: null,
+  text: '',
   oncomplete: null,
   oncancel: null,
 };

@@ -12,6 +12,7 @@ export default class Confirm extends Component {
     updateStore('confirmState', {
       ...InitData,
       ...state,
+      isOpen: true,
     });
     history.push({
       title: state.title,
@@ -22,7 +23,7 @@ export default class Confirm extends Component {
   }
 
   static close() {
-    updateStore('confirmState', InitData);
+    updateStore('confirmState', { isOpen: false });
   }
 
   constructor() {
@@ -50,11 +51,7 @@ export default class Confirm extends Component {
     const {
       title, complete, cancel, text,
     } = this.state;
-    if (!text) {
-      this.hidden = true;
-      return html``;
-    }
-    this.hidden = false;
+
     return html`
       <style>
         :host {
@@ -67,6 +64,12 @@ export default class Confirm extends Component {
           align-items: center;
           width: 100%;
           height: 100%;
+          opacity: 0;
+          pointer-events: none;
+        }
+        :host(.open) {
+          opacity: 1;
+          pointer-events: auto;
         }
         .backdrop {
           position: absolute;
@@ -104,6 +107,10 @@ export default class Confirm extends Component {
           flex-direction: row-reverse;
         }
         @media ${mediaQuery.PHONE} {
+          :host {
+            transition-duration: .2s;
+            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+          }
           .backdrop {
             background: var(--backdrop-color);
           }
@@ -112,7 +119,7 @@ export default class Confirm extends Component {
       <div class="backdrop"></div>
       <div class="warp">
         <h1 class="title" ?hidden="${!title}">${title}</h1>
-      <div class="body">${capitalize(text)}</div>
+        <div class="body">${capitalize(text)}</div>
         <div class="footer">
             <form-button
               @click="${this.okHandle}"
@@ -128,6 +135,15 @@ export default class Confirm extends Component {
         </div>
       </div>
     `;
+  }
+
+  updated() {
+    const { isOpen } = this.state;
+    if (isOpen) {
+      this.classList.add('open');
+    } else {
+      this.classList.remove('open');
+    }
   }
 }
 
