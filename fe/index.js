@@ -30,5 +30,7 @@ window.addEventListener('load', () => {
   }
 });
 
+window.onerror = null;
+
 // test
 // import './test/models.tests.js';
