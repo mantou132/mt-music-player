@@ -2,6 +2,7 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { getSrc } from '../../utils/misc.js';
 import { compressionImg } from '../../utils/canvas.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'form-img',
@@ -84,11 +85,18 @@ customElements.define(
             left: 0;
             width: 100%;
             height: 100%;
-            display: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: #0008;
             color: #fff;
             font-size: 1.2rem;
             text-align: center;
+          }
+          @media ${mediaQuery.HOVER} {
+            :host(:not(:hover)) .hint {
+              display: none;
+            }
           }
         </style>
         <input type="file" accept="image/*" @change="${this.changeHandle}" name="${name}" hidden>
