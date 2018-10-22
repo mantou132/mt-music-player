@@ -75,7 +75,7 @@ customElements.define(
                 --player-height: 5.6rem;
               }
             }
-            @media ${mediaQuery.WATCH} {
+            @media ${mediaQuery.WATCH}, ${mediaQuery.SHORT} {
               :root {
                 --player-height: 100%;
               }

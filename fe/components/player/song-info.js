@@ -70,32 +70,32 @@ customElements.define(
             color:  var(--player-text-secondary-color);
           }
           @media ${mediaQuery.PHONE} {
-            :host-context(app-player:not([maximize])) .img {
+            :host(:not([maximize])) .img {
               display: none;
             }
-            :host-context(app-player[maximize]) {
+            :host([maximize]) {
               flex-direction: column;
               font-size: 1.6rem;
             }
-            :host-context(app-player[maximize]) .img {
+            :host([maximize]) .img {
               width: calc(100vw - 3.2em);
               margin: 0;
             }
-            :host-context(app-player[maximize]) .wrap {
+            :host([maximize]) .wrap {
               box-sizing: border-box;
               width: calc(100vw - 3.2em);
               padding: 1.6rem 0;
               text-align: center;
             }
-            :host-context(app-player[maximize]) .name {
+            :host([maximize]) .name {
               width: auto;
             }
-            :host-context(app-player[maximize]) .artist {
+            :host([maximize]) .artist {
               width: auto;
             }
           }
           @media ${mediaQuery.SMALL_PHONE} {
-            :host-context(app-player[maximize]) .img {
+            :host([maximize]) .img {
               display: flex;
               flex-shrink: 1;
             }
@@ -106,6 +106,13 @@ customElements.define(
             }
             .wrap {
               width: 100%;
+            }
+          }
+          @media ${mediaQuery.SHORT} {
+            .img {
+              width: 20vw;
+              height: 100%;
+              margin-left: 0;
             }
           }
         </style>

@@ -3,6 +3,7 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import AppUpload from '../upload/index.js';
 import { search } from '../../services/song.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 import './item.js';
 

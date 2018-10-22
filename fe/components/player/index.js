@@ -50,6 +50,7 @@ customElements.define(
       return html`
         <style>
           :host {
+            contain: strict;
             position: -webkit-sticky;
             position: sticky;
             bottom: 0;
@@ -76,7 +77,6 @@ customElements.define(
           }
           @media ${mediaQuery.PHONE} {
             :host {
-              border-top: none;
               transition: height .3s;
             }
             :host([maximize]) {
@@ -96,7 +96,10 @@ customElements.define(
               margin-right: 1.6rem;
             }
           }
-          @media ${mediaQuery.WATCH}, ${mediaQuery.PHONE} {
+          @media ${mediaQuery.WATCH}, ${mediaQuery.PHONE}, ${mediaQuery.SHORT} {
+            :host {
+              border-top: none;
+            }
             player-volume {
               display: none;
             }
@@ -123,9 +126,9 @@ customElements.define(
           name="${maximize ? 'expand-more' : 'expand-less'}">
           <app-ripple circle></app-ripple>
         </app-icon>
-        <player-song-info></player-song-info>
-        <player-progress></player-progress>
-        <player-control></player-control>
+        <player-song-info ?maximize="${maximize}"></player-song-info>
+        <player-progress ?maximize="${maximize}"></player-progress>
+        <player-control ?maximize="${maximize}"></player-control>
         <player-volume></player-volume>
     `;
     }

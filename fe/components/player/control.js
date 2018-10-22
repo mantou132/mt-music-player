@@ -76,6 +76,7 @@ customElements.define(
             align-items: center;
             justify-content: space-between;
             width: 24.6rem;
+            padding: 0 1.6rem;
           }
           app-icon.play {
             padding: 1.3rem;
@@ -91,18 +92,29 @@ customElements.define(
             fill: var(--error-color);
           }
           @media ${mediaQuery.PHONE} {
-            :host-context(app-player:not([maximize])) {
+            :host(:not([maximize])) {
               width: auto;
             }
-            :host-context(app-player:not([maximize])) app-icon:not(.play) {
+            :host(:not([maximize])) app-icon:not(.play) {
               display: none;
             }
-            :host-context(app-player:not([maximize])) app-icon.play {
+            :host(:not([maximize])) app-icon.play {
               padding: 1.6rem;
               border: none;
             }
-            :host-context(app-player[maximize]) {
+            :host([maximize]) {
               margin: 2.4rem auto;
+            }
+            :host([maximize]) app-icon.play {
+              padding: 2rem;
+            }
+          }
+          @media ${mediaQuery.WATCH} {
+            :host {
+              justify-content: space-evenly;
+            }
+            app-icon.edge {
+              display: none;
             }
           }
         </style>

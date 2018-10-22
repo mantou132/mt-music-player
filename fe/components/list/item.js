@@ -110,12 +110,9 @@ customElements.define(
       return html`
         <style>
           :host {
+            contain: content;
             display: flex;
             transition: background-color .3s;
-          }
-          :host(:hover),
-          :host(.hover) {
-            background: var(--list-hover-background-color);
           }
           :host([active]) {
             --list-item-playing-color: var(--theme-color);
@@ -152,13 +149,6 @@ customElements.define(
             font-size: .875em;
             color: var(--list-text-secondary-color);
           }
-          .more {
-            display: none;
-          }
-          :host(:hover) .more,
-          :host(.hover) .more {
-            display: block;
-          }
           .more app-icon {
             margin-top: -.2rem;
           }
@@ -173,8 +163,18 @@ customElements.define(
             color: var(--list-item-playing-color);
           }
 
-          @media ${mediaQuery.PHONE} {
+          @media ${mediaQuery.HOVER} {
+            :host(:hover),
+            :host(.hover) {
+              background: var(--list-hover-background-color);
+            }
+
             .more {
+              display: none;
+            }
+
+            :host(:hover) .more,
+            :host(.hover) .more {
               display: block;
             }
           }

@@ -7,11 +7,6 @@ const mediaQuery = {
     return window.matchMedia(this.HOVER).matches;
   },
 
-  NONE_HOVER: '(hover: none)',
-  get isNoneHover() {
-    return window.matchMedia(this.NONE_HOVER).matches;
-  },
-
   PHONE: '(min-width: 320px) and (max-width: 480px)',
   get isPhone() {
     return window.matchMedia(this.PHONE).matches;
@@ -22,9 +17,14 @@ const mediaQuery = {
     return window.matchMedia(this.SMALL_PHONE).matches;
   },
 
-  WATCH: '(max-width: 320px), (max-height: 320px)',
+  WATCH: '(max-width: 320px)',
   get isWatch() {
     return window.matchMedia(this.PHONE).matches;
+  },
+
+  SHORT: '(max-height: 320px)',
+  get isShort() {
+    return window.matchMedia(this.SHORT).matches;
   },
 
   PWA: 'display-mode: standalone',

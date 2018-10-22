@@ -107,10 +107,12 @@ export default class AppMenu extends Component {
           list-style: none;
           text-transform: capitalize;
         }
-        li:hover {
-          cursor: default;
-          background: var(--menu-hover-background-color);
-          color: var(--menu-hover-text-color);
+        @media ${mediaQuery.HOVER} {
+          li:hover {
+            cursor: default;
+            background: var(--menu-hover-background-color);
+            color: var(--menu-hover-text-color);
+          }
         }
       </style>
       <div @click="${this.closeHandle}" class="backdrop"></div>

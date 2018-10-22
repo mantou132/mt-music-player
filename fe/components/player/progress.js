@@ -39,19 +39,24 @@ customElements.define(
             display: none;
           }
           @media ${mediaQuery.PHONE} {
-            :host-context(app-player[maximize]) {
+            :host([maximize]) {
               position: static;
               width: calc(100vw - 3.2em);
               margin: 1.125em auto;
             }
-            :host-context(app-player[maximize]) .track {
+            :host([maximize]) .track {
               background: var(--player-text-secondary-color);
             }
-            :host-context(app-player[maximize]) .times {
+            :host([maximize]) .times {
               display: flex;
               justify-content: space-between;
               margin-top: .5em;
               font-size: .75em;
+            }
+          }
+          @media ${mediaQuery.SHORT} {
+            :host {
+              margin-left: 20vw;
             }
           }
         </style>
