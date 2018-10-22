@@ -2,8 +2,7 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { get } from '../../services/song.js';
 import mediaSession from './mediasession.js';
-import { transformTextToImage } from '../../utils/canvas.js';
-import { getPinYin, getSrc } from '../../utils/misc.js';
+import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
@@ -119,10 +118,6 @@ customElements.define(
       if (String(song.id) !== this.id) {
         this.id = song.id;
         this.audio.src = getSrc(song.src);
-        if (!song.picture) {
-          const pinyin = getPinYin(song.title);
-          song.picture = transformTextToImage(pinyin.substr(0, 2).toUpperCase());
-        }
         this.setState({
           audioState: { currentTime: 0 },
         });

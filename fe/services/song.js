@@ -1,10 +1,28 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
 import { toQuerystring } from '../utils/object.js';
+import { transformTextToImage } from '../utils/canvas.js';
+import { getPinYin } from '../utils/misc.js';
+
+const pictureKey = Symbol('picture');
+
+const handler = {
+  get(target, key) {
+    if (key === 'picture' && !target[key]) {
+      if (!target[pictureKey]) {
+        const pinyin = getPinYin(target.title);
+        target[pictureKey] = transformTextToImage(pinyin.substr(0, 2).toUpperCase());
+      }
+      return target[pictureKey];
+    }
+    return target[key];
+  },
+};
 
 export const get = async () => {
   const list = await request('/songs');
-  updateStore('songData', { list });
+  updateStore('songData', { list: list.map(e => new Proxy(e, handler)) });
+
   return list;
 };
 
@@ -62,5 +80,5 @@ export const update = async (id, song) => {
 
 export const search = async (text) => {
   const list = await request(`/search?${toQuerystring({ q: text, type: 'song' })}`);
-  updateStore('searchData', { list, text });
+  updateStore('searchData', { list: list.map(e => new Proxy(e, handler)), text });
 };
