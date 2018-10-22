@@ -43,7 +43,7 @@ export default class AppMenu extends Component {
     const { list } = this.state;
     this.closeHandle();
     if (mediaQuery.isPhone) {
-      setTimeout(list[index].handle);
+      setTimeout(list[index].handle, 100);
     } else {
       list[index].handle();
     }
