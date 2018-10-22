@@ -67,7 +67,7 @@ export const compressionImg = async ({ img = new Image(), file }, limit, option)
       limit.size ? limit.size.width / img.naturalWidth : 1,
       limit.size ? limit.size.height / img.naturalHeight : 1,
     );
-    if (rate >= 1) return Promise.resolve();
+    if (rate >= 1) return Promise.resolve(file);
     canvas.width = img.naturalWidth * rate;
     canvas.height = img.naturalHeight * rate;
     const ctx = canvas.getContext('2d');
