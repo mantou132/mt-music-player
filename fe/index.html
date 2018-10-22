@@ -33,6 +33,9 @@
       -webkit-user-select: none;
       user-select: none;
     }
+    [hidden] {
+      display: none;
+    }
   </style>
   <script>
     window.onerror = function (msg) {
@@ -59,10 +62,10 @@
   <app-theme></app-theme>
   <app-router></app-router>
   <app-player></app-player>
-  <app-menu></app-menu>
-  <app-modal></app-modal>
+  <app-menu hidden></app-menu>
+  <app-modal hidden></app-modal>
   <app-toast></app-toast>
-  <app-confirm></app-confirm>
+  <app-confirm hidden></app-confirm>
   <app-upload></app-upload>
   <app-splash>
     <style>

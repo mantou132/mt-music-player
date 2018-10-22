@@ -137,6 +137,10 @@ export default class Confirm extends Component {
     `;
   }
 
+  connected() {
+    this.hidden = false;
+  }
+
   updated() {
     const { isOpen } = this.state;
     if (isOpen) {
