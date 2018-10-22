@@ -61,6 +61,10 @@ export default class AppToast extends Component {
 
     if (!showToastList.length && !showUploaderState) return html``;
 
+    const {
+      uploaderState: { errorList },
+    } = this.state;
+
     return html`
     <style>
       :host {
@@ -87,7 +91,7 @@ export default class AppToast extends Component {
     <div ?hidden="${!showUploaderState}">
       ${
   showUploaderState === 'uploaded'
-    ? 'upload compelete'
+    ? `upload compelete: failure ${errorList.length}`
     : `${showUploaderState} songs are being uploaded...`
 }
     </div>

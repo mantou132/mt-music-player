@@ -12,20 +12,32 @@ export const upload = (files) => {
   const fileArr = Array.from(files);
   updateStore('uploaderState', {
     list: store.uploaderState.list.concat(fileArr.map(file => ({ file }))),
+    errorList: [],
   });
 
   fileArr.forEach(async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    const data = await request('/songs', { method: 'post', body: formData });
 
-    const { list } = store.uploaderState;
+    let error;
+    let data;
+    try {
+      data = await request('/songs', { method: 'post', body: formData });
+    } catch (e) {
+      error = true;
+    }
+
+    const { list, errorList } = store.uploaderState;
     const uploadedIndex = list.findIndex(({ file: f }) => file === f);
-    list.splice(uploadedIndex, 1);
-    updateStore('uploaderState', { list });
-    updateStore('songData', {
-      list: [data].concat(store.songData.list),
-    });
+    const uploadedItem = list.splice(uploadedIndex, 1);
+    if (error) {
+      updateStore('uploaderState', { list, errorList: errorList.concat(uploadedItem) });
+    } else {
+      updateStore('uploaderState', { list });
+      updateStore('songData', {
+        list: [data].concat(store.songData.list),
+      });
+    }
   });
 };
 

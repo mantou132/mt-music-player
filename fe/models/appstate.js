@@ -35,4 +35,5 @@ export const historyState = {
 export const uploaderState = {
   // {file}
   list: [],
+  errorList: [],
 };
