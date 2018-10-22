@@ -94,6 +94,7 @@ customElements.define(
           @media ${mediaQuery.PHONE} {
             :host(:not([maximize])) {
               width: auto;
+              padding: 0;
             }
             :host(:not([maximize])) app-icon:not(.play) {
               display: none;

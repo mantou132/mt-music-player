@@ -22,7 +22,7 @@ const mediaQuery = {
     return window.matchMedia(this.PHONE).matches;
   },
 
-  SHORT: '(max-height: 320px)',
+  SHORT: '(min-width: 320px) and (max-height: 320px)',
   get isShort() {
     return window.matchMedia(this.SHORT).matches;
   },
