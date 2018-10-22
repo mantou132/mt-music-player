@@ -17,12 +17,12 @@ const mediaQuery = {
     return window.matchMedia(this.SMALL_PHONE).matches;
   },
 
-  WATCH: '(max-width: 320px)',
+  WATCH: '(max-width: 319px)',
   get isWatch() {
     return window.matchMedia(this.PHONE).matches;
   },
 
-  SHORT: '(min-width: 320px) and (max-height: 320px)',
+  SHORT: '(min-width: 480px) and (max-height: 320px)',
   get isShort() {
     return window.matchMedia(this.SHORT).matches;
   },
