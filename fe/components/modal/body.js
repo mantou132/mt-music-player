@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'modal-body',
@@ -12,7 +13,19 @@ customElements.define(
 
     render() {
       const { template } = this.state;
-      return html`${template}`;
+      return html`
+        <style>
+          @media ${mediaQuery.PHONE} {
+            :host::-webkit-scrollbar {
+              width: 0;
+            }
+            :host {
+              scrollbar-width: none;
+            }
+          }
+        </style>
+        ${template}
+      `;
     }
   },
 );

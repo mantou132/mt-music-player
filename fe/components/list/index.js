@@ -49,7 +49,7 @@ customElements.define(
           }
           @media ${mediaQuery.PHONE} {
             :host::-webkit-scrollbar {
-              width: 0 !important;
+              width: 0;
             }
             :host {
               scrollbar-width: none;

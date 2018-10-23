@@ -78,9 +78,6 @@ customElements.define(
             display: flex;
             align-items: center;
             padding: 1.6rem;
-            background: var(--action-background-color);
-            color: var(--action-text-color);
-            fill: var(--action-text-color);
           }
           .title {
             display: none;
@@ -98,6 +95,9 @@ customElements.define(
               position: sticky;
               top: 0;
               padding: 0 .4rem;
+              background: var(--action-background-color);
+              color: var(--action-text-color);
+              fill: var(--action-text-color);
               box-shadow: var(--action-box-shadow);
             }
             .title {

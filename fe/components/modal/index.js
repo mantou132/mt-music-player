@@ -100,6 +100,10 @@ export default class Modal extends Component {
         }
         .titlebar {
           display: flex;
+          flex-shrink: 0;
+        }
+        .complete {
+          display: none;
         }
         .title {
           flex-grow: 1;
@@ -141,28 +145,51 @@ export default class Modal extends Component {
             border-radius: 0;
           }
           .titlebar {
-            height: var(--header-height);
+            z-index: 4;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
             align-items: center;
+            flex-direction: row-reverse;
+            background: var(--action-background-color);
+            color: var(--action-text-color);
+            fill: var(--action-text-color);
+            box-shadow: var(--action-box-shadow);
+          }
+          .complete {
+            display: block;
+            padding: 1.6rem;
+            font-size: 1.4rem;
+            font-weight: bolder;
+            text-transform: uppercase;
           }
           .title {
             padding-left: 1.6rem;
           }
           .close {
             padding: 1.6rem;
+            color: inherit;
+            fill: inherit;
           }
           modal-body {
             flex-grow: 1;
-            padding: 0 1.6rem;
+            padding: 1.6rem;
             overflow: auto;
           }
           .footer {
-            padding: .8rem 1.6rem;
+            display: none;
           }
         }
       </style>
       <div class="backdrop"></div>
       <div class="modal">
         <div class="titlebar">
+          <div
+            class="complete"
+            @click="${this.okHandle}"
+            ?hidden="${!complete}">
+            ${complete}
+          </div>
           <h1 class="title">${title}</h1>
           <app-icon name="clear" class="close" @click="${this.closeHandle}">
             <app-ripple circle color="rgba(0,0,0,0.54)"></app-ripple>

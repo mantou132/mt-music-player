@@ -46,7 +46,7 @@ export default function getSongEditModal(song) {
   };
   return {
     title: 'edit music info',
-    complete: 'ok',
+    complete: 'save',
     cancel: 'cancel',
     template: form,
     oncomplete,
