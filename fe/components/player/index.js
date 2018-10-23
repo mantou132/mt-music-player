@@ -2,15 +2,15 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import { store } from '../../models/index.js';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
+import mediaQuery from '../../lib/mediaquery.js';
+import Modal from '../modal/index.js';
+import getSongEditModal from '../modals/song-edit.js';
 
 import './song-info.js';
 import './control.js';
 import './volume.js';
 import './progress.js';
 import './audio.js';
-import mediaQuery from '../../lib/mediaquery.js';
-import Modal from '../modal/index.js';
-import getSongEditModal from '../modals/song-edit.js';
 
 customElements.define(
   'app-player',
@@ -20,6 +20,7 @@ customElements.define(
       this.state = store.playerState;
       this.clickHandle = this.clickHandle.bind(this);
       this.editHandle = this.editHandle.bind(this);
+      this.searchHandle = this.searchHandle.bind(this);
       this.close = this.close.bind(this);
     }
 
@@ -52,6 +53,16 @@ customElements.define(
       const { list } = store.songData;
       const song = list.find(e => e.id === currentSong);
       Modal.open(getSongEditModal(song));
+    }
+
+    searchHandle() {
+      this.clickHandle();
+      setTimeout(() => {
+        history.push({
+          path: '/search',
+          close: () => setTimeout(this.clickHandle, 100),
+        });
+      }, 100);
     }
 
     render() {
@@ -104,15 +115,19 @@ customElements.define(
               display: flex;
               flex-shrink: 0;
               justify-content: space-between;
+              padding: 0 .4rem;
             }
             :host(:not([maximize])) .header {
               margin-right: 1.6rem;
             }
-            :host(:not([maximize])) .header [name=edit] {
+            :host([maximize]) .nav {
+              margin-right: auto;
+            }
+            :host(:not([maximize])) .action {
               display: none;
             }
             .header app-icon {
-              padding: 1.6rem;
+              padding: 1.6rem 1.2rem;
             }
           }
           @media ${mediaQuery.WATCH}, ${mediaQuery.PHONE}, ${mediaQuery.SHORT} {
@@ -142,13 +157,21 @@ customElements.define(
         <player-audio hidden></player-audio>
         <div class="header">
           <app-icon
+            class="nav"
             @click="${this.clickHandle}"
             name="${maximize ? 'expand-more' : 'expand-less'}">
             <app-ripple circle></app-ripple>
           </app-icon>
           <app-icon
+            class="action"
             @click="${this.editHandle}"
             name="edit">
+            <app-ripple circle></app-ripple>
+          </app-icon>
+          <app-icon
+            class="action"
+            @click="${this.searchHandle}"
+            name="search">
             <app-ripple circle></app-ripple>
           </app-icon>
         </div>
