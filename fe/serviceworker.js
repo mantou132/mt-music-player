@@ -21,8 +21,9 @@ self.addEventListener('fetch', (event) => {
     if (response.ok) {
       const responseCache = response.clone();
       self.caches.open('mt-music').then(cache => cache.put(request, responseCache));
+      return response;
     }
-    return response;
+    throw new Error({ response });
   };
   const fetchError = ({ response }) => response
     || new Response(
