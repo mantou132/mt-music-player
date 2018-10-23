@@ -85,8 +85,7 @@ customElements.define(
               position: -webkit-sticky;
               position: sticky;
               top: 0;
-              margin: 0 -1rem;
-              padding: 0 1.4rem;
+              padding: 0 .4rem;
               box-shadow: var(--action-box-shadow);
             }
             .title {

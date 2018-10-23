@@ -35,7 +35,6 @@ customElements.define(
       return html`
         <style>
           :host {
-            overflow: hidden;
             background: linear-gradient(to top, var(--list-background-color), var(--list-background-light-color));
             color: var(--list-text-primary-color);
             fill: var(--list-text-primary-color);
@@ -53,7 +52,7 @@ customElements.define(
               width: 0 !important;
             }
             :host {
-              overflow: -moz-scrollbars-none;
+              scrollbar-width: none;
             }
           }
         </style>
