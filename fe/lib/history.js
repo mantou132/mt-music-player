@@ -1,5 +1,6 @@
 import { store, updateStore } from '../models/index.js';
 import storage from '../utils/storage.js';
+import { capitalize } from '../utils/string.js';
 
 const colseHandleMap = new WeakMap();
 
@@ -49,7 +50,7 @@ const history = {
       currentIndex: newList.length - 1,
     });
 
-    document.title = title;
+    document.title = capitalize(title);
   },
 
   replace(options) {
@@ -72,7 +73,7 @@ const history = {
       list,
     });
 
-    document.title = title;
+    document.title = capitalize(title);
   },
 };
 
@@ -122,6 +123,10 @@ window.addEventListener('popstate', (event) => {
   updateStore('historyState', {
     currentIndex: newStateIndex,
   });
+
+  if (list[newStateIndex]) {
+    document.title = capitalize(list[newStateIndex].title);
+  }
 });
 
 export default history;

@@ -4,9 +4,10 @@ import AppUpload from '../upload/index.js';
 import { store } from '../../models/index.js';
 import { search } from '../../services/song.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import { capitalize } from '../../utils/string.js';
 
 function getTitle() {
-  return html`<h1 class="title">${document.title}</h1>`;
+  return html`<h1 class="title">${capitalize(document.title)}</h1>`;
 }
 
 function getUploadButton() {
