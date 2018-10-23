@@ -54,17 +54,19 @@ export default class AppMenu extends Component {
     if (stage && target) {
       const stageRect = stage.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
+
+      position.x = targetRect.x;
+      position.y = targetRect.y + targetRect.height;
+
       if (stageRect.right - targetRect.right < 169) {
         translate.x = -100;
         position.x = targetRect.x + targetRect.width;
-        position.y = targetRect.y + targetRect.height;
         if (mediaQuery.isPhone) {
           position.y -= targetRect.height;
         }
       }
       if (stageRect.bottom - targetRect.bottom < list.length * 34 + 16) {
         translate.y = -100;
-        position.x = targetRect.x;
         position.y = targetRect.y;
         if (mediaQuery.isPhone) {
           position.y += targetRect.height;
