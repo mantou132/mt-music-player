@@ -42,7 +42,7 @@ export default function getSongEditModal(song) {
     form,
   );
   const oncomplete = () => {
-    update(Number(this.id), form.value);
+    update(Number(song.id), form.value);
   };
   return {
     title: 'edit music info',
