@@ -26,7 +26,7 @@ customElements.define(
           content = html`
             <app-list
               .data="${store.searchData}"
-              .actions="${['search', 'searchInput']}">
+              .actions="${['back', 'searchInput']}">
             </app-list>
           `;
           break;

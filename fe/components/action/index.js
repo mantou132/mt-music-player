@@ -30,6 +30,16 @@ function getSearchButton() {
   `;
 }
 
+function getBackButton() {
+  return html`
+    <app-link path="/">
+      <app-icon name="arrow-back">
+        <app-ripple circle></app-ripple>
+      </app-icon>
+    </app-link>
+  `;
+}
+
 function getSearchInput() {
   const query = new URLSearchParams(window.location.search);
   return html`
@@ -55,6 +65,7 @@ customElements.define(
         if (ele === 'title') return getTitle();
         if (ele === 'upload') return getUploadButton();
         if (ele === 'search') return getSearchButton();
+        if (ele === 'back') return getBackButton();
         if (ele === 'searchInput') return getSearchInput();
         return '';
       });
