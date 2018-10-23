@@ -27,7 +27,8 @@ const mediaQuery = {
     return window.matchMedia(this.SHORT).matches;
   },
 
-  PWA: 'display-mode: standalone',
+  PWA: '(display-mode: standalone)',
+  // PWA: '(display-mode: browser)', // debugging
   get isPWA() {
     return window.matchMedia(this.PWA).matches;
   },

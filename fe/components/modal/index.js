@@ -100,6 +100,7 @@ export default class Modal extends Component {
         }
         .titlebar {
           display: flex;
+          align-items: center;
           flex-shrink: 0;
         }
         .complete {
@@ -124,6 +125,7 @@ export default class Modal extends Component {
         .footer {
           display: flex;
           justify-content: flex-end;
+          flex-shrink: 0;
         }
         .footer form-button:not(:last-of-type) {
           margin-right: .8rem;
@@ -145,23 +147,7 @@ export default class Modal extends Component {
             border-radius: 0;
           }
           .titlebar {
-            z-index: 4;
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            align-items: center;
-            flex-direction: row-reverse;
-            background: var(--action-background-color);
-            color: var(--action-text-color);
-            fill: var(--action-text-color);
-            box-shadow: var(--action-box-shadow);
-          }
-          .complete {
-            display: block;
-            padding: 1.6rem;
-            font-size: 1.4rem;
-            font-weight: bolder;
-            text-transform: uppercase;
+            border-bottom: 1px solid var(--action-border-color);
           }
           .title {
             padding-left: 1.6rem;
@@ -175,6 +161,27 @@ export default class Modal extends Component {
             flex-grow: 1;
             padding: 1.6rem;
             overflow: auto;
+          }
+        }
+        @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
+          .titlebar {
+            z-index: 4;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            flex-direction: row-reverse;
+            border-bottom: none;
+            background: var(--action-background-color);
+            color: var(--action-text-color);
+            fill: var(--action-text-color);
+            box-shadow: var(--action-box-shadow);
+          }
+          .complete {
+            display: block;
+            padding: 1.6rem;
+            font-size: 1.4rem;
+            font-weight: bolder;
+            text-transform: uppercase;
           }
           .footer {
             display: none;

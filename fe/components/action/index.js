@@ -85,10 +85,10 @@ customElements.define(
           .contents {
             display: contents;
           }
-          .contents > * {
+          .contents app-icon {
             margin-right: 1.6rem;
           }
-          @media ${mediaQuery.PHONE} {
+          @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
             :host {
               z-index: 4;
               position: -webkit-sticky;

@@ -64,6 +64,7 @@ customElements.define(
               :root {
                 --action-background-color: #202b27;
                 --action-text-color: #fff;
+                --action-border-color: #eee;
                 --action-box-shadow: 0 -4px 4px 4px rgba(0,0,0,.4);
 
                 --list-padding: 0;
