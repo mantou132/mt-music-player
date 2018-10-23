@@ -10,13 +10,14 @@ customElements.define(
         html`
           <style>
             :root {
-              --header-height: 5.6rem;
-
               /* 如启动画面的背景颜色，组件为渲染时的背景颜色 */
               --background-color: white;
               --theme-color: #18d150;
               --error-color: red;
               --backdrop-color: rgba(0, 0, 0, 0.6);
+
+              --action-background-color: transparent;
+              --action-text-color: inherit;
 
               --list-padding: 5.6rem;
               --list-background-color: #263238;
@@ -61,6 +62,10 @@ customElements.define(
 
             @media ${mediaQuery.PHONE} {
               :root {
+                --action-background-color: #202b27;
+                --action-text-color: #fff;
+                --action-box-shadow: 0 -4px 4px 4px rgba(0,0,0,.4);
+
                 --list-padding: 0;
                 --list-background-color: #fff;
                 --list-background-light-color: #fff;

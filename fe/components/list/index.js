@@ -1,35 +1,17 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
-import AppUpload from '../upload/index.js';
-import { search } from '../../services/song.js';
 
 import './item.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'app-list',
   class extends Component {
     constructor() {
       super();
-      let data;
-      switch (this.type) {
-        case 'search':
-          data = store.searchData;
-          break;
-        default:
-          data = store.songData;
-      }
-
-      this.state = {
-        playerState: store.playerState,
-        songData: data,
-      };
       this.clickHandle = this.clickHandle.bind(this);
       this.renderItem = this.renderItem.bind(this);
-    }
-
-    get type() {
-      return this.getAttribute('type');
     }
 
     clickHandle({ target }) {
@@ -42,10 +24,18 @@ customElements.define(
     }
 
     render() {
-      const { list, text = '' } = this.state.songData;
+      if (!this.state) {
+        // lit-html cannot be accessed in constructor
+        this.state = {
+          playerState: store.playerState,
+          data: this.data || {},
+        };
+      }
+      const { list = [] } = this.state.data;
       return html`
         <style>
           :host {
+            overflow: hidden;
             background: linear-gradient(to top, var(--list-background-color), var(--list-background-light-color));
             color: var(--list-text-primary-color);
             fill: var(--list-text-primary-color);
@@ -55,36 +45,20 @@ customElements.define(
             margin: auto;
             padding: var(--list-padding);
           }
-          app-action,
           list-item {
             padding: 1.6rem;
           }
-          app-action app-icon {
-            margin-right: 1.6rem;
+          @media ${mediaQuery.PHONE} {
+            :host::-webkit-scrollbar {
+              width: 0 !important;
+            }
+            :host {
+              overflow: -moz-scrollbars-none;
+            }
           }
         </style>
         <div class="wrap">
-          <app-action>
-            <app-icon
-              slot="1"
-              ?hidden="${this.type === 'search'}"
-              @click="${AppUpload.open}"
-              name="add">
-              <app-ripple circle></app-ripple>
-            </app-icon>
-            <app-link slot="2" path="/search">
-              <app-icon name="search">
-                <app-ripple circle></app-ripple>
-              </app-icon>
-            </app-link>
-            <form-text
-              slot="3"
-              ?hidden="${this.type === 'song'}"
-              value="${text}"
-              autofocus
-              @change="${({ detail }) => search(detail)}">
-            </form-text>
-          </app-action>
+          <app-action .actions="${this.actions}"></app-action>
           ${list.map(this.renderItem)}
         </div>
     `;

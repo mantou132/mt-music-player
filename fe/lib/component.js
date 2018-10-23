@@ -24,7 +24,7 @@ export default class Component extends HTMLElement {
 
   get state() {
     const currentState = this[uniqueDataPropMap.get(this)];
-    if (currentState[PAGE_KEY]) {
+    if (currentState && currentState[PAGE_KEY]) {
       return store[currentState[PAGE_KEY]];
     }
     return currentState;

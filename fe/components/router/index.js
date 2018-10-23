@@ -15,10 +15,20 @@ customElements.define(
       let content;
       switch (pathname) {
         case '/':
-          content = html`<app-list type="song"></app-list>`;
+          content = html`
+            <app-list
+              .data="${store.songData}"
+              .actions="${['title', 'upload', 'search']}">
+            </app-list>
+          `;
           break;
         case '/search':
-          content = html`<app-list type="search"></app-list>`;
+          content = html`
+            <app-list
+              .data="${store.searchData}"
+              .actions="${['search', 'searchInput']}">
+            </app-list>
+          `;
           break;
         default:
           content = html`<app-notfound></app-notfound>`;

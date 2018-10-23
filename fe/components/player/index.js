@@ -71,6 +71,7 @@ customElements.define(
       return html`
         <style>
           :host {
+            z-index: 5;
             contain: strict;
             position: -webkit-sticky;
             position: sticky;

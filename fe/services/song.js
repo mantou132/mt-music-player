@@ -3,6 +3,7 @@ import { store, updateStore } from '../models/index.js';
 import { toQuerystring } from '../utils/object.js';
 import { transformTextToImage } from '../utils/canvas.js';
 import { getPinYin } from '../utils/misc.js';
+import history from '../lib/history.js';
 
 const pictureKey = Symbol('picture');
 
@@ -81,4 +82,5 @@ export const update = async (id, song) => {
 export const search = async (text) => {
   const list = await request(`/search?${toQuerystring({ q: text, type: 'song' })}`);
   updateStore('searchData', { list: list.map(e => new Proxy(e, handler)), text });
+  history.replace({ path: window.location.pathname, query: `?${toQuerystring({ q: text })}` });
 };
