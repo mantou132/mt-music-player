@@ -136,6 +136,11 @@ customElements.define(
               display: block;
             }
           }
+          @media ${mediaQuery.PHONE} {
+            .more app-ripple {
+              transform: scale(2);
+            }
+          }
         </style>
         <div class="info">
           <div class="title">
