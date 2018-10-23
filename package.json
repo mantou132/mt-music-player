@@ -1,16 +1,18 @@
 {
   "name": "mt-music-player",
-  "version": "0.0.1",
-  "description": "local music player by mantou",
-  "main": "index.js",
+  "version": "0.0.2",
+  "description": "A simply web music player app.",
+  "main": "fe/index.js",
+  "module": "fe/index.js",
   "scripts": {
     "start": "node --experimental-modules --loader ./script/loader.mjs ./server/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "local",
-    "music",
-    "player"
+    "webcomponent",
+    "musicplayer",
+    "pwa",
+    "webapp"
   ],
   "repository": {
     "url": "https://github.com/mantou132/mt-music-player.git"
