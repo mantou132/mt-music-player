@@ -19,7 +19,7 @@ const mediaQuery = {
 
   WATCH: '(max-width: 319px)',
   get isWatch() {
-    return window.matchMedia(this.PHONE).matches;
+    return window.matchMedia(this.WATCH).matches;
   },
 
   SHORT: '(min-width: 480px) and (max-height: 320px)',
@@ -30,6 +30,11 @@ const mediaQuery = {
   PWA: 'display-mode: standalone',
   get isPWA() {
     return window.matchMedia(this.PWA).matches;
+  },
+
+  MOTION_REDUCE: '(prefers-reduced-motion: reduce)',
+  get isMotionReduce() {
+    return window.matchMedia(this.MOTION_REDUCE).matches;
   },
 };
 

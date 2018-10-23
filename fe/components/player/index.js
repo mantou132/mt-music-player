@@ -131,6 +131,11 @@ customElements.define(
               padding: 1.6rem 1.2rem;
             }
           }
+          @media ${mediaQuery.MOTION_REDUCE} {
+            :host {
+              transition: none;
+            }
+          }
           @media ${mediaQuery.WATCH}, ${mediaQuery.PHONE}, ${mediaQuery.SHORT} {
             :host {
               border-top: none;
