@@ -8,6 +8,7 @@ customElements.define(
     constructor() {
       super();
       const type = this.getAttribute('type');
+      this.timer = null;
       if (type === 'touch') {
         this.touchHandleTimer = null;
         this.ontouchstart = this.touchStartHandle;
@@ -54,6 +55,7 @@ customElements.define(
       this.classList.add('animating');
       const { clientWidth, clientHeight } = this;
       const start = performance.now();
+      cancelAnimationFrame(this.timer);
       const raf = (now) => {
         const count = Math.floor(now - start);
         this.style.cssText = `
@@ -70,7 +72,7 @@ customElements.define(
           this.style.cssText = '--animation-tick: 0';
           return;
         }
-        requestAnimationFrame(raf);
+        this.timer = requestAnimationFrame(raf);
       };
       requestAnimationFrame(raf);
     }
