@@ -131,6 +131,11 @@ customElements.define(
               padding: 1.6rem 1.2rem;
             }
           }
+          @media ${mediaQuery.SMALL_PHONE} {
+            :host([maximize]) player-song-info {
+              flex-grow: 1;
+            }
+          }
           @media ${mediaQuery.MOTION_REDUCE} {
             :host {
               transition: none;

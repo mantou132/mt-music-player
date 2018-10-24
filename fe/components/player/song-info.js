@@ -78,6 +78,8 @@ customElements.define(
               font-size: 1.6rem;
             }
             :host([maximize]) .img {
+              display: flex;
+              flex-shrink: 1;
               width: calc(100vw - 3.2em);
               margin: 0;
             }
@@ -96,8 +98,11 @@ customElements.define(
           }
           @media ${mediaQuery.SMALL_PHONE} {
             :host([maximize]) .img {
-              display: flex;
-              flex-shrink: 1;
+              height: 0;
+              flex-grow: 1;
+            }
+            :host([maximize]) .wrap {
+              flex-grow: 0;
             }
           }
           @media ${mediaQuery.WATCH} {
