@@ -40,7 +40,7 @@ customElements.define(
             fill: var(--list-text-primary-color);
           }
           .wrap {
-            max-width: 103.2rem;
+            max-width: 86rem;
             margin: auto;
             padding: var(--list-padding);
           }

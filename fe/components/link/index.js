@@ -26,11 +26,19 @@ customElements.define(
     }
 
     clickHandle() {
+      const { $close } = window.history.state;
       const path = this.getAttribute('path');
       const title = this.getAttribute('title');
       const query = this.getAttribute('query') || '';
       if (!this.active) {
-        history.push({ title, path, query });
+        if ($close) {
+          history.back();
+          setTimeout(() => {
+            history.push({ title, path, query });
+          }, 200);
+        } else {
+          history.push({ title, path, query });
+        }
       }
     }
 

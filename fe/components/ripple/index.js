@@ -49,7 +49,7 @@ customElements.define(
 
       const duration = parseInt(this.getAttribute('duration'), 10) || 600;
       const color = this.getAttribute('color') || window.getComputedStyle(this).color;
-      const scale = this.getAttribute('scale') || 1.5;
+      const scale = this.getAttribute('scale') || (isCircle ? 1.5 : 1);
       const opacity = this.getAttribute('opacity') || 0.08;
 
       this.classList.add('animating');

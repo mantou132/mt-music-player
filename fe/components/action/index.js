@@ -5,6 +5,7 @@ import { store } from '../../models/index.js';
 import { search } from '../../services/song.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { capitalize } from '../../utils/string.js';
+import Drawer from '../drawer/index.js';
 
 function getTitle() {
   return html`<h1 class="title">${capitalize(document.title)}</h1>`;
@@ -15,6 +16,16 @@ function getUploadButton() {
     <app-icon
       @click="${AppUpload.open}"
       name="add">
+      <app-ripple circle></app-ripple>
+    </app-icon>
+  `;
+}
+
+function getMenuButton() {
+  return html`
+    <app-icon
+      @click="${Drawer.open}"
+      name="menu">
       <app-ripple circle></app-ripple>
     </app-icon>
   `;
@@ -66,6 +77,7 @@ customElements.define(
         if (ele === 'upload') return getUploadButton();
         if (ele === 'search') return getSearchButton();
         if (ele === 'back') return getBackButton();
+        if (ele === 'menu') return getMenuButton();
         if (ele === 'searchInput') return getSearchInput();
         return '';
       });
@@ -87,6 +99,11 @@ customElements.define(
           }
           .contents app-icon {
             margin-right: 1.6rem;
+          }
+          @media ${mediaQuery.LAPTOP}, ${mediaQuery.DESKTOP} {
+            app-icon[name=menu] {
+              display: none;
+            }
           }
           @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
             :host {

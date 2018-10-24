@@ -2,9 +2,9 @@ import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 import './body.js';
-import mediaQuery from '../../lib/mediaquery.js';
 
 const InitData = Object.assign({}, store.modalState);
 

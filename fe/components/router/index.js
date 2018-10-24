@@ -1,6 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'app-router',
@@ -18,7 +19,7 @@ customElements.define(
           content = html`
             <app-list
               .data="${store.songData}"
-              .actions="${['title', 'upload', 'search']}">
+              .actions="${['menu', 'title', 'upload', 'search']}">
             </app-list>
           `;
           break;
@@ -40,7 +41,13 @@ customElements.define(
           }
           :host > * {
             flex-grow: 1;
+            padding-left: var(--drawer-width);
             overflow: auto;
+          }
+          @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
+            :host > * {
+              padding-left: 0;
+            }
           }
         </style>
         ${content}

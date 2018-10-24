@@ -16,6 +16,13 @@ customElements.define(
               --error-color: red;
               --backdrop-color: rgba(0, 0, 0, 0.6);
 
+              --drawer-width: 22rem;
+              --drawer-user-background-color: transparent;
+              --drawer-user-text-color: #fff;
+              --drawer-background-color: rgba(0, 0, 0, .25);
+              --drawer-text-primary-color: #fff;
+              --drawer-text-secondary-color: #707070;
+
               --action-background-color: transparent;
               --action-text-color: inherit;
 
@@ -59,9 +66,22 @@ customElements.define(
               --form-text-secondary-color: #707070;
               --form-text-disabled-color: #c3c3c3;
             }
+            @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
+              :root {
+                --drawer-background-color: rgba(0, 0, 0, .75);
 
+                --list-padding: 1.6rem;
+              }
+            }
             @media ${mediaQuery.PHONE} {
               :root {
+                --drawer-width: 30.4rem;
+                --drawer-user-background-color: #202b27;
+                --drawer-user-text-color: #fff;
+                --drawer-background-color: #fff;
+                --drawer-text-primary-color: #fff;
+                --drawer-text-secondary-color: #000;
+
                 --action-background-color: #202b27;
                 --action-text-color: #fff;
                 --action-border-color: #eee;

@@ -1,5 +1,7 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
+import { capitalize } from '../../utils/string.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'app-notfound',
@@ -25,9 +27,20 @@ customElements.define(
           app-link {
             color: var(--notfound-text-primary-color);
           }
+          app-link span {
+            border-bottom: 1px solid transparent;
+          }
+          @media ${mediaQuery.HOVER} {
+            app-link span:hover {
+              cursor: pointer;
+              border-color: currentColor;
+            }
+          }
         </style>
         <h1>not found</h1>
-        <app-link path="/">go to songs list</app-link>
+        <app-link path="/">
+          <span>${capitalize('go to play queue')}</span>
+        </app-link>
       `;
     }
   },

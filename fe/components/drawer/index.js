@@ -1,0 +1,224 @@
+import { html } from 'https://dev.jspm.io/lit-html';
+import Component from '../../lib/component.js';
+import history from '../../lib/history.js';
+import { store, updateStore } from '../../models/index.js';
+import mediaQuery from '../../lib/mediaquery.js';
+import { getSrc } from '../../utils/misc.js';
+import { transformTextToImage } from '../../utils/canvas.js';
+
+const menus = [
+  { path: '/', icon: 'queue-music', text: 'play queue' },
+  { path: '/albums', icon: 'album', text: 'albums' },
+  { path: '/artists', icon: 'person', text: 'artists' },
+  { path: '/songs', icon: 'music-note', text: 'songs' },
+  { path: '/favorites', icon: 'star', text: 'favorites' },
+];
+
+export default class Drawer extends Component {
+  static open() {
+    updateStore('drawerState', {
+      isOpen: true,
+    });
+    history.push({
+      path: window.location.pathname,
+      query: window.location.search,
+      close: Drawer.close,
+    });
+  }
+
+  static close() {
+    updateStore('drawerState', { isOpen: false });
+  }
+
+  static closeHandle() {
+    Drawer.close();
+    history.back();
+  }
+
+  static renderItem({ path, icon, text }) {
+    return html`
+      <li>
+        <app-link path="${path}">
+          <app-icon name="${icon}"></app-icon>
+          <span>${text}</span>
+          <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
+        </app-link>
+      </li>
+    `;
+  }
+
+  constructor() {
+    super();
+    this.state = {
+      drawer: store.drawerState,
+      user: store.userData,
+    };
+  }
+
+  get avatar() {
+    const { name } = this.state.user;
+    if (!this.$avatar) {
+      this.$avatar = transformTextToImage((name || 'Login').substr(0, 2), {
+        width: 32,
+        height: 32,
+      });
+    }
+    return this.$avatar;
+  }
+
+  render() {
+    const { name, avatar } = this.state.user;
+
+    return html`
+      <style>
+        :host {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: var(--drawer-width);
+          height: calc(100% - var(--player-height));
+          font-size: 1.4rem;
+        }
+        .menu {
+          height: 100%;
+          background: var(--drawer-background-color);
+        }
+        .user {
+          position: relative;
+          display: flex;
+          align-items: center;
+          padding: 4.8rem 2.4rem 2.4rem;
+          background: var(--drawer-user-background-color);
+          color: var(--drawer-user-text-color);
+        }
+        .user img {
+          margin: 0 1.6rem 0 0;
+          border-radius: 100%;
+        }
+        ol {
+          margin: 0;
+          padding: 0;
+          margin-bottom: 3.2rem;
+          list-style: none;
+          color: var(--drawer-text-secondary-color);
+          fill: var(--drawer-text-secondary-color);
+        }
+        .default {
+          font-weight: 700;
+        }
+        .default app-icon {
+          display: none;
+        }
+        li {
+          position: relative;
+          display: flex;
+          align-items: center;
+          padding: 1.6rem 2.4rem;
+          text-transform: capitalize;
+          cursor: pointer;
+        }
+        li app-icon {
+          margin-right: 1.6rem;
+        }
+        [active] {
+          color: var(--theme-color);
+          fill: var(--theme-color);
+        }
+        @media ${mediaQuery.HOVER} {
+          app-link:hover:not([active]) {
+            color: var(--drawer-text-primary-color);
+          }
+        }
+        @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
+          :host {
+            z-index: 9;
+            left: -100%;
+            right: 100%;
+            width: 100%;
+            height: 100%;
+            transition-property: left;
+            transition-delay: .2s;
+          }
+          .backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background: var(--backdrop-color);
+          }
+          .menu {
+            position: relative;
+            width: var(--drawer-width);
+            transform: translateX(-100%);
+          }
+          .menu,
+          .backdrop {
+            transition-duration: .2s;
+            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+            pointer-events: none;
+          }
+          .user {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1.6rem;
+          }
+          .user img {
+            margin: 0 0 1.6rem 0;
+          }
+          .default {
+            font-weight: normal;
+          }
+          .default app-icon {
+            display: block;
+          }
+          :host(.open) {
+            left: 0;
+            transition: none;
+          }
+          :host(.open) .menu {
+            transform: translateX(0);
+          }
+          :host(.open) .backdrop {
+            opacity: 1;
+          }
+          :host(.open) .menu,
+          :host(.open) .backdrop {
+            pointer-events: auto;
+          }
+        }
+      </style>
+      <div class="backdrop" @click="${Drawer.closeHandle}"></div>
+      <div class="menu">
+        <div class="user">
+          <img src="${avatar ? getSrc(avatar) : this.avatar}">
+          <div>${name || 'Login'}</div>
+        </div>
+        <ol class="default">
+          ${menus.map(Drawer.renderItem)}
+        </ol>
+        <ol class="playlist">
+        </ol>
+        <ol class="add">
+          <li>
+            <app-icon name="playlist-add"></app-icon>
+            <span>add playlisy</span>
+            <app-ripple></app-ripple>
+          </li>
+        </ol>
+      </div>
+    `;
+  }
+
+  updated() {
+    const { isOpen } = this.state.drawer;
+    if (isOpen) {
+      this.classList.add('open');
+    } else {
+      this.classList.remove('open');
+    }
+  }
+}
+
+customElements.define('app-drawer', Drawer);
