@@ -113,8 +113,6 @@ customElements.define(
             }
             .contents app-icon {
               padding: 1.6rem 1.2rem;
-            }
-            .contents > * {
               margin-right: 0;
             }
             .input {
