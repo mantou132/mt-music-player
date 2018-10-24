@@ -19,7 +19,7 @@ customElements.define(
           h1 {
             margin: .2em 0;
             font-size: 3em;
-            font-weight: bold;
+            font-weight: 500;
             text-transform: uppercase;
           }
           app-link {

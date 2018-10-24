@@ -106,7 +106,7 @@ customElements.define(
               margin: 0;
               padding: 0 1.2rem;
               font-size: 2rem;
-              font-weight: bolder;
+              font-weight: 500;
               overflow: hidden;
               white-space: nowrap;
               text-overflow: ellipsis;

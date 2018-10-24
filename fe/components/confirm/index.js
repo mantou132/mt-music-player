@@ -95,7 +95,7 @@ export default class Confirm extends Component {
           margin: 0 0 1.4rem;
           padding: 0;
           font-size: 2rem;
-          font-weight: bolder;
+          font-weight: 500;
           text-transform: capitalize;
         }
         .body {

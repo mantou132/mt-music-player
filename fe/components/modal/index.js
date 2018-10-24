@@ -111,7 +111,7 @@ export default class Modal extends Component {
           margin: 0;
           padding: 0;
           font-size: 2rem;
-          font-weight: bolder;
+          font-weight: 500;
           text-transform: capitalize;
         }
         .close {
@@ -162,6 +162,9 @@ export default class Modal extends Component {
             padding: 1.6rem;
             overflow: auto;
           }
+          .footer {
+            padding: .8rem 1.6rem;
+          }
         }
         @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
           .titlebar {
@@ -180,7 +183,7 @@ export default class Modal extends Component {
             display: block;
             padding: 1.6rem;
             font-size: 1.4rem;
-            font-weight: bolder;
+            font-weight: 500;
             text-transform: uppercase;
           }
           .footer {

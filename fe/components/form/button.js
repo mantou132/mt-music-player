@@ -1,5 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
+import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'form-button',
@@ -27,7 +28,7 @@ customElements.define(
             text-transform: uppercase;
             color: var(--theme-color);
             font-size: 1.4rem;
-            font-weight: bolder;
+            font-weight: 500;
           }
           button.secondary {
             color: var(--form-text-secondary-color);
@@ -36,13 +37,15 @@ customElements.define(
             cursor: not-allowed;
             color: var(--form-text-disabled-color);
           }
-          button:hover:not(:disabled) {
-            background: var(--form-hover-background-color);
+          @media ${mediaQuery.HOVER} {
+            button:hover:not(:disabled) {
+              background: var(--form-hover-background-color);
+            }
           }
         </style>
         <button class="${type}" ?disabled="${disabled}">
           <slot></slot>
-          <app-ripple ?disabled="${disabled}"></app-ripple>
+          <app-ripple type="touch" ?disabled="${disabled}"></app-ripple>
         </button>
       `;
     }
