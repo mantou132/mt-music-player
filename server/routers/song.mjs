@@ -4,7 +4,7 @@ import Models from '../models';
 import sequelize from '../db/postgres';
 import upyunClient from '../storage';
 
-const { like, or } = Sequelize.Op;
+const { like, or, and } = Sequelize.Op;
 
 export async function create(req, res) {
   const file = req.files[0];
@@ -91,12 +91,22 @@ export async function remove(req, res) {
 }
 
 export async function get(req, res) {
-  const list = await Models.song.findAll({
+  const { album, artist } = req.query;
+  const condition = {
+    attributes: { exclude: ['user'] },
     where: {
       user: req.header('x-user') || null,
+      [and]: [],
     },
     order: [['id', 'DESC']],
-  });
+  };
+  if (album !== undefined) {
+    condition.where[and].push({ album });
+  }
+  if (artist !== undefined) {
+    condition.where[and].push({ artist });
+  }
+  const list = await Models.song.findAll(condition);
   res.status(200).json(list);
 }
 

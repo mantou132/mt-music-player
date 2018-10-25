@@ -26,11 +26,15 @@ sequelize.define('song', {
   picture: {
     type: Sequelize.STRING,
   },
+  star: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
 });
 
 sequelize.define('playlist', {
   user: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   title: {
     type: Sequelize.STRING,
@@ -40,17 +44,26 @@ sequelize.define('playlist', {
   },
 });
 
+sequelize.define('user', {
+  key: {
+    type: Sequelize.STRING,
+  },
+  name: {
+    type: Sequelize.STRING,
+  },
+  avatar: {
+    type: Sequelize.STRING,
+  },
+});
+
 sequelize.define('song_playlist', {
+  user: {
+    type: Sequelize.STRING,
+  },
   playlistId: {
     type: Sequelize.INTEGER,
   },
   songId: {
-    type: Sequelize.INTEGER,
-  },
-  prevId: {
-    type: Sequelize.INTEGER,
-  },
-  nextId: {
     type: Sequelize.INTEGER,
   },
 });
