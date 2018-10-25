@@ -64,13 +64,20 @@ customElements.define(
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            padding: var(--list-padding);
-            padding-left: calc(var(--drawer-width) + var(--list-padding));
+            padding: var(--list-padding) var(--list-padding) 0 calc(var(--drawer-width) + var(--list-padding));
             background: linear-gradient(to top, var(--list-background-color), var(--list-background-light-color));
             color: var(--list-text-primary-color);
             fill: var(--list-text-primary-color);
             overflow: auto;
           }
+
+          :host::after {
+            content: '';
+            display: block;
+            height: var(--list-padding);
+            flex-shrink: 0;
+          }
+
           .wrap {
             flex-shrink: 0;
             flex-grow: 1;
@@ -83,7 +90,7 @@ customElements.define(
           }
           @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
             :host {
-              padding-left: var(--list-padding);
+              padding: var(--list-padding) var(--list-padding) 0;
             }
             :host::-webkit-scrollbar {
               width: 0;
