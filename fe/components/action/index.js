@@ -43,7 +43,7 @@ function getSearchButton() {
 
 function getBackButton() {
   return html`
-    <app-link path="/">
+    <app-link path="/" title="play queue">
       <app-icon name="arrow-back">
         <app-ripple circle></app-ripple>
       </app-icon>
