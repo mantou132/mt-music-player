@@ -45,12 +45,11 @@ const history = {
     window.history.pushState(state, title, path + query);
 
     const newList = list.slice(0, currentIndex + 1).concat(historyItem);
+    document.title = capitalize(title);
     updateStore('historyState', {
       list: newList,
       currentIndex: newList.length - 1,
     });
-
-    document.title = capitalize(title);
   },
 
   replace(options) {
@@ -69,11 +68,10 @@ const history = {
       state,
       title,
     });
+    document.title = capitalize(title);
     updateStore('historyState', {
       list,
     });
-
-    document.title = capitalize(title);
   },
 };
 
