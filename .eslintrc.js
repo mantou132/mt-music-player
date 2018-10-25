@@ -25,6 +25,7 @@ module.exports = {
       'error',
       {
         exceptMethods: [
+          'connectStart',
           'render',
           'shouldUpdate',
           'updated',

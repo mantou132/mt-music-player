@@ -33,7 +33,6 @@ customElements.define(
               --list-text-primary-color: #fff;
               --list-text-secondary-color: #707070;
 
-              --notfound-background-color: #263238;
               --notfound-text-primary-color: #fff;
               --notfound-text-secondary-color: #707070;
 
@@ -92,6 +91,9 @@ customElements.define(
                 --list-background-light-color: #fff;
                 --list-hover-background-color: #fff;
                 --list-text-primary-color: #000;
+
+                --notfound-text-primary-color: #000;
+                --notfound-text-secondary-color: #c3c3c3;
 
                 --menu-background-color: #fff;
                 --menu-hover-background-color: #eee;

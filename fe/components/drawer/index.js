@@ -7,11 +7,36 @@ import { getSrc } from '../../utils/misc.js';
 import { transformTextToImage } from '../../utils/canvas.js';
 
 const menus = [
-  { path: '/', icon: 'queue-music', text: 'play queue' },
-  { path: '/albums', icon: 'album', text: 'albums' },
-  { path: '/artists', icon: 'person', text: 'artists' },
-  { path: '/songs', icon: 'music-note', text: 'songs' },
-  { path: '/favorites', icon: 'star', text: 'favorites' },
+  {
+    path: '/',
+    icon: 'queue-music',
+    text: 'play queue',
+  },
+  {
+    path: '/albums',
+    icon: 'album',
+    text: 'albums',
+  },
+  {
+    path: '/artists',
+    icon: 'person',
+    text: 'artists',
+  },
+  {
+    path: '/songs',
+    icon: 'music-note',
+    text: 'songs',
+  },
+  {
+    path: '/favorites',
+    icon: 'star',
+    text: 'favorites',
+  },
+  {
+    path: '/playlists',
+    icon: 'playlist-play',
+    text: 'playlists',
+  },
 ];
 
 export default class Drawer extends Component {
@@ -38,9 +63,20 @@ export default class Drawer extends Component {
   static renderItem({ path, icon, text }) {
     return html`
       <li>
-        <app-link path="${path}">
+        <app-link path="${path}" title="${text}">
           <app-icon name="${icon}"></app-icon>
           <span>${text}</span>
+          <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
+        </app-link>
+      </li>
+    `;
+  }
+
+  static renderPlaylist({ id, title }) {
+    return html`
+      <li>
+        <app-link path="${`/playlist/${id}`}" title="playlist">
+          <span>${title}</span>
           <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
         </app-link>
       </li>
@@ -52,6 +88,7 @@ export default class Drawer extends Component {
     this.state = {
       drawer: store.drawerState,
       user: store.userData,
+      data: store.playlistData,
     };
   }
 
@@ -68,6 +105,7 @@ export default class Drawer extends Component {
 
   render() {
     const { name, avatar } = this.state.user;
+    const { list } = this.state.data;
 
     return html`
       <style>
@@ -78,10 +116,11 @@ export default class Drawer extends Component {
           width: var(--drawer-width);
           height: calc(100% - var(--player-height));
           font-size: 1.4rem;
+          background: var(--drawer-background-color);
+          overflow: auto;
         }
         .menu {
           height: 100%;
-          background: var(--drawer-background-color);
         }
         .user {
           position: relative;
@@ -140,6 +179,8 @@ export default class Drawer extends Component {
             height: 100%;
             transition-property: left;
             transition-delay: .2s;
+            background: none;
+            overflow: hidden;
           }
           .backdrop {
             position: absolute;
@@ -154,6 +195,14 @@ export default class Drawer extends Component {
             position: relative;
             width: var(--drawer-width);
             transform: translateX(-100%);
+            background: var(--drawer-background-color);
+            overflow: auto;
+          }
+          .menu::-webkit-scrollbar {
+            width: 0;
+          }
+          .menu {
+            scrollbar-width: none;
           }
           .menu,
           .backdrop {
@@ -171,6 +220,9 @@ export default class Drawer extends Component {
           }
           .default {
             font-weight: normal;
+          }
+          .playlist {
+            display: none;
           }
           .default app-icon {
             display: block;
@@ -201,8 +253,9 @@ export default class Drawer extends Component {
           ${menus.map(Drawer.renderItem)}
         </ol>
         <ol class="playlist">
+          ${list.map(Drawer.renderPlaylist)}
         </ol>
-        <ol class="add">
+        <ol class="playlist">
           <li>
             <app-icon name="playlist-add"></app-icon>
             <span>add playlisy</span>

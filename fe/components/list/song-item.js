@@ -1,6 +1,6 @@
 import { html } from 'https://dev.jspm.io/lit-html';
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
 import { del } from '../../services/song.js';
@@ -10,7 +10,7 @@ import mediaQuery from '../../lib/mediaquery.js';
 import getSongEditModal from '../modals/song-edit.js';
 
 customElements.define(
-  'list-item',
+  'song-list-item',
   class extends Component {
     static get observedAttributes() {
       return ['id', 'updatedat'];
@@ -18,12 +18,20 @@ customElements.define(
 
     constructor() {
       super();
-      this.clickHandle = this.clickHandle.bind(this);
+      this.onclick = this.clickHandle.bind(this);
+      this.openMenuHandle = this.openMenuHandle.bind(this);
       this.editHandle = this.editHandle.bind(this);
       this.deleteHandle = this.deleteHandle.bind(this);
     }
 
-    clickHandle(event) {
+    clickHandle() {
+      updateStore('playerState', {
+        currentSong: Number(this.id),
+        state: 'playing',
+      });
+    }
+
+    openMenuHandle(event) {
       this.classList.add('hover');
       AppMenu.open({
         list: [
@@ -67,6 +75,7 @@ customElements.define(
             contain: content;
             position: relative;
             display: flex;
+            padding: 1.6rem;
             transition: background-color .3s;
           }
           :host([active]) {
@@ -150,7 +159,7 @@ customElements.define(
           <div class="name">${song.artist || 'unknown'}</div>
         </div>
         <div class="more">
-          <app-icon @click="${this.clickHandle}" name="more-horiz">
+          <app-icon @click="${this.openMenuHandle}" name="more-horiz">
             <app-ripple circle></app-ripple>
           </app-icon>
         </div>

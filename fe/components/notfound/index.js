@@ -10,11 +10,11 @@ customElements.define(
       return html`
         <style>
           :host {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: var(--notfound-background-color);
             color: var(--notfound-text-secondary-color);
             fill: var(--notfound-text-secondary-color);
           }

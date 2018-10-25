@@ -28,7 +28,7 @@ customElements.define(
     clickHandle() {
       const { $close } = window.history.state;
       const path = this.getAttribute('path');
-      const title = this.getAttribute('title');
+      const title = this.getAttribute('title') || '';
       const query = this.getAttribute('query') || '';
       if (!this.active) {
         if ($close) {

@@ -14,43 +14,89 @@ customElements.define(
     render() {
       const { pathname } = window.location;
       let content;
+      let actions;
+      let action;
       switch (pathname) {
         case '/':
-          content = html`
-            <app-list
-              .data="${store.songData}"
-              .actions="${['menu', 'title', 'upload', 'search']}">
-            </app-list>
-          `;
+        case '/songs':
+          content = html`<app-song-list .data="${store.songData}"></app-song-list>`;
+          actions = ['menu', 'title', 'upload', 'search'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
+          break;
+        case '/playlist':
+          content = html`<app-song-list .data="${store.playlistData}"></app-song-list>`;
+          actions = ['menu', 'title', 'upload', 'search'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
+          break;
+        case '/favorites':
+          content = html`<app-song-list .data="${store.favoriteData}"></app-song-list>`;
+          actions = ['menu', 'title', 'upload', 'search'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
           break;
         case '/search':
-          content = html`
-            <app-list
-              .data="${store.searchData}"
-              .actions="${['back', 'searchInput']}">
-            </app-list>
-          `;
+          content = html`<app-song-list .data="${store.searchData}"></app-song-list>`;
+          actions = ['back', 'searchInput'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
+          break;
+        case '/albums':
+          content = html`<app-album-list></app-album-list>`;
+          actions = ['menu', 'title', 'upload', 'search'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
+          break;
+        case '/artists':
+          content = html`<app-artist-list></app-artist-list>`;
+          actions = ['menu', 'title', 'upload', 'search'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
+          break;
+        case '/playlists':
+          content = html`<app-playlist-list></app-playlist-list>`;
+          actions = ['menu', 'title', 'upload', 'search'];
+          action = html`<app-action .actions="${actions}"></app-action>`;
           break;
         default:
           content = html`<app-notfound></app-notfound>`;
+          actions = mediaQuery.isPhone ? ['menu', 'title'] : [];
+          action = html`<app-action .actions="${actions}"></app-action>`;
       }
       return html`
         <style>
           :host {
-            display: contents;
-          }
-          :host > * {
             flex-grow: 1;
-            padding-left: var(--drawer-width);
+            display: flex;
+            flex-direction: column;
+            padding: var(--list-padding);
+            padding-left: calc(var(--drawer-width) + var(--list-padding));
+            background: linear-gradient(to top, var(--list-background-color), var(--list-background-light-color));
+            color: var(--list-text-primary-color);
+            fill: var(--list-text-primary-color);
             overflow: auto;
           }
+          .wrap {
+            flex-shrink: 0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 86rem;
+            margin: 0 auto;
+            box-sizing: border-box;
+          }
           @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
-            :host > * {
-              padding-left: 0;
+            :host {
+              padding-left: var(--list-padding);
+            }
+            :host::-webkit-scrollbar {
+              width: 0;
+            }
+            :host {
+              scrollbar-width: none;
             }
           }
         </style>
-        ${content}
+        <div class="wrap">
+          ${action}
+          ${content}
+        </div>
       `;
     }
   },

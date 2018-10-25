@@ -33,7 +33,7 @@ function getMenuButton() {
 
 function getSearchButton() {
   return html`
-    <app-link path="/search">
+    <app-link path="/search" title="search">
       <app-icon name="search">
         <app-ripple circle></app-ripple>
       </app-icon>
@@ -84,9 +84,12 @@ customElements.define(
     }
 
     render() {
+      if (!this.actions.length) return html``;
+
       return html`
         <style>
           :host {
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             padding: 1.6rem;

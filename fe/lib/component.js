@@ -61,10 +61,13 @@ export default class Component extends HTMLElement {
 
   updated() {}
 
+  connectStart() {}
+
   connected() {}
 
   connectedCallback() {
-    this.update();
+    this.connectStart();
+    render(this.render(), this.shadowRoot);
     this.connected();
   }
 
