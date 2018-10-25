@@ -115,7 +115,6 @@ export default class Drawer extends Component {
           align-items: center;
           padding: 1.6rem 2.4rem;
           text-transform: capitalize;
-          cursor: pointer;
         }
         li app-icon {
           margin-right: 1.6rem;
@@ -127,6 +126,9 @@ export default class Drawer extends Component {
         @media ${mediaQuery.HOVER} {
           app-link:hover:not([active]) {
             color: var(--drawer-text-primary-color);
+          }
+          li {
+            cursor: pointer;
           }
         }
         @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {

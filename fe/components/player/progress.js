@@ -26,7 +26,6 @@ customElements.define(
             margin-top: -3px;
             padding-top: 3px;
             padding-bottom: 3px;
-            cursor: pointer;
           }
           .track {
             height: 100%;
@@ -37,6 +36,11 @@ customElements.define(
           }
           .times {
             display: none;
+          }
+          @media ${mediaQuery.HOVER} {
+            :host {
+              cursor: pointer;
+            }
           }
           @media ${mediaQuery.PHONE} {
             :host([maximize]) {
