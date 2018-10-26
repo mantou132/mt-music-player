@@ -56,7 +56,7 @@ function getSearchInput() {
   return html`
     <form-text
       class="input"
-      value="${query.get('q') || ''}"
+      value="${query.get('q') || store.searchData.text}"
       autofocus
       @change="${({ detail }) => search(detail)}">
     </form-text>
