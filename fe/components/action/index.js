@@ -6,6 +6,8 @@ import { search } from '../../services/song.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { capitalize } from '../../utils/string.js';
 import Drawer from '../drawer/index.js';
+import Modal from '../modal/index.js';
+import getAddPlaylistModal from '../modals/add-playlist.js';
 
 function getTitle() {
   return html`<h1 class="title">${capitalize(document.title)}</h1>`;
@@ -38,6 +40,14 @@ function getSearchButton() {
         <app-ripple circle></app-ripple>
       </app-icon>
     </app-link>
+  `;
+}
+
+function getAddPlaylistButton() {
+  return html`
+    <app-icon name="playlist-add" @click="${() => Modal.open(getAddPlaylistModal())}">
+      <app-ripple circle></app-ripple>
+    </app-icon>
   `;
 }
 
@@ -77,6 +87,7 @@ customElements.define(
         if (ele === 'upload') return getUploadButton();
         if (ele === 'search') return getSearchButton();
         if (ele === 'back') return getBackButton();
+        if (ele === 'add-playlist') return getAddPlaylistButton();
         if (ele === 'menu') return getMenuButton();
         if (ele === 'searchInput') return getSearchInput();
         return '';

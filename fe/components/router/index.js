@@ -100,7 +100,7 @@ customElements.define(
             </app-playlist-list>`;
           action = html`
             <app-action
-              .actions="${['menu', 'title', 'upload', 'search']}">
+              .actions="${['menu', 'title', 'add-playlist', 'search']}">
             </app-action>`;
           break;
         default:
