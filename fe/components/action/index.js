@@ -53,7 +53,7 @@ function getAddPlaylistButton() {
 
 function getBackButton() {
   return html`
-    <app-link path="/" title="play queue">
+    <app-link path="/" title="songs">
       <app-icon name="arrow-back">
         <app-ripple circle></app-ripple>
       </app-icon>

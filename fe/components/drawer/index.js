@@ -10,11 +10,11 @@ import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
 
 const menus = [
-  {
-    path: '/',
-    icon: 'queue-music',
-    text: 'play queue',
-  },
+  // {
+  //   path: '/',
+  //   icon: 'queue-music',
+  //   text: 'play queue',
+  // },
   {
     path: '/albums',
     icon: 'album',
@@ -26,7 +26,7 @@ const menus = [
     text: 'artists',
   },
   {
-    path: '/songs',
+    path: '/',
     icon: 'music-note',
     text: 'songs',
   },
