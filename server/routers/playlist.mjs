@@ -77,21 +77,24 @@ export async function getSongs(req, res) {
 }
 
 export async function addSong(req, res) {
-  const data = Models.song_playlist.build({
-    user: req.header('x-user') || null,
-    playlistId: Number(req.param('id')),
-    songId: Number(req.param('songId')),
+  const data = await Models.song_playlist.findOrCreate({
+    where: {
+      user: req.header('x-user') || null,
+      playlistId: Number(req.param('id')),
+      songId: Number(req.param('songId')),
+    },
   });
-  await data.save();
 
   return res.status(200).json(data);
 }
 
 export async function removeSong(req, res) {
   await Models.song_playlist.destroy({
-    user: req.header('x-user') || null,
-    playlistId: Number(req.param('id')),
-    songId: Number(req.param('songId')),
+    where: {
+      user: req.header('x-user') || null,
+      playlistId: Number(req.param('id')),
+      songId: Number(req.param('songId')),
+    },
   });
 
   return res.status(200).json({ message: 'OK' });
