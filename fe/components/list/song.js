@@ -21,7 +21,12 @@ export default class AppSongList extends Component {
 
   render() {
     const id = this.getAttribute('id');
-    const { [id === null ? 'list' : id]: list = [] } = this.state.data;
+    const filtername = this.getAttribute('filtername');
+    const filtervalue = this.getAttribute('filtervalue');
+    let { [id === null ? 'list' : id]: list = [] } = this.state.data;
+    if (filtername) {
+      list = list.filter(e => e[filtername] === filtervalue);
+    }
     return html`
       ${list.map(this.renderItem)}
     `;

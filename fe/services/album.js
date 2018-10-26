@@ -1,4 +1,22 @@
-import request from '../lib/request.js';
-import { store, updateStore } from '../models/index.js';
-import { toQuerystring } from '../utils/object.js';
-import { transformTextToImage } from '../utils/canvas.js';
+import { store, updateStore, connect } from '../models/index.js';
+
+// eslint-disable-next-line
+export const get = async () => {
+  const { list: songList } = store.songData;
+  const map = new Map();
+  songList.forEach((song) => {
+    if (map.has(song.album)) return;
+    map.set(song.album, {
+      title: song.album,
+      cover: song.picture,
+    });
+  });
+  const list = [...map.values()];
+  updateStore('albumData', { list });
+  return list;
+};
+
+connect(
+  'songData',
+  get,
+);

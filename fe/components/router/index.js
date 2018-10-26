@@ -4,6 +4,8 @@ import { store } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { get as getAllSong, getFavorite } from '../../services/song.js';
 import { get as getAllPlaylist, getSong } from '../../services/playlist.js';
+import { get as getAllAlbum } from '../../services/album.js';
+import { get as getAllArtist } from '../../services/artist.js';
 
 customElements.define(
   'app-router',
@@ -16,6 +18,7 @@ customElements.define(
     render() {
       const { pathname, search } = window.location;
       const query = new URLSearchParams(search);
+      const filtername = query.has('artist') ? 'artist' : query.has('album') && 'album';
 
       let content;
       let action;
@@ -24,8 +27,10 @@ customElements.define(
         case '/songs':
           content = html`
             <app-song-list
-            .getData="${getAllSong}"
-            .data="${store.songData}">
+              filtername="${filtername || ''}"
+              filtervalue="${query.get(filtername)}"
+              .getData="${getAllSong}"
+              .data="${store.songData}">
           </app-song-list>`;
           action = html`
             <app-action
@@ -66,14 +71,22 @@ customElements.define(
             </app-action>`;
           break;
         case '/albums':
-          content = html`<app-album-list></app-album-list>`;
+          content = html`
+            <app-album-list
+              .getData="${getAllAlbum}"
+              .data="${store.albumData}">
+            </app-album-list>`;
           action = html`
             <app-action
               .actions="${['menu', 'title', 'upload', 'search']}">
             </app-action>`;
           break;
         case '/artists':
-          content = html`<app-artist-list></app-artist-list>`;
+          content = html`
+            <app-artist-list
+              .getData="${getAllArtist}"
+              .data="${store.artistData}">
+            </app-artist-list>`;
           action = html`
             <app-action
               .actions="${['menu', 'title', 'upload', 'search']}">
