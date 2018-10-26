@@ -26,28 +26,10 @@ export const albumData = {
 };
 
 export const favoriteData = {
-  list: Array(10)
-    .fill()
-    .map((e, i) => ({
-      id: i,
-      title: `Song Title ${i}`,
-      album: `Album Title ${i}`,
-      artist: `Artist Title ${i}`,
-      duration: 300,
-      picture:
-        'https://p2.music.126.net/bQWhKSp88vIwo85OV1zpNA==/109951163466323994.jpg?param=140y140',
-    })),
+  list: [],
 };
 
 export const playlistData = {
-  list: Array(10)
-    .fill()
-    .map((e, i) => ({
-      id: i,
-      title: `Playlist Name ${i}`,
-      image: 'https://p3.music.126.net/F9asgcj7C7qSl_je9XDvRw==/603631883675241.jpg?param=130y130',
-    })),
-  playlist: {
-    // <id>: []<songId>
-  },
+  list: [],
+  // <id>: []<song>
 };

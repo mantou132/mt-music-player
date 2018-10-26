@@ -27,6 +27,12 @@ export const get = async () => {
   return list;
 };
 
+export const getFavorite = async () => {
+  const list = store.songData.list.filter(data => data.star);
+  updateStore('favoriteData', { list: list.map(e => new Proxy(e, handler)) });
+  return list;
+};
+
 export const upload = (files) => {
   const fileArr = Array.from(files);
   updateStore('uploaderState', {
@@ -54,7 +60,7 @@ export const upload = (files) => {
     } else {
       updateStore('uploaderState', { list });
       updateStore('songData', {
-        list: [data].concat(store.songData.list),
+        list: [new Proxy(data, handler)].concat(store.songData.list),
       });
     }
   });
@@ -76,6 +82,9 @@ export const update = async (id, song) => {
   updateStore('songData', { list });
   if (currentSong === id) {
     updateStore('playerState', {});
+  }
+  if ('star' in song) {
+    updateStore('favoriteData', { list: await getFavorite() });
   }
 };
 

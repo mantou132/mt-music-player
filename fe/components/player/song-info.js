@@ -3,6 +3,7 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import { update } from '../../services/song.js';
 
 customElements.define(
   'player-song-info',
@@ -128,6 +129,11 @@ customElements.define(
           <div class="name">${song.title}</div>
           <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>
         </div>
+        <app-icon
+          @click="${() => update(song.id, { star: song.star ? 0 : 1 })}"
+          name="${song.star ? 'star' : 'star-border'}">
+          <app-ripple circle></app-ripple>
+        </app-icon>
     `;
     }
   },

@@ -5,6 +5,9 @@ import { store, updateStore } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { getSrc } from '../../utils/misc.js';
 import { transformTextToImage } from '../../utils/canvas.js';
+import { get } from '../../services/playlist.js';
+import Modal from '../modal/index.js';
+import getAddPlaylistModal from '../modals/add-playlist.js';
 
 const menus = [
   {
@@ -75,12 +78,16 @@ export default class Drawer extends Component {
   static renderPlaylist({ id, title }) {
     return html`
       <li>
-        <app-link path="${`/playlist/${id}`}" title="playlist">
+        <app-link path="${`/playlist?id=${id}`}" title="playlist">
           <span>${title}</span>
           <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
         </app-link>
       </li>
     `;
+  }
+
+  static addPlaylistHandle() {
+    Modal.open(getAddPlaylistModal());
   }
 
   constructor() {
@@ -256,7 +263,7 @@ export default class Drawer extends Component {
           ${list.map(Drawer.renderPlaylist)}
         </ol>
         <ol class="playlist">
-          <li>
+          <li @click="${Drawer.addPlaylistHandle}">
             <app-icon name="playlist-add"></app-icon>
             <span>add playlisy</span>
             <app-ripple></app-ripple>
@@ -264,6 +271,10 @@ export default class Drawer extends Component {
         </ol>
       </div>
     `;
+  }
+
+  connected() {
+    get();
   }
 
   updated() {

@@ -5,6 +5,10 @@ import { store } from '../../models/index.js';
 customElements.define(
   'app-song-list',
   class extends Component {
+    static get observedAttributes() {
+      return ['id'];
+    }
+
     constructor() {
       super();
       this.renderItem = this.renderItem.bind(this);
@@ -18,7 +22,8 @@ customElements.define(
     }
 
     render() {
-      const { list = [] } = this.state.data;
+      const id = this.getAttribute('id');
+      const { [id === null ? 'list' : id]: list = [] } = this.state.data;
       return html`
         ${list.map(this.renderItem)}
       `;
@@ -40,6 +45,14 @@ customElements.define(
           </app-icon>
         </song-list-item>
       `;
+    }
+
+    connected() {
+      if (this.getData) this.getData();
+    }
+
+    attributeChanged() {
+      if (this.getData) this.getData();
     }
   },
 );

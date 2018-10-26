@@ -8,6 +8,10 @@ const uniqueDataPropMap = new WeakMap();
 const uniqueConnectedPageMap = new WeakMap();
 
 export default class Component extends HTMLElement {
+  static get observedAttributes() {
+    return [];
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
