@@ -5,7 +5,7 @@ In development
 - [x] Global state management
 - [x] Router
 - [x] Components
-- [ ] Playlist
+- [x] Playlist
 - [ ] User
 
 ## Introduction
