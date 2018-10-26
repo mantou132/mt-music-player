@@ -9,6 +9,10 @@ export function throttle(fn, delay = 500) {
   };
 }
 
+export async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 let pinyin = (汉字) => {
   importModule('https://dev.jspm.io/pinyin').then(({ default: py }) => {
     pinyin = py;

@@ -45,7 +45,7 @@ customElements.define(
           @media ${mediaQuery.PHONE} {
             :host([maximize]) {
               position: static;
-              width: calc(100vw - 3.2em);
+              width: calc(100vw - 3.2rem);
               margin: 1.125em auto;
             }
             :host([maximize]) .track {

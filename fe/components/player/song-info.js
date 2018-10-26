@@ -4,6 +4,8 @@ import { store } from '../../models/index.js';
 import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { update } from '../../services/song.js';
+import AppMenu from '../menu/index.js';
+import { addSong } from '../../services/playlist.js';
 
 customElements.define(
   'player-song-info',
@@ -11,6 +13,21 @@ customElements.define(
     constructor() {
       super();
       this.state = store.playerState;
+      this.addToPlaylist = this.addToPlaylist.bind(this);
+    }
+
+    addToPlaylist() {
+      const { currentSong } = this.state;
+      const { list } = store.playlistData;
+      AppMenu.open({
+        type: 'center',
+        list: list.map(({ title, id }) => ({
+          text: title,
+          handle() {
+            addSong(id, currentSong);
+          },
+        })),
+      });
     }
 
     render() {
@@ -56,8 +73,10 @@ customElements.define(
             visibility: hidden;
           }
           .wrap {
-            width: 0;
-            flex-grow: 1;
+            display: contents;
+          }
+          .text {
+            overflow: hidden;
           }
           .name,
           .artist {
@@ -70,8 +89,15 @@ customElements.define(
             font-size: .85em;
             color:  var(--player-text-secondary-color);
           }
+          .wrap app-icon {
+            padding: 1.6rem;
+          }
+          .add-playlist {
+            display: none;
+          }
           @media ${mediaQuery.PHONE} {
-            :host(:not([maximize])) .img {
+            :host(:not([maximize])) .img,
+            :host(:not([maximize])) .star {
               display: none;
             }
             :host([maximize]) {
@@ -81,14 +107,24 @@ customElements.define(
             :host([maximize]) .img {
               display: flex;
               flex-shrink: 1;
-              width: calc(100vw - 3.2em);
+              width: calc(100vw - 5.6rem);
               margin: 0;
             }
-            :host([maximize]) .wrap {
+            :host([maximize]) .text {
+              flex-grow: 1;
               box-sizing: border-box;
-              width: calc(100vw - 3.2em);
               padding: 1.6rem 0;
               text-align: center;
+            }
+            :host([maximize]) .wrap {
+              display: flex;
+              width: 100%;
+            }
+            :host([maximize]) .star {
+              order: -1;
+            }
+            :host([maximize]) .add-playlist {
+              display: block;
             }
             :host([maximize]) .name {
               width: auto;
@@ -107,7 +143,8 @@ customElements.define(
             }
           }
           @media ${mediaQuery.WATCH} {
-            .img {
+            .img,
+            .wrap app-icon {
               display: none;
             }
             .wrap {
@@ -126,14 +163,23 @@ customElements.define(
           <img alt="" src="${getSrc(song.picture)}">
         </div>
         <div class="wrap">
-          <div class="name">${song.title}</div>
-          <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>
+          <div class="text">
+            <div class="name">${song.title}</div>
+            <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>
+          </div>
+          <app-icon
+            class="add-playlist"
+            @click="${this.addToPlaylist}"
+            name="add-circle-outline">
+            <app-ripple circle></app-ripple>
+          </app-icon>
+          <app-icon
+            class="star"
+            @click="${() => update(song.id, { star: song.star ? 0 : 1 })}"
+            name="${song.star ? 'star' : 'star-border'}">
+            <app-ripple circle></app-ripple>
+          </app-icon>
         </div>
-        <app-icon
-          @click="${() => update(song.id, { star: song.star ? 0 : 1 })}"
-          name="${song.star ? 'star' : 'star-border'}">
-          <app-ripple circle></app-ripple>
-        </app-icon>
     `;
     }
   },

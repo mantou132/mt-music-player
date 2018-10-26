@@ -8,6 +8,8 @@ import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import getSongEditModal from '../modals/song-edit.js';
+import { addSong, removeSong } from '../../services/playlist.js';
+import { sleep } from '../../utils/misc.js';
 
 customElements.define(
   'song-list-item',
@@ -22,6 +24,7 @@ customElements.define(
       this.openMenuHandle = this.openMenuHandle.bind(this);
       this.editHandle = this.editHandle.bind(this);
       this.deleteHandle = this.deleteHandle.bind(this);
+      this.addToPlaylist = this.addToPlaylist.bind(this);
     }
 
     clickHandle() {
@@ -31,8 +34,29 @@ customElements.define(
       });
     }
 
+    async addToPlaylist() {
+      const songId = Number(this.id);
+      const { list } = store.playlistData;
+      AppMenu.open({
+        type: 'center',
+        list: list.map(({ title, id }) => ({
+          text: title,
+          handle() {
+            addSong(id, songId);
+          },
+        })),
+      });
+    }
+
+    removeFromPlaylist(id) {
+      removeSong(id, Number(this.id));
+    }
+
     openMenuHandle(event) {
       this.classList.add('hover');
+      const { pathname, search } = window.location;
+      const query = new URLSearchParams(search);
+      const playlistId = pathname === '/playlist' && query.get('id');
       AppMenu.open({
         list: [
           {
@@ -42,6 +66,12 @@ customElements.define(
           {
             text: 'delete',
             handle: this.deleteHandle,
+          },
+          {
+            text: playlistId ? 'remove from playlist' : 'add to playlist',
+            handle: playlistId
+              ? this.removeFromPlaylist.bind(this, playlistId)
+              : this.addToPlaylist,
           },
         ],
         target: event.currentTarget,

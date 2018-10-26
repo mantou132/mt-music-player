@@ -25,6 +25,14 @@ export default class AppMenu extends Component {
 
   static close() {
     updateStore('menuState', { isOpen: false });
+    setTimeout(() => {
+      // Restore to default style
+      // To perform the animation the next time you open the default menu.
+      const { isOpen } = store.menuState;
+      if (!isOpen) {
+        updateStore('menuState', { type: '' });
+      }
+    }, 200);
   }
 
   constructor() {
@@ -47,8 +55,9 @@ export default class AppMenu extends Component {
   }
 
   render() {
-    const { list, target, stage } = this.state;
-
+    const {
+      list, target, stage, type,
+    } = this.state;
     const position = { x: 0, y: 0 };
     const translate = { x: 0, y: 0 };
     if (stage && target) {
@@ -81,6 +90,14 @@ export default class AppMenu extends Component {
         </li>
       `,
     );
+
+    const style = type === 'center'
+      ? ''
+      : `
+      left: ${position.x}px;
+      top: ${position.y}px;
+      transform: translate(${translate.x}%, ${translate.y}%);
+    `;
     return html`
       <style>
         :host {
@@ -105,11 +122,31 @@ export default class AppMenu extends Component {
           width: 100%;
           height: 100%;
         }
+        .backdrop.center {
+          background: var(--backdrop-color);
+        }
         .menu {
           position: absolute;
-          overflow: hidden;
+          overflow: auto;
+          scrollbar-width: none;
           border-radius: .2rem;
           box-shadow: var(--menu-box-shadow);
+        }
+        .menu::-webkit-scrollbar {
+          width: 0;
+        }
+        .menu.center {
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 30rem;
+          max-width: 90%;
+          max-height: 90%;
+        }
+        .menu.center ol {
+          transition: none;
+          width: 100%;
+          margin: 0;
         }
         ol {
           width: 16.9rem;
@@ -127,6 +164,9 @@ export default class AppMenu extends Component {
           padding: 0px 1.4rem;
           list-style: none;
           text-transform: capitalize;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
         @media ${mediaQuery.HOVER} {
           li:hover {
@@ -142,19 +182,16 @@ export default class AppMenu extends Component {
 
           :host,
           ol {
+            transition-property: margin, opacity;
             transition-duration: .1s;
             transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
           }
         }
       </style>
-      <div @click="${this.closeHandle}" class="backdrop"></div>
+      <div @click="${this.closeHandle}" class="backdrop ${type}"></div>
       <div
-        class="menu"
-        style="
-          left: ${position.x}px;
-          top: ${position.y}px;
-          transform: translate(${translate.x}%, ${translate.y}%);
-        ">
+        class="menu ${type}"
+        style="${style}">
         <ol>${items}</ol>
       </div>
     `;

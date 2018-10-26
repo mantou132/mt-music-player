@@ -31,14 +31,14 @@ export const get = async () => {
 export const getSong = async (id) => {
   const list = await request(`/playlist/${id}/songs`);
   updateStore('playlistData', {
-    [id]: list.map(e => store.songData.find(song => song.id === e.songId)),
+    [id]: list.map(e => store.songData.list.find(song => song.id === e.songId)),
   });
 };
 
 export const addSong = async (id, songId) => {
   await request(`/playlist/${id}/songs/${songId}`, { method: 'post' });
   updateStore('playlistData', {
-    [id]: [store.songData.find(song => song.id === songId)].concat(store.playlistData[id]),
+    [id]: [store.songData.list.find(song => song.id === songId)].concat(store.playlistData[id]),
   });
 };
 
