@@ -10,7 +10,10 @@ const handler = {
     if (key === 'image' && !target[key]) {
       if (!target[imageKey]) {
         const pinyin = getPinYin(target.title);
-        target[imageKey] = transformTextToImage(pinyin.substr(0, 2).toUpperCase());
+        target[imageKey] = transformTextToImage(pinyin.substr(0, 2).toUpperCase(), {
+          width: 128,
+          height: 128,
+        });
       }
       return target[imageKey];
     }

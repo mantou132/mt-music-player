@@ -3,7 +3,7 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { get as getAllSong, getFavorite } from '../../services/song.js';
-import { getSong } from '../../services/playlist.js';
+import { get as getAllPlaylist, getSong } from '../../services/playlist.js';
 
 customElements.define(
   'app-router',
@@ -80,7 +80,11 @@ customElements.define(
             </app-action>`;
           break;
         case '/playlists':
-          content = html`<app-playlist-list></app-playlist-list>`;
+          content = html`
+            <app-playlist-list
+              .getData="${getAllPlaylist}"
+              .data="${store.playlistData}">
+            </app-playlist-list>`;
           action = html`
             <app-action
               .actions="${['menu', 'title', 'upload', 'search']}">
