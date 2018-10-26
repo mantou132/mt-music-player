@@ -14,13 +14,13 @@ export default class AppPlaylistList extends AppSongList {
       <style>
         :host {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
           grid-gap: 2rem;
         }
         @media ${mediaQuery.PHONE} {
           :host {
             padding: .4rem;
-            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
             grid-gap: 1rem;
           }
         }
