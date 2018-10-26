@@ -16,6 +16,7 @@ export default class AppPlaylistList extends AppSongList {
           flex-grow: 1;
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+          grid-template-rows: max-content;
           grid-gap: 2rem;
         }
         @media ${mediaQuery.PHONE} {
