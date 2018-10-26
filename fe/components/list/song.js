@@ -28,6 +28,11 @@ export default class AppSongList extends Component {
       list = list.filter(e => e[filtername] === filtervalue);
     }
     return html`
+      <style>
+        :host {
+          flex-grow: 1;
+        }
+      </style>
       ${list.map(this.renderItem)}
     `;
   }

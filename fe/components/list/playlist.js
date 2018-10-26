@@ -13,6 +13,7 @@ export default class AppPlaylistList extends AppSongList {
     return html`
       <style>
         :host {
+          flex-grow: 1;
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
           grid-gap: 2rem;

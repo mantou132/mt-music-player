@@ -9,7 +9,6 @@ import Confirm from '../confirm/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import getSongEditModal from '../modals/song-edit.js';
 import { addSong, removeSong } from '../../services/playlist.js';
-import { sleep } from '../../utils/misc.js';
 
 customElements.define(
   'song-list-item',
