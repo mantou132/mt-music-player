@@ -4,7 +4,7 @@ import { store } from '../../models/index.js';
 
 export default class AppSongList extends Component {
   static get observedAttributes() {
-    return ['id'];
+    return ['id', 'filtername', 'filtervalue'];
   }
 
   constructor() {
