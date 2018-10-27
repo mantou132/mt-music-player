@@ -10,8 +10,7 @@ customElements.define(
         html`
           <style>
             :root {
-              /* 如启动画面的背景颜色，组件为渲染时的背景颜色 */
-              --background-color: white;
+              --background-color: #202b27;
               --theme-color: #18d150;
               --error-color: red;
               --backdrop-color: rgba(0, 0, 0, 0.6);
