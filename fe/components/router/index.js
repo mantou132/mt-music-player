@@ -140,6 +140,11 @@ customElements.define(
             margin: 0 auto;
             box-sizing: border-box;
           }
+          @media ${mediaQuery.PHONE} {
+            :host {
+              margin-bottom: var(--player-height);
+            }
+          }
           @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
             :host {
               padding: var(--list-padding) var(--list-padding) 0;

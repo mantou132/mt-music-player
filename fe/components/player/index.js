@@ -99,13 +99,13 @@ customElements.define(
           }
           @media ${mediaQuery.PHONE} {
             :host {
+              position: fixed;
+              width: 100%;
               transition: height .3s;
             }
             :host([maximize]) {
-              position: fixed;
               flex-direction: column;
               justify-content: space-between;
-              width: 100%;
               height: 100%;
             }
             :host([maximize]) player-song-info {
