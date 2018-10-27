@@ -114,9 +114,10 @@ customElements.define(
             }
             .header {
               display: flex;
+              align-items: center;
               flex-shrink: 0;
               justify-content: space-between;
-              padding: 0 .4rem;
+              padding: .4rem;
             }
             :host(:not([maximize])) .header {
               margin-right: 1.6rem;
@@ -128,7 +129,7 @@ customElements.define(
               display: none;
             }
             .header app-icon {
-              padding: 1.6rem 1.2rem;
+              padding: 1.2rem;
             }
           }
           @media ${mediaQuery.SMALL_PHONE} {
@@ -171,19 +172,19 @@ customElements.define(
             class="nav"
             @click="${this.clickHandle}"
             name="${maximize ? 'expand-more' : 'expand-less'}">
-            <app-ripple circle></app-ripple>
+            <app-ripple scale=".8" circle></app-ripple>
           </app-icon>
           <app-icon
             class="action"
             @click="${this.editHandle}"
             name="edit">
-            <app-ripple circle></app-ripple>
+            <app-ripple scale=".8" circle></app-ripple>
           </app-icon>
           <app-icon
             class="action"
             @click="${this.searchHandle}"
             name="search">
-            <app-ripple circle></app-ripple>
+            <app-ripple scale=".8" circle></app-ripple>
           </app-icon>
         </div>
         <player-song-info ?maximize="${maximize}"></player-song-info>

@@ -18,7 +18,7 @@ function getUploadButton() {
     <app-icon
       @click="${AppUpload.open}"
       name="add">
-      <app-ripple circle></app-ripple>
+      <app-ripple scale=".8" circle></app-ripple>
     </app-icon>
   `;
 }
@@ -28,7 +28,7 @@ function getMenuButton() {
     <app-icon
       @click="${Drawer.open}"
       name="menu">
-      <app-ripple circle></app-ripple>
+      <app-ripple scale=".8" circle></app-ripple>
     </app-icon>
   `;
 }
@@ -37,7 +37,7 @@ function getSearchButton() {
   return html`
     <app-link path="/search" title="search">
       <app-icon name="search">
-        <app-ripple circle></app-ripple>
+        <app-ripple scale=".8" circle></app-ripple>
       </app-icon>
     </app-link>
   `;
@@ -46,7 +46,7 @@ function getSearchButton() {
 function getAddPlaylistButton() {
   return html`
     <app-icon name="playlist-add" @click="${() => Modal.open(getAddPlaylistModal())}">
-      <app-ripple circle></app-ripple>
+      <app-ripple scale=".8" circle></app-ripple>
     </app-icon>
   `;
 }
@@ -55,7 +55,7 @@ function getBackButton() {
   return html`
     <app-link path="/" title="songs">
       <app-icon name="arrow-back">
-        <app-ripple circle></app-ripple>
+        <app-ripple scale=".8" circle></app-ripple>
       </app-icon>
     </app-link>
   `;
@@ -125,7 +125,7 @@ customElements.define(
               position: -webkit-sticky;
               position: sticky;
               top: 0;
-              padding: 0 .4rem;
+              padding: .4rem;
               background: var(--action-background-color);
               color: var(--action-text-color);
               fill: var(--action-text-color);
@@ -143,7 +143,7 @@ customElements.define(
               text-overflow: ellipsis;
             }
             .contents app-icon {
-              padding: 1.6rem 1.2rem;
+              padding: 1.2rem;
               margin-right: 0;
             }
             .input {
