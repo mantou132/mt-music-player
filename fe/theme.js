@@ -10,6 +10,9 @@ customElements.define(
         html`
           <style>
             :root {
+              --scrollbar-track-color: rgba(0, 0, 0, .2);
+              --scrollbar-color: rgba(255, 255, 255, .2);
+
               --background-color: #202b27;
               --theme-color: #18d150;
               --error-color: red;

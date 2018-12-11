@@ -121,6 +121,8 @@ customElements.define(
             color: var(--list-text-primary-color);
             fill: var(--list-text-primary-color);
             overflow: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
           }
 
           :host::after {

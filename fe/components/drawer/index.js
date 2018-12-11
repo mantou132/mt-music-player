@@ -125,6 +125,8 @@ export default class Drawer extends Component {
           font-size: 1.4rem;
           background: var(--drawer-background-color);
           overflow: auto;
+          scrollbar-width: thin;
+          scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
         }
         .menu {
           height: 100%;
