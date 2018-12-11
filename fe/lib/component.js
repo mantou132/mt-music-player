@@ -12,6 +12,10 @@ export default class Component extends HTMLElement {
     return [];
   }
 
+  static get observedPropertys() {
+    return [];
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -24,6 +28,22 @@ export default class Component extends HTMLElement {
     this.disconnected = this.disconnected.bind(this);
     this.attributeChanged = this.attributeChanged.bind(this);
     this.setState = this.setState.bind(this);
+
+    const { observedPropertys } = this.constructor;
+    observedPropertys.forEach((prop) => {
+      let propValue;
+      Object.defineProperty(this, prop, {
+        get() {
+          return propValue;
+        },
+        set(v) {
+          if (v !== propValue) {
+            propValue = v;
+            this.update();
+          }
+        },
+      });
+    });
   }
 
   get state() {

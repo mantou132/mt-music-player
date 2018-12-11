@@ -81,6 +81,10 @@ customElements.define(
       this.state = store.selectorState;
     }
 
+    static get observedPropertys() {
+      return ['actions'];
+    }
+
     getContents() {
       return this.actions.map((ele) => {
         if (ele === 'title') return getTitle();
