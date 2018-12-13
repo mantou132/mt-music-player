@@ -4,7 +4,7 @@ import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { getSrc } from '../../utils/misc.js';
-import { transformTextToImage } from '../../utils/canvas.js';
+import { transformTextToSVG } from '../../utils/canvas.js';
 import { get } from '../../services/playlist.js';
 import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
@@ -102,10 +102,7 @@ export default class Drawer extends Component {
   get avatar() {
     const { name } = this.state.user;
     if (!this.$avatar) {
-      this.$avatar = transformTextToImage((name || 'Login').substr(0, 2), {
-        width: 32,
-        height: 32,
-      });
+      this.$avatar = transformTextToSVG((name || 'Login').substr(0, 2));
     }
     return this.$avatar;
   }
@@ -142,6 +139,7 @@ export default class Drawer extends Component {
         .user img {
           margin: 0 1.6rem 0 0;
           border-radius: 100%;
+          width: 3.2rem;
         }
         ol {
           margin: 0;

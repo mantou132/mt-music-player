@@ -1,7 +1,7 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
 import { toQuerystring } from '../utils/object.js';
-import { transformTextToImage } from '../utils/canvas.js';
+import { transformTextToBitmap } from '../utils/canvas.js';
 import { getPinYin } from '../utils/misc.js';
 import history from '../lib/history.js';
 
@@ -12,7 +12,7 @@ const handler = {
     if (key === 'picture' && !target[key]) {
       if (!target[pictureKey]) {
         const pinyin = getPinYin(target.title);
-        target[pictureKey] = transformTextToImage(pinyin.substr(0, 2).toUpperCase());
+        target[pictureKey] = transformTextToBitmap(pinyin.substr(0, 2).toUpperCase());
       }
       return target[pictureKey];
     }

@@ -1,29 +1,22 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
-import { transformTextToImage } from '../utils/canvas.js';
+import { transformTextToSVG } from '../utils/canvas.js';
 import { getPinYin } from '../utils/misc.js';
-
-const imageKey = Symbol('image');
-
-const handler = {
-  get(target, key) {
-    if (key === 'image' && !target[key]) {
-      if (!target[imageKey]) {
-        const pinyin = getPinYin(target.title);
-        target[imageKey] = transformTextToImage(pinyin.substr(0, 2).toUpperCase(), {
-          width: 128,
-          height: 128,
-        });
-      }
-      return target[imageKey];
-    }
-    return target[key];
-  },
-};
 
 export const get = async () => {
   const list = await request('/playlist');
-  updateStore('playlistData', { list: list.map(e => new Proxy(e, handler)) });
+  updateStore('playlistData', {
+    list: list.map(e => ({
+      ...e,
+      image:
+        e.image
+        || transformTextToSVG(
+          getPinYin(e.title)
+            .substr(0, 2)
+            .toUpperCase(),
+        ),
+    })),
+  });
 
   return list;
 };
@@ -53,7 +46,20 @@ export const removeSong = async (id, songId) => {
 export const create = async (body) => {
   const { list } = store.playlistData;
   const data = await request('/playlist', { method: 'post', body });
-  updateStore('playlistData', { list: [new Proxy(data, handler)].concat(list) });
+  updateStore('playlistData', {
+    list: [
+      {
+        ...data,
+        image:
+          data.image
+          || transformTextToSVG(
+            getPinYin(data.title)
+              .substr(0, 2)
+              .toUpperCase(),
+          ),
+      },
+    ].concat(list),
+  });
 
   return data;
 };

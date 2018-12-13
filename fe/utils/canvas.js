@@ -1,7 +1,33 @@
 import { randomColor, luminance } from './color.js';
 
-// TODO: use svg dataURL
-export function transformTextToImage(text, { width = 512, height = 512 } = {}) {
+export function transformTextToSVG(text) {
+  const background = `rgb(${randomColor().join(',')})`;
+  const color = luminance(...background) < 0.4 ? '#ffffff55' : '#00000055';
+  const getTranslate = () => Math.random() / 5;
+  const getRotate = () => (Math.random() - 0.5) * 45;
+
+  const strs = [...String(text)].map(
+    char => `<text
+      x="50%"
+      y="50%"
+      dominant-baseline="middle"
+      text-anchor="middle"
+      transform="translate(${getTranslate()}, ${getTranslate()}) rotate(${getRotate()})"
+    >${char}</text>`,
+  );
+  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
+      <style>
+        :root {
+          background: ${background};
+          fill: ${color};
+          font: 1px sans-serif;
+        }
+      </style>
+      ${strs.join('')}
+    </svg>`)}`;
+}
+
+export function transformTextToBitmap(text, { width = 512, height = 512 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
