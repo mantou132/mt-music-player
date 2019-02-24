@@ -1,4 +1,4 @@
-import { html, render } from 'https://dev.jspm.io/lit-html';
+import { html, render } from '../../js_modules/lit-html.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { getSrc } from '../../utils/misc.js';
 import { update } from '../../services/song.js';

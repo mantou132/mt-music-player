@@ -1,4 +1,4 @@
-import { html } from 'https://dev.jspm.io/lit-html';
+import { html } from '../../js_modules/lit-html.js';
 import AppPlaylistList from './playlist.js';
 
 customElements.define(

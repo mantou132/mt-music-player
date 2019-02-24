@@ -1,4 +1,4 @@
-import { html, render } from 'https://dev.jspm.io/lit-html';
+import { html, render } from '../../js_modules/lit-html.js';
 import { create } from '../../services/playlist.js';
 
 export default function getAddPlaylistModal() {

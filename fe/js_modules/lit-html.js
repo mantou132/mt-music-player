@@ -1,0 +1,11 @@
+export * from './npm:lit-html@1.0.0/lit-html.js';
+import './npm:lit-html@1.0.0/lib/default-template-processor.js';
+import './npm:lit-html@1.0.0/lib/template-result.js';
+import './npm:lit-html@1.0.0/lib/directive.js';
+import './npm:lit-html@1.0.0/lib/dom.js';
+import './npm:lit-html@1.0.0/lib/part.js';
+import './npm:lit-html@1.0.0/lib/parts.js';
+import './npm:lit-html@1.0.0/lib/render.js';
+import './npm:lit-html@1.0.0/lib/template-factory.js';
+import './npm:lit-html@1.0.0/lib/template-instance.js';
+import './npm:lit-html@1.0.0/lib/template.js';

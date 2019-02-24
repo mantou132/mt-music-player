@@ -1,4 +1,4 @@
-import { html } from 'https://dev.jspm.io/lit-html';
+import { html } from '../../js_modules/lit-html.js';
 import AppSongList from './song.js';
 import mediaQuery from '../../lib/mediaquery.js';
 

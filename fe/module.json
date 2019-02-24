@@ -1,0 +1,20 @@
+{
+  "lit-html": {
+    "name": "lit-html",
+    "main": "lit-html.js",
+    "requires": []
+  },
+  "pinyin": {
+    "name": "pinyin",
+    "main": "pinyin.js",
+    "requires": [
+      "npm:object-assign@4?dew"
+    ]
+  },
+  "npm:object-assign@4?dew": {
+    "name": "npm:object-assign@4?dew",
+    "main": "npm:object-assign@4?dew.js",
+    "requires": [],
+    "isIndirect": true
+  }
+}

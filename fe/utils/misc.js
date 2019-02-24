@@ -1,4 +1,3 @@
-import { importModule } from '../polyfill/importModule.js';
 import config from '../config/index.js';
 
 export function throttle(fn, delay = 500) {
@@ -14,7 +13,7 @@ export async function sleep(ms) {
 }
 
 let pinyin = (汉字) => {
-  importModule('https://dev.jspm.io/pinyin').then(({ default: py }) => {
+  import('../js_modules/pinyin.js').then(({ default: py }) => {
     pinyin = py;
   });
   return [汉字];

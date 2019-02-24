@@ -1,4 +1,4 @@
-import { html, render } from 'https://dev.jspm.io/lit-html';
+import { html, render } from '../js_modules/lit-html.js';
 import {
   store, connect, disConnect, PAGE_KEY,
 } from '../models/index.js';

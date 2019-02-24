@@ -1,4 +1,4 @@
-import { html, render } from 'https://dev.jspm.io/lit-html';
+import { html, render } from './js_modules/lit-html.js';
 import mediaQuery from './lib/mediaquery.js';
 
 customElements.define(

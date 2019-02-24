@@ -32,6 +32,7 @@
     "upyun": "^3.3.4"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
