@@ -28,6 +28,7 @@ export const get = async () => {
 };
 
 export const getFavorite = async () => {
+  await get();
   const list = store.songData.list.filter(data => data.star);
   updateStore('favoriteData', { list: list.map(e => new Proxy(e, handler)) });
   return list;

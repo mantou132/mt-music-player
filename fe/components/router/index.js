@@ -2,7 +2,7 @@ import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
-import { get as getAllSong, getFavorite } from '../../services/song.js';
+import { getFavorite } from '../../services/song.js';
 import { get as getAllPlaylist, getSong } from '../../services/playlist.js';
 import { get as getAllAlbum } from '../../services/album.js';
 import { get as getAllArtist } from '../../services/artist.js';
@@ -29,7 +29,6 @@ customElements.define(
             <app-song-list
               filtername="${filtername || ''}"
               filtervalue="${query.get(filtername)}"
-              .getData="${getAllSong}"
               .data="${store.songData}">
           </app-song-list>`;
           action = html`
