@@ -19,7 +19,9 @@ app.use((req, res) => res.sendfile('./fe/index.html'));
 const server = http.createServer(app);
 
 server.listen(process.env.PORT || 7749, '0.0.0.0', () => {
-  console.info(`server started on \`http://localhost:${process.env.PORT || 7749}\``);
+  console.info(
+    `server started on \`http://localhost:${process.env.PORT || 7749}\``,
+  );
 });
 const onClose = () => {
   server.close(() => {

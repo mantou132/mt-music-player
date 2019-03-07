@@ -27,7 +27,10 @@ export function transformTextToSVG(text) {
     </svg>`)}`;
 }
 
-export function transformTextToBitmap(text, { width = 512, height = 512 } = {}) {
+export function transformTextToBitmap(
+  text,
+  { width = 512, height = 512 } = {},
+) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -42,7 +45,7 @@ export function transformTextToBitmap(text, { width = 512, height = 512 } = {}) 
   ctx.font = `${height}px sans-serif`;
   ctx.fillStyle = luminance(...background) < 0.4 ? '#ffffff55' : '#00000055';
 
-  [...String(text)].forEach((char) => {
+  [...String(text)].forEach(char => {
     ctx.save();
     const textMetrics = ctx.measureText(char);
     const transform = {
@@ -50,22 +53,26 @@ export function transformTextToBitmap(text, { width = 512, height = 512 } = {}) 
       x: width / 2 + textMetrics.width,
       y: height / 2,
     };
-    const {
-      a, b, c, d, e, f,
-    } = new DOMMatrix(
-      `rotate(${transform.rotate}deg) translate(${transform.x}px, ${transform.y}px)`,
+    const { a, b, c, d, e, f } = new DOMMatrix(
+      `rotate(${transform.rotate}deg) translate(${transform.x}px, ${
+        transform.y
+      }px)`,
     );
     ctx.transform(a, b, c, d, e, f);
-    ctx.fillText(char, (width - textMetrics.width) / 2 - transform.x, height / 2 - transform.y);
+    ctx.fillText(
+      char,
+      (width - textMetrics.width) / 2 - transform.x,
+      height / 2 - transform.y,
+    );
     ctx.restore();
   });
 
   return canvas.toDataURL();
 }
 
-export const blobToDataURL = (blob) => {
+export const blobToDataURL = blob => {
   const reader = new FileReader();
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     reader.addEventListener(
       'load',
       () => {
@@ -78,7 +85,11 @@ export const blobToDataURL = (blob) => {
   });
 };
 
-export const compressionImg = async ({ img = new Image(), file }, limit, option) => {
+export const compressionImg = async (
+  { img = new Image(), file },
+  limit,
+  option,
+) => {
   const canvas = document.createElement('canvas');
   try {
     if (!img.naturalWidth) {
@@ -99,14 +110,17 @@ export const compressionImg = async ({ img = new Image(), file }, limit, option)
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    if (option && option.output === 'dataUrl') return Promise.resolve(canvas.toDataURL());
-    return new Promise(resolve => canvas.toBlob((blob) => {
-      resolve(
-        new File([blob], file.name, {
-          type: blob.type,
-        }),
-      );
-    }, file.type));
+    if (option && option.output === 'dataUrl')
+      return Promise.resolve(canvas.toDataURL());
+    return new Promise(resolve =>
+      canvas.toBlob(blob => {
+        resolve(
+          new File([blob], file.name, {
+            type: blob.type,
+          }),
+        );
+      }, file.type),
+    );
   } catch (err) {
     throw new Error('compressionImg error');
   }

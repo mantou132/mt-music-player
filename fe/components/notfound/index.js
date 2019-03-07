@@ -19,7 +19,7 @@ customElements.define(
             fill: var(--notfound-text-secondary-color);
           }
           h1 {
-            margin: .2em 0;
+            margin: 0.2em 0;
             font-size: 3em;
             font-weight: 500;
             text-transform: uppercase;

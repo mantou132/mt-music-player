@@ -6,7 +6,7 @@ const map = new Map();
 // eslint-disable-next-line
 export const get = async () => {
   const { list: songList } = store.songData;
-  songList.forEach((song) => {
+  songList.forEach(song => {
     if (map.has(song.artist)) return;
     map.set(song.artist, {
       name: song.artist,

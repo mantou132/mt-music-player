@@ -92,9 +92,7 @@ customElements.define(
 
     render() {
       const {
-        playerState: {
-          currentSong, state, volume, muted,
-        },
+        playerState: { currentSong, state, volume, muted },
         audioState: { currentTime },
       } = this.state;
       const { list } = store.songData;

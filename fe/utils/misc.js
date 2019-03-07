@@ -12,7 +12,7 @@ export async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let pinyin = (汉字) => {
+let pinyin = 汉字 => {
   import('../js_modules/pinyin.js').then(({ default: py }) => {
     pinyin = py;
   });

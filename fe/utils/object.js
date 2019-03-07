@@ -1,7 +1,7 @@
 export function mergeObject(obj1, obj2, newObject) {
   const wrap = newObject || obj1;
   const keys = new Set(Object.keys(obj1).concat(Object.keys(obj2)));
-  keys.forEach((key) => {
+  keys.forEach(key => {
     if (!(key in obj1)) {
       wrap[key] = obj2[key];
     } else if (!(key in obj2)) {
@@ -19,7 +19,7 @@ export function mergeObject(obj1, obj2, newObject) {
 export function toQuerystring(obj) {
   const query = new URLSearchParams();
   const keys = Object.keys(obj);
-  keys.forEach((key) => {
+  keys.forEach(key => {
     query.append(key, obj[key]);
   });
   return query.toString();

@@ -89,7 +89,7 @@ window.addEventListener('unload', () => {
   storage.setSession('historyState', store.historyState);
 });
 
-window.addEventListener('popstate', (event) => {
+window.addEventListener('popstate', event => {
   // forward or back
   // none replace
 
@@ -97,9 +97,7 @@ window.addEventListener('popstate', (event) => {
   const { list, currentIndex } = store.historyState;
 
   if (event.state === null) {
-    const {
-      state, title, path, query,
-    } = list[0];
+    const { state, title, path, query } = list[0];
     window.history.pushState(state, title, path + query);
     return;
   }

@@ -105,7 +105,7 @@ customElements.define(
             position: relative;
             display: flex;
             padding: 1.6rem;
-            transition: background-color .3s;
+            transition: background-color 0.3s;
           }
           :host([active]) {
             --list-item-playing-color: var(--theme-color);
@@ -123,7 +123,7 @@ customElements.define(
           }
           ::slotted(app-icon:not([hidden])) {
             vertical-align: middle;
-            margin: -.6rem 0 -.4rem -.5rem;
+            margin: -0.6rem 0 -0.4rem -0.5rem;
           }
           .title,
           .name {
@@ -132,18 +132,18 @@ customElements.define(
             text-overflow: ellipsis;
           }
           .name {
-            margin-top: .25em;
+            margin-top: 0.25em;
           }
           .name:blank {
             display: none;
           }
           .name,
           .duration {
-            font-size: .875em;
+            font-size: 0.875em;
             color: var(--list-text-secondary-color);
           }
           .more app-icon {
-            margin-top: -.2rem;
+            margin-top: -0.2rem;
           }
           .more app-ripple {
             z-index: 1;
@@ -151,11 +151,11 @@ customElements.define(
           .more,
           .duration {
             min-width: 4rem;
-            padding-left: .75rem;
+            padding-left: 0.75rem;
             text-align: right;
           }
           .duration {
-            padding-top: .125em;
+            padding-top: 0.125em;
             color: var(--list-item-playing-color);
           }
 
@@ -196,7 +196,7 @@ customElements.define(
           ${secondToMinute(song.duration)}
         </div>
         <app-ripple type="touch"></app-ripple>
-    `;
+      `;
     }
   },
 );

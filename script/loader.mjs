@@ -5,7 +5,11 @@ import Module from 'module';
 const builtins = Module.builtinModules;
 const JS_EXTENSIONS = new Set(['.js', '.mjs']);
 
-export default function resolve(specifier, parentModuleURL = 'file://', defaultResolve) {
+export default function resolve(
+  specifier,
+  parentModuleURL = 'file://',
+  defaultResolve,
+) {
   console.log(specifier, parentModuleURL);
   if (builtins.includes(specifier)) {
     return {
@@ -13,7 +17,10 @@ export default function resolve(specifier, parentModuleURL = 'file://', defaultR
       format: 'builtin',
     };
   }
-  if (/^\.{0,2}[/]/.test(specifier) !== true && !specifier.startsWith('file:')) {
+  if (
+    /^\.{0,2}[/]/.test(specifier) !== true &&
+    !specifier.startsWith('file:')
+  ) {
     // For node_modules support:
     return defaultResolve(specifier, parentModuleURL);
     // throw new Error(

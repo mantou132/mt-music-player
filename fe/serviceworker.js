@@ -6,27 +6,32 @@ const assetsToCache = [...new Set([self.location.pathname, '/'])].map(
 
 self.addEventListener('install', () => {
   self.skipWaiting();
-  self.caches.open('mt-music').then((cache) => {
+  self.caches.open('mt-music').then(cache => {
     cache.addAll(assetsToCache);
   });
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const { request } = event;
   const requestUrl = new URL(request.url);
 
   const isSomeOrigin = requestUrl.origin === self.location.origin;
-  const isApiFetch = (isSomeOrigin && requestUrl.pathname.startsWith('/api')) || requestUrl.origin.includes('api.');
-  const fetchSuccess = (response) => {
+  const isApiFetch =
+    (isSomeOrigin && requestUrl.pathname.startsWith('/api')) ||
+    requestUrl.origin.includes('api.');
+  const fetchSuccess = response => {
     if (response.ok) {
       const responseCache = response.clone();
-      self.caches.open('mt-music').then(cache => cache.put(request, responseCache));
+      self.caches
+        .open('mt-music')
+        .then(cache => cache.put(request, responseCache));
       return response;
     }
     throw new Error({ response });
   };
-  const fetchError = ({ response }) => response
-    || new Response(
+  const fetchError = ({ response }) =>
+    response ||
+    new Response(
       `
     <html>
       <meta charset="utf-8">
@@ -54,17 +59,22 @@ self.addEventListener('fetch', (event) => {
   if (!isSomeOrigin && !isApiFetch) return; // CDN web 资源, 图片, 视频的缓存交给第三方管理
 
   event.respondWith(
-    fetch(request, isSomeOrigin ? {} : { mode: 'cors', credentials: 'same-origin' })
+    fetch(
+      request,
+      isSomeOrigin ? {} : { mode: 'cors', credentials: 'same-origin' },
+    )
       .then(fetchSuccess)
-      .catch(error => self.caches
-        .match(request, {
-          ignoreSearch: request.mode === 'navigate',
-        })
-        .then((cache) => {
-          if (cache !== undefined) {
-            return cache;
-          }
-          return fetchError(error);
-        })),
+      .catch(error =>
+        self.caches
+          .match(request, {
+            ignoreSearch: request.mode === 'navigate',
+          })
+          .then(cache => {
+            if (cache !== undefined) {
+              return cache;
+            }
+            return fetchError(error);
+          }),
+      ),
   );
 });

@@ -44,8 +44,11 @@ customElements.define(
         <app-icon name="${icon}" @click="${this.clickHandle}">
           <app-ripple circle></app-ripple>
         </app-icon>
-        <app-range @change="${this.changeHandle}" value="${volume * 100}"></app-range>
-    `;
+        <app-range
+          @change="${this.changeHandle}"
+          value="${volume * 100}"
+        ></app-range>
+      `;
     }
 
     changeHandle({ detail }) {

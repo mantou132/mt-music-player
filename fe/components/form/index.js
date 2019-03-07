@@ -11,7 +11,7 @@ customElements.define(
     get value() {
       const elements = this.querySelectorAll('[name]');
       const formData = new FormData();
-      elements.forEach((ele) => {
+      elements.forEach(ele => {
         if ('value' in ele) {
           formData.append(ele.getAttribute('name'), ele.value);
         }

@@ -51,19 +51,21 @@ customElements.define(
           }
           @media ${mediaQuery.PHONE} {
             .footer {
-              padding: .4rem;
+              padding: 0.4rem;
             }
           }
         </style>
         <div class="image">
-          <img src="${getSrc(image)}">
+          <img src="${getSrc(image)}" />
         </div>
         <div class="footer">
           <div class="title">${title}</div>
           <div class="dec">${dec}</div>
-        <div>
-        <app-ripple type="touch"></app-ripple>
-    `;
+          <div>
+            <app-ripple type="touch"></app-ripple>
+          </div>
+        </div>
+      `;
     }
   },
 );

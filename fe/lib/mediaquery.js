@@ -12,7 +12,8 @@ const mediaQuery = {
     return window.matchMedia(this.PHONE).matches;
   },
 
-  LAPTOP: '(min-width: 1025px) and (max-width: 1280px) and (orientation: landscape)',
+  LAPTOP:
+    '(min-width: 1025px) and (max-width: 1280px) and (orientation: landscape)',
   get isLaptop() {
     return window.matchMedia(this.LAPTOP).matches;
   },
@@ -22,7 +23,8 @@ const mediaQuery = {
     return window.matchMedia(this.DESKTOP).matches;
   },
 
-  PHONE_LANDSCAPE: '(min-width: 481px) and (max-width: 767px) and (orientation: landscape)',
+  PHONE_LANDSCAPE:
+    '(min-width: 481px) and (max-width: 767px) and (orientation: landscape)',
   // PHONE_LANDSCAPE: '(min-width: 481px) and (max-width: 767px)',
   get isPhoneLandscape() {
     return window.matchMedia(this.PHONE_LANDSCAPE).matches;
@@ -33,7 +35,8 @@ const mediaQuery = {
     return window.matchMedia(this.Tablet).matches;
   },
 
-  SMALL_PHONE: '(min-width: 320px) and (max-width: 480px) and (max-height: 640px)',
+  SMALL_PHONE:
+    '(min-width: 320px) and (max-width: 480px) and (max-height: 640px)',
   get isSmallPhone() {
     return window.matchMedia(this.SMALL_PHONE).matches;
   },

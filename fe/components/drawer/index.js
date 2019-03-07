@@ -177,7 +177,9 @@ export default class Drawer extends Component {
             cursor: pointer;
           }
         }
-        @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
+        @media ${mediaQuery.PHONE_LANDSCAPE},
+          ${mediaQuery.PHONE},
+          ${mediaQuery.TABLET} {
           :host {
             z-index: 9;
             left: -100%;
@@ -185,7 +187,7 @@ export default class Drawer extends Component {
             width: 100%;
             height: 100%;
             transition-property: left;
-            transition-delay: .2s;
+            transition-delay: 0.2s;
             background: none;
             overflow: hidden;
           }
@@ -213,8 +215,8 @@ export default class Drawer extends Component {
           }
           .menu,
           .backdrop {
-            transition-duration: .2s;
-            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition-duration: 0.2s;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
           }
           .user {
@@ -253,7 +255,7 @@ export default class Drawer extends Component {
       <div class="backdrop" @click="${Drawer.closeHandle}"></div>
       <div class="menu">
         <div class="user">
-          <img src="${avatar ? getSrc(avatar) : this.avatar}">
+          <img src="${avatar ? getSrc(avatar) : this.avatar}" />
           <div>${name || 'Login'}</div>
         </div>
         <ol class="default">

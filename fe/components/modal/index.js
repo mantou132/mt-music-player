@@ -128,12 +128,12 @@ export default class Modal extends Component {
           flex-shrink: 0;
         }
         .footer form-button:not(:last-of-type) {
-          margin-right: .8rem;
+          margin-right: 0.8rem;
         }
         @media ${mediaQuery.PHONE} {
           :host {
-            transition-duration: .2s;
-            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition-duration: 0.2s;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
           }
           .backdrop {
             background: var(--backdrop-color);
@@ -163,7 +163,7 @@ export default class Modal extends Component {
             overflow: auto;
           }
           .footer {
-            padding: .8rem 1.6rem;
+            padding: 0.8rem 1.6rem;
           }
         }
         @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
@@ -197,7 +197,8 @@ export default class Modal extends Component {
           <div
             class="complete"
             @click="${this.okHandle}"
-            ?hidden="${!complete}">
+            ?hidden="${!complete}"
+          >
             ${complete}
           </div>
           <h1 class="title">${title}</h1>
@@ -210,12 +211,11 @@ export default class Modal extends Component {
           <form-button
             @click="${this.cancelHandle}"
             ?hidden="${!cancel}"
-            type="secondary">
+            type="secondary"
+          >
             ${cancel}
           </form-button>
-          <form-button
-            @click="${this.okHandle}"
-            ?hidden="${!complete}">
+          <form-button @click="${this.okHandle}" ?hidden="${!complete}">
             ${complete}
           </form-button>
         </div>

@@ -57,7 +57,7 @@ customElements.define(
             font-size: 1.6rem;
           }
           .wrap .label {
-            font-size: .75em;
+            font-size: 0.75em;
             color: var(--form-text-secondary-color);
             text-transform: capitalize;
           }
@@ -65,7 +65,7 @@ customElements.define(
             display: block;
             box-sizing: border-box;
             width: 100%;
-            padding: .5em 0;
+            padding: 0.5em 0;
             border-width: 0 0 1px;
             border-color: var(--form-text-secondary-color);
             border-style: solid;
@@ -83,7 +83,7 @@ customElements.define(
             height: 2px;
             background: transparent;
             transform: scaleX(0);
-            transition: transform .3s;
+            transition: transform 0.3s;
           }
           input:hover,
           input:focus {
@@ -107,7 +107,8 @@ customElements.define(
             @compositionupdate="${this.compositionHandle}"
             @compositionend="${this.compositionHandle}"
             ?disabled="${disabled}"
-            spellcheck="false">
+            spellcheck="false"
+          />
           <div class="border"></div>
         </label>
       `;

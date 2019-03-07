@@ -21,7 +21,7 @@ export default class AppPlaylistList extends AppSongList {
         }
         @media ${mediaQuery.PHONE} {
           :host {
-            padding: .4rem;
+            padding: 0.4rem;
             grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
             grid-gap: 1rem;
           }
@@ -35,9 +35,7 @@ export default class AppPlaylistList extends AppSongList {
   renderItem({ id, title, image, updatedAt }) {
     return html`
       <app-link path="/playlist?id=${id}" title="playlist">
-        <gallery-item
-          .data="${{ id, image, title }}"
-          updatedat="${updatedAt}">
+        <gallery-item .data="${{ id, image, title }}" updatedat="${updatedAt}">
         </gallery-item>
       </app-link>
     `;

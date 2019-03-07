@@ -33,7 +33,9 @@ registerPaint(
       const rippleColor = properties.get('--ripple-color').toString();
       const x = parseFloat(properties.get('--ripple-x').toString());
       const y = parseFloat(properties.get('--ripple-y').toString());
-      const duration = parseFloat(properties.get('--animation-duration').toString());
+      const duration = parseFloat(
+        properties.get('--animation-duration').toString(),
+      );
       let tick = parseFloat(properties.get('--animation-tick').toString());
       if (tick < 0) tick = 0;
       if (tick > duration) tick = duration;

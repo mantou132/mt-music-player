@@ -4,7 +4,7 @@ import { store, updateStore, connect } from '../models/index.js';
 export const get = async () => {
   const { list: songList } = store.songData;
   const map = new Map();
-  songList.forEach((song) => {
+  songList.forEach(song => {
     if (map.has(song.album)) return;
     map.set(song.album, {
       title: song.album,

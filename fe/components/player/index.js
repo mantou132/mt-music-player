@@ -101,7 +101,7 @@ customElements.define(
             :host {
               position: fixed;
               width: 100%;
-              transition: height .3s;
+              transition: height 0.3s;
             }
             :host([maximize]) {
               flex-direction: column;
@@ -117,7 +117,7 @@ customElements.define(
               align-items: center;
               flex-shrink: 0;
               justify-content: space-between;
-              padding: .4rem;
+              padding: 0.4rem;
             }
             :host(:not([maximize])) .header {
               margin-right: 1.6rem;
@@ -171,19 +171,14 @@ customElements.define(
           <app-icon
             class="nav"
             @click="${this.clickHandle}"
-            name="${maximize ? 'expand-more' : 'expand-less'}">
+            name="${maximize ? 'expand-more' : 'expand-less'}"
+          >
             <app-ripple scale=".8" circle></app-ripple>
           </app-icon>
-          <app-icon
-            class="action"
-            @click="${this.editHandle}"
-            name="edit">
+          <app-icon class="action" @click="${this.editHandle}" name="edit">
             <app-ripple scale=".8" circle></app-ripple>
           </app-icon>
-          <app-icon
-            class="action"
-            @click="${this.searchHandle}"
-            name="search">
+          <app-icon class="action" @click="${this.searchHandle}" name="search">
             <app-ripple scale=".8" circle></app-ripple>
           </app-icon>
         </div>
@@ -191,7 +186,7 @@ customElements.define(
         <player-progress ?maximize="${maximize}"></player-progress>
         <player-control ?maximize="${maximize}"></player-control>
         <player-volume></player-volume>
-    `;
+      `;
     }
   },
 );

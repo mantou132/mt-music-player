@@ -19,7 +19,9 @@ customElements.define(
 
       const { list, currentIndex } = this.state;
       const currentState = list[currentIndex];
-      if (isEqual(currentState, { path, query }, { ignores: ['state', 'title'] })) {
+      if (
+        isEqual(currentState, { path, query }, { ignores: ['state', 'title'] })
+      ) {
         return true;
       }
       return false;

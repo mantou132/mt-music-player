@@ -24,10 +24,13 @@ customElements.define(
       const y = touche.clientY - top;
 
       const touchHandleTimer = setTimeout(() => {
-        const { left: currentLeft, top: currentTop } = this.getBoundingClientRect();
+        const {
+          left: currentLeft,
+          top: currentTop,
+        } = this.getBoundingClientRect();
         if (
-          isEqual({ left: currentLeft, top: currentTop }, { left, top })
-          && this.touchHandleTimer === touchHandleTimer
+          isEqual({ left: currentLeft, top: currentTop }, { left, top }) &&
+          this.touchHandleTimer === touchHandleTimer
         ) {
           this.mouseDownHandle({ offsetX: x, offsetY: y });
         }
@@ -48,7 +51,8 @@ customElements.define(
       const isCircle = this.hasAttribute('circle');
 
       const duration = parseInt(this.getAttribute('duration'), 10) || 600;
-      const color = this.getAttribute('color') || window.getComputedStyle(this).color;
+      const color =
+        this.getAttribute('color') || window.getComputedStyle(this).color;
       const scale = this.getAttribute('scale') || (isCircle ? 1.5 : 1);
       const opacity = this.getAttribute('opacity') || 0.08;
 
@@ -56,7 +60,7 @@ customElements.define(
       const { clientWidth, clientHeight } = this;
       const start = performance.now();
       cancelAnimationFrame(this.timer);
-      const raf = (now) => {
+      const raf = now => {
         const count = Math.floor(now - start);
         this.style.cssText = `
           --ripple-x: ${isCircle ? clientWidth / 2 : x};

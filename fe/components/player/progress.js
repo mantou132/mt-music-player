@@ -54,8 +54,8 @@ customElements.define(
             :host([maximize]) .times {
               display: flex;
               justify-content: space-between;
-              margin-top: .5em;
-              font-size: .75em;
+              margin-top: 0.5em;
+              font-size: 0.75em;
             }
           }
           @media ${mediaQuery.SHORT} {
@@ -65,13 +65,16 @@ customElements.define(
           }
         </style>
         <div class="track">
-          <div class="value" style="width: ${(currentTime / duration).toFixed(4) * 100}%"></div>
+          <div
+            class="value"
+            style="width: ${(currentTime / duration).toFixed(4) * 100}%"
+          ></div>
         </div>
         <div class="times">
           <span>${secondToMinute(currentTime)}</span>
           <span>${secondToMinute(duration)}</span>
         </div>
-    `;
+      `;
     }
 
     clickHandle({ x }) {

@@ -15,7 +15,9 @@ function getVersion(str, name) {
   if (name === 'safari' || !name) {
     n = 'version';
   }
-  const m = str.match(new RegExp(`${n}[\\/ ]([\\d\\w\\.]+)`, 'i')) || str.match(/rv:([\d\w.]+)/i);
+  const m =
+    str.match(new RegExp(`${n}[\\/ ]([\\d\\w\\.]+)`, 'i')) ||
+    str.match(/rv:([\d\w.]+)/i);
   return m && m.length > 1 ? m[1] : '';
 }
 function getName(ua) {
@@ -44,12 +46,14 @@ function getPlatform(ua) {
         : isAndroid;
     },
     get isIOS() {
-      return localStorage.current_platform ? localStorage.current_platform === 'ios' : isIOS;
+      return localStorage.current_platform
+        ? localStorage.current_platform === 'ios'
+        : isIOS;
     },
     isHomeScreenAPP:
-      window.location.search.includes('utm_source=web_app_manifest')
-      || window.location.search.includes('utm_source=react_native_app')
-      || Math.min(
+      window.location.search.includes('utm_source=web_app_manifest') ||
+      window.location.search.includes('utm_source=react_native_app') ||
+      Math.min(
         // ios `outerHeight` return 0
         // Android `outerHeight === innerHeight`
         Math.abs(window.screen.height - window.innerHeight),

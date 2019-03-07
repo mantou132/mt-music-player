@@ -1,7 +1,5 @@
 import { html, render } from '../js_modules/lit-html.js';
-import {
-  store, connect, disConnect, PAGE_KEY,
-} from '../models/index.js';
+import { store, connect, disConnect, PAGE_KEY } from '../models/index.js';
 import { mergeObject } from '../utils/object.js';
 
 const uniqueDataPropMap = new WeakMap();
@@ -30,7 +28,7 @@ export default class Component extends HTMLElement {
     this.setState = this.setState.bind(this);
 
     const { observedPropertys } = this.constructor;
-    observedPropertys.forEach((prop) => {
+    observedPropertys.forEach(prop => {
       let propValue;
       Object.defineProperty(this, prop, {
         get() {
@@ -58,7 +56,7 @@ export default class Component extends HTMLElement {
     if (typeof value !== 'object') throw new Error('Must use the object');
     if (!this[uniqueDataPropMap.get(this)]) {
       this[uniqueDataPropMap.get(this)] = value;
-      const binding = (obj) => {
+      const binding = obj => {
         if (obj[PAGE_KEY]) {
           connect(
             obj[PAGE_KEY],
@@ -67,7 +65,7 @@ export default class Component extends HTMLElement {
           uniqueConnectedPageMap.get(this).add(obj[PAGE_KEY]);
         } else {
           const keys = Object.keys(obj);
-          keys.forEach((key) => {
+          keys.forEach(key => {
             if (typeof obj[key] === 'object' && obj[key]) binding(obj[key]);
           });
         }
@@ -98,7 +96,7 @@ export default class Component extends HTMLElement {
   disconnected() {}
 
   disconnectedCallback() {
-    uniqueConnectedPageMap.get(this).forEach((page) => {
+    uniqueConnectedPageMap.get(this).forEach(page => {
       disConnect(page, this.update);
     });
     this.disconnected();
@@ -109,7 +107,11 @@ export default class Component extends HTMLElement {
   attributeChangedCallback(...rest) {
     this.attributeChanged(...rest);
     const { observedAttributes } = this.constructor;
-    if (this.isConnected && observedAttributes && observedAttributes.includes(rest[0])) {
+    if (
+      this.isConnected &&
+      observedAttributes &&
+      observedAttributes.includes(rest[0])
+    ) {
       this.update();
     }
   }
@@ -131,7 +133,7 @@ export default class Component extends HTMLElement {
       // ✔ correct: `{<Store>}` or `store`
       // ✖ error: `{{<Store>}}`
       const keys = Object.keys(this.state);
-      keys.forEach((key) => {
+      keys.forEach(key => {
         const value = this.state[key];
         const page = value && value[PAGE_KEY];
         if (!(key in payload)) return;

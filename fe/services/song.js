@@ -12,7 +12,9 @@ const handler = {
     if (key === 'picture' && !target[key]) {
       if (!target[pictureKey]) {
         const pinyin = getPinYin(target.title);
-        target[pictureKey] = transformTextToBitmap(pinyin.substr(0, 2).toUpperCase());
+        target[pictureKey] = transformTextToBitmap(
+          pinyin.substr(0, 2).toUpperCase(),
+        );
       }
       return target[pictureKey];
     }
@@ -34,14 +36,14 @@ export const getFavorite = async () => {
   return list;
 };
 
-export const upload = (files) => {
+export const upload = files => {
   const fileArr = Array.from(files);
   updateStore('uploaderState', {
     list: store.uploaderState.list.concat(fileArr.map(file => ({ file }))),
     errorList: [],
   });
 
-  fileArr.forEach(async (file) => {
+  fileArr.forEach(async file => {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -57,7 +59,10 @@ export const upload = (files) => {
     const uploadedIndex = list.findIndex(({ file: f }) => file === f);
     const uploadedItem = list.splice(uploadedIndex, 1);
     if (error) {
-      updateStore('uploaderState', { list, errorList: errorList.concat(uploadedItem) });
+      updateStore('uploaderState', {
+        list,
+        errorList: errorList.concat(uploadedItem),
+      });
     } else {
       updateStore('uploaderState', { list });
       updateStore('songData', {
@@ -67,7 +72,7 @@ export const upload = (files) => {
   });
 };
 
-export const del = async (id) => {
+export const del = async id => {
   const { list } = store.songData;
   await request(`/songs/${id}`, { method: 'delete' });
   const deletedIndex = list.findIndex(({ id: i }) => i === id);
@@ -79,7 +84,9 @@ export const update = async (id, song) => {
   const { list } = store.songData;
   const { currentSong } = store.playerState;
   const data = await request(`/songs/${id}`, { method: 'put', body: song });
-  Object.assign(list.find(({ id: i }) => i === id), data, { picture: data.picture || undefined });
+  Object.assign(list.find(({ id: i }) => i === id), data, {
+    picture: data.picture || undefined,
+  });
   updateStore('songData', { list });
   if (currentSong === id) {
     updateStore('playerState', {});
@@ -89,8 +96,16 @@ export const update = async (id, song) => {
   }
 };
 
-export const search = async (text) => {
-  const list = await request(`/search?${toQuerystring({ q: text, type: 'song' })}`);
-  updateStore('searchData', { list: list.map(e => new Proxy(e, handler)), text });
-  history.replace({ path: window.location.pathname, query: `?${toQuerystring({ q: text })}` });
+export const search = async text => {
+  const list = await request(
+    `/search?${toQuerystring({ q: text, type: 'song' })}`,
+  );
+  updateStore('searchData', {
+    list: list.map(e => new Proxy(e, handler)),
+    text,
+  });
+  history.replace({
+    path: window.location.pathname,
+    query: `?${toQuerystring({ q: text })}`,
+  });
 };

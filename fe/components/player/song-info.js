@@ -86,8 +86,8 @@ customElements.define(
           }
           .artist {
             margin-top: 0.28em;
-            font-size: .85em;
-            color:  var(--player-text-secondary-color);
+            font-size: 0.85em;
+            color: var(--player-text-secondary-color);
           }
           .wrap app-icon {
             padding: 1.6rem;
@@ -160,27 +160,31 @@ customElements.define(
           }
         </style>
         <div class="img">
-          <img alt="" src="${getSrc(song.picture)}">
+          <img alt="" src="${getSrc(song.picture)}" />
         </div>
         <div class="wrap">
           <div class="text">
             <div class="name">${song.title}</div>
-            <div class="artist">${song.title ? song.artist || 'unknown' : ''}</div>
+            <div class="artist">
+              ${song.title ? song.artist || 'unknown' : ''}
+            </div>
           </div>
           <app-icon
             class="add-playlist"
             @click="${this.addToPlaylist}"
-            name="add-circle-outline">
+            name="add-circle-outline"
+          >
             <app-ripple circle></app-ripple>
           </app-icon>
           <app-icon
             class="star"
             @click="${() => update(song.id, { star: song.star ? 0 : 1 })}"
-            name="${song.star ? 'star' : 'star-border'}">
+            name="${song.star ? 'star' : 'star-border'}"
+          >
             <app-ripple circle></app-ripple>
           </app-icon>
         </div>
-    `;
+      `;
     }
   },
 );

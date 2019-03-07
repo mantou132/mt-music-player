@@ -10,14 +10,14 @@ import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
 
 function getTitle() {
-  return html`<h1 class="title">${capitalize(document.title)}</h1>`;
+  return html`
+    <h1 class="title">${capitalize(document.title)}</h1>
+  `;
 }
 
 function getUploadButton() {
   return html`
-    <app-icon
-      @click="${AppUpload.open}"
-      name="add">
+    <app-icon @click="${AppUpload.open}" name="add">
       <app-ripple scale=".8" circle></app-ripple>
     </app-icon>
   `;
@@ -25,9 +25,7 @@ function getUploadButton() {
 
 function getMenuButton() {
   return html`
-    <app-icon
-      @click="${Drawer.open}"
-      name="menu">
+    <app-icon @click="${Drawer.open}" name="menu">
       <app-ripple scale=".8" circle></app-ripple>
     </app-icon>
   `;
@@ -45,7 +43,10 @@ function getSearchButton() {
 
 function getAddPlaylistButton() {
   return html`
-    <app-icon name="playlist-add" @click="${() => Modal.open(getAddPlaylistModal())}">
+    <app-icon
+      name="playlist-add"
+      @click="${() => Modal.open(getAddPlaylistModal())}"
+    >
       <app-ripple scale=".8" circle></app-ripple>
     </app-icon>
   `;
@@ -68,7 +69,8 @@ function getSearchInput() {
       class="input"
       value="${query.get('q') || store.searchData.text}"
       autofocus
-      @change="${({ detail }) => search(detail)}">
+      @change="${({ detail }) => search(detail)}"
+    >
     </form-text>
   `;
 }
@@ -86,7 +88,7 @@ customElements.define(
     }
 
     getContents() {
-      return this.actions.map((ele) => {
+      return this.actions.map(ele => {
         if (ele === 'title') return getTitle();
         if (ele === 'upload') return getUploadButton();
         if (ele === 'search') return getSearchButton();
@@ -119,7 +121,7 @@ customElements.define(
             margin-right: 1.6rem;
           }
           @media ${mediaQuery.LAPTOP}, ${mediaQuery.DESKTOP} {
-            app-icon[name=menu] {
+            app-icon[name='menu'] {
               display: none;
             }
           }
@@ -129,7 +131,7 @@ customElements.define(
               position: -webkit-sticky;
               position: sticky;
               top: 0;
-              padding: .4rem;
+              padding: 0.4rem;
               background: var(--action-background-color);
               color: var(--action-text-color);
               fill: var(--action-text-color);

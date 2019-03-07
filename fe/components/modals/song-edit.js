@@ -31,12 +31,25 @@ export default function getSongEditModal(song) {
       <form-img
         name="picture"
         .limit="${{ size: { width: 512, height: 512 }, filesize: 200 * 1024 }}"
-        src="${getSrc(song.picture)}">
+        src="${getSrc(song.picture)}"
+      >
       </form-img>
       <div class="text">
-        <form-text label="title" name="title" value="${song.title || ''}"></form-text>
-        <form-text label="artist" name="artist" value="${song.artist || ''}"></form-text>
-        <form-text label="album" name="album" value="${song.album || ''}"></form-text>
+        <form-text
+          label="title"
+          name="title"
+          value="${song.title || ''}"
+        ></form-text>
+        <form-text
+          label="artist"
+          name="artist"
+          value="${song.artist || ''}"
+        ></form-text>
+        <form-text
+          label="album"
+          name="album"
+          value="${song.album || ''}"
+        ></form-text>
       </div>
     `,
     form,

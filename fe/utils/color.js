@@ -8,7 +8,7 @@ export function randomColor(type) {
 }
 
 export function luminance(r, g, b) {
-  const a = [r, g, b].map((v) => {
+  const a = [r, g, b].map(v => {
     v /= 255;
     return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
   });
@@ -115,8 +115,9 @@ export function hslToRGB(h, s, l) {
   return [r * 255, g * 255, b * 255];
 }
 
-export const hexToRGB = str => str
-  .replace('#', '')
-  .split(/(\w{2})?/)
-  .filter(e => e)
-  .map(e => Number(`0x${e}`));
+export const hexToRGB = str =>
+  str
+    .replace('#', '')
+    .split(/(\w{2})?/)
+    .filter(e => e)
+    .map(e => Number(`0x${e}`));

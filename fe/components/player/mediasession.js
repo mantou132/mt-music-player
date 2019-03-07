@@ -3,9 +3,7 @@ import { getSrc } from '../../utils/misc.js';
 const emptyFunction = () => {};
 
 const mediaSession = {
-  setMetadata({
-    title, artist, album, picture,
-  }) {
+  setMetadata({ title, artist, album, picture }) {
     if ('mediaSession' in navigator) {
       const metadata = { title };
 
@@ -26,8 +24,14 @@ const mediaSession = {
       navigator.mediaSession.setActionHandler('pause', mediaSession.onpause);
       // navigator.mediaSession.setActionHandler('seekbackward', mediaSession.onseekbackward);
       // navigator.mediaSession.setActionHandler('seekforward', mediaSession.onseekforward);
-      navigator.mediaSession.setActionHandler('previoustrack', mediaSession.onprevioustrack);
-      navigator.mediaSession.setActionHandler('nexttrack', mediaSession.onnexttrack);
+      navigator.mediaSession.setActionHandler(
+        'previoustrack',
+        mediaSession.onprevioustrack,
+      );
+      navigator.mediaSession.setActionHandler(
+        'nexttrack',
+        mediaSession.onnexttrack,
+      );
     }
   },
   onplay: emptyFunction,

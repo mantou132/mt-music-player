@@ -16,7 +16,7 @@ module.exports = {
     worker: true,
     serviceworker: true,
   },
-  extends: [/* 'eslint:recommended',*/ 'airbnb-base'],
+  extends: [/* 'eslint:recommended',*/ 'airbnb-base', 'plugin:prettier/recommended'],
   // https://eslint.org/docs/rules/
   rules: {
     'import/extensions': 0,

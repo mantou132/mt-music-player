@@ -25,7 +25,12 @@ export default class AppUpload extends Component {
           display: none;
         }
       </style>
-      <input @change="${this.changeHandle}" type="file" multiple accept="audio/*">
+      <input
+        @change="${this.changeHandle}"
+        type="file"
+        multiple
+        accept="audio/*"
+      />
     `;
   }
 

@@ -46,10 +46,12 @@ export default class AppSongList extends Component {
         id="${data.id}"
         updatedat="${data.updatedAt}"
         ?error="${isError}"
-        ?active="${currentSong === data.id}">
+        ?active="${currentSong === data.id}"
+      >
         <app-icon
           name="${playIcon}"
-          ?hidden="${currentSong !== data.id || isError}">
+          ?hidden="${currentSong !== data.id || isError}"
+        >
         </app-icon>
       </song-list-item>
     `;

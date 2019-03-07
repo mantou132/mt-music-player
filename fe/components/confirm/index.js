@@ -48,9 +48,7 @@ export default class Confirm extends Component {
   }
 
   render() {
-    const {
-      title, complete, cancel, text,
-    } = this.state;
+    const { title, complete, cancel, text } = this.state;
 
     return html`
       <style>
@@ -83,7 +81,7 @@ export default class Confirm extends Component {
           position: absolute;
           width: 28rem;
           padding: 1.6rem;
-          border-radius: .2rem;
+          border-radius: 0.2rem;
           background: var(--modal-background-color);
           color: var(--modal-text-primary-color);
           fill: var(--modal-text-primary-color);
@@ -108,8 +106,8 @@ export default class Confirm extends Component {
         }
         @media ${mediaQuery.PHONE} {
           :host {
-            transition-duration: .2s;
-            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition-duration: 0.2s;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
           }
           .backdrop {
             background: var(--backdrop-color);
@@ -121,17 +119,16 @@ export default class Confirm extends Component {
         <h1 class="title" ?hidden="${!title}">${title}</h1>
         <div class="body">${capitalize(text)}</div>
         <div class="footer">
-            <form-button
-              @click="${this.okHandle}"
-              ?hidden="${!complete}">
-              ${complete}
-            </form-button>
-            <form-button
-              @click="${this.cancelHandle}"
-              ?hidden="${!cancel}"
-              type="secondary">
-              ${cancel}
-            </form-button>
+          <form-button @click="${this.okHandle}" ?hidden="${!complete}">
+            ${complete}
+          </form-button>
+          <form-button
+            @click="${this.cancelHandle}"
+            ?hidden="${!cancel}"
+            type="secondary"
+          >
+            ${cancel}
+          </form-button>
         </div>
       </div>
     `;

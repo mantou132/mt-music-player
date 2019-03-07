@@ -124,12 +124,11 @@ customElements.define(
           @click="${this.clickShuffleHandle}"
           class="edge"
           name="shuffle"
-          style="opacity: ${shuffle ? 1 : 0.5}">
+          style="opacity: ${shuffle ? 1 : 0.5}"
+        >
           <app-ripple circle></app-ripple>
         </app-icon>
-        <app-icon
-          @click="${this.clickPrevHandle}"
-          name="skip-previous">
+        <app-icon @click="${this.clickPrevHandle}" name="skip-previous">
           <app-ripple circle></app-ripple>
         </app-icon>
         <!-- TODO: animate -->
@@ -137,21 +136,17 @@ customElements.define(
           @click="${this.clickPlayHandle}"
           class="play"
           ?error="${state === 'error'}"
-          name="${state === 'paused' ? 'play-arrow' : 'pause'}">
+          name="${state === 'paused' ? 'play-arrow' : 'pause'}"
+        >
           <app-ripple circle></app-ripple>
         </app-icon>
-        <app-icon
-          @click="${this.clickNextHandle}"
-          name="skip-next">
+        <app-icon @click="${this.clickNextHandle}" name="skip-next">
           <app-ripple circle></app-ripple>
         </app-icon>
-        <app-icon
-          @click="${this.clickModeHandle}"
-          class="edge"
-          name="${mode}">
+        <app-icon @click="${this.clickModeHandle}" class="edge" name="${mode}">
           <app-ripple circle></app-ripple>
         </app-icon>
-    `;
+      `;
     }
   },
 );

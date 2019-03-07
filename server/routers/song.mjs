@@ -115,7 +115,11 @@ export async function search(req, res) {
   const list = await Models.song.findAll({
     where: {
       user: req.header('x-user') || null,
-      [or]: [{ title: { [like]: q } }, { album: { [like]: q } }, { artist: { [like]: q } }],
+      [or]: [
+        { title: { [like]: q } },
+        { album: { [like]: q } },
+        { artist: { [like]: q } },
+      ],
     },
     order: [['id', 'DESC']],
   });

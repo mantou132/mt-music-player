@@ -55,9 +55,7 @@ export default class AppMenu extends Component {
   }
 
   render() {
-    const {
-      list, target, stage, type,
-    } = this.state;
+    const { list, target, stage, type } = this.state;
     const position = { x: 0, y: 0 };
     const translate = { x: 0, y: 0 };
     if (stage && target) {
@@ -91,9 +89,10 @@ export default class AppMenu extends Component {
       `,
     );
 
-    const style = type === 'center'
-      ? ''
-      : `
+    const style =
+      type === 'center'
+        ? ''
+        : `
       left: ${position.x}px;
       top: ${position.y}px;
       transform: translate(${translate.x}%, ${translate.y}%);
@@ -129,7 +128,7 @@ export default class AppMenu extends Component {
           position: absolute;
           overflow: auto;
           scrollbar-width: none;
-          border-radius: .2rem;
+          border-radius: 0.2rem;
           box-shadow: var(--menu-box-shadow);
         }
         .menu::-webkit-scrollbar {
@@ -151,7 +150,7 @@ export default class AppMenu extends Component {
         ol {
           width: 16.9rem;
           margin: 0 0 -2rem -3rem;
-          padding: .8rem 0;
+          padding: 0.8rem 0;
           background: var(--menu-background-color);
           color: var(--menu-text-color);
         }
@@ -183,16 +182,16 @@ export default class AppMenu extends Component {
           :host,
           ol {
             transition-property: margin, opacity;
-            transition-duration: .1s;
-            transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition-duration: 0.1s;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
           }
         }
       </style>
       <div @click="${this.closeHandle}" class="backdrop ${type}"></div>
-      <div
-        class="menu ${type}"
-        style="${style}">
-        <ol>${items}</ol>
+      <div class="menu ${type}" style="${style}">
+        <ol>
+          ${items}
+        </ol>
       </div>
     `;
   }

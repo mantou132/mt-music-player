@@ -8,7 +8,7 @@ export const PAGE_KEY = Symbol('page');
 
 const handles = new Map();
 
-const createStore = (originStore) => {
+const createStore = originStore => {
   const handler = {
     has(target, key) {
       return key in target;
@@ -26,7 +26,7 @@ const createStore = (originStore) => {
 
   const proxy = new Proxy(originStore, handler);
   const keys = Object.keys(originStore);
-  keys.forEach((key) => {
+  keys.forEach(key => {
     handles.set(key, new Set());
     proxy[key] = originStore[key];
     proxy[key][PAGE_KEY] = key;

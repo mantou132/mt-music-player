@@ -7,9 +7,11 @@ customElements.define(
     // eslint-disable-next-line
     renderItem({ name, photo }) {
       return html`
-        <app-link path="/songs?artist=${encodeURIComponent(name)}" title="songs">
-          <gallery-item
-            .data="${{ image: photo, title: name }}">
+        <app-link
+          path="/songs?artist=${encodeURIComponent(name)}"
+          title="songs"
+        >
+          <gallery-item .data="${{ image: photo, title: name }}">
           </gallery-item>
         </app-link>
       `;

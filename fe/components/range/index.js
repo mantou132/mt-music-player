@@ -39,8 +39,8 @@ customElements.define(
             position: absolute;
             top: 50%;
             right: 0;
-            width: .75em;
-            height: .75em;
+            width: 0.75em;
+            height: 0.75em;
             border-radius: 100%;
             background: currentColor;
             transform: translate(50%, -50%);
@@ -51,7 +51,7 @@ customElements.define(
             <div class="dot"></div>
           </div>
         </div>
-    `;
+      `;
     }
 
     clickHandle({ x }) {

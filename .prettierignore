@@ -1,2 +1,2 @@
-polyfill
-vendor
+fe/js_modules
+/node_modules/

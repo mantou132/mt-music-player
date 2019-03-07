@@ -18,7 +18,9 @@ customElements.define(
     render() {
       const { pathname, search } = window.location;
       const query = new URLSearchParams(search);
-      const filtername = query.has('artist') ? 'artist' : query.has('album') && 'album';
+      const filtername = query.has('artist')
+        ? 'artist'
+        : query.has('album') && 'album';
 
       let content;
       let action;
@@ -29,85 +31,101 @@ customElements.define(
             <app-song-list
               filtername="${filtername || ''}"
               filtervalue="${query.get(filtername)}"
-              .data="${store.songData}">
-          </app-song-list>`;
+              .data="${store.songData}"
+            >
+            </app-song-list>
+          `;
           action = html`
-            <app-action
-              .actions="${['menu', 'title', 'upload', 'search']}">
-            </app-action>`;
+            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            </app-action>
+          `;
           break;
         case '/playlist':
           content = html`
             <app-song-list
               id="${query.get('id')}"
               .getData="${() => getSong(query.get('id'))}"
-              .data="${store.playlistData}">
-            </app-song-list>`;
+              .data="${store.playlistData}"
+            >
+            </app-song-list>
+          `;
           action = html`
-            <app-action
-              .actions="${['menu', 'title', 'upload', 'search']}">
-            </app-action>`;
+            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            </app-action>
+          `;
           break;
         case '/favorites':
           content = html`
             <app-song-list
               .getData="${getFavorite}"
-              .data="${store.favoriteData}">
-            </app-song-list>`;
+              .data="${store.favoriteData}"
+            >
+            </app-song-list>
+          `;
           action = html`
-            <app-action
-              .actions="${['menu', 'title', 'upload', 'search']}">
-            </app-action>`;
+            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            </app-action>
+          `;
           break;
         case '/search':
           content = html`
-            <app-song-list
-              .data="${store.searchData}">
-            </app-song-list>`;
+            <app-song-list .data="${store.searchData}"> </app-song-list>
+          `;
           action = html`
-            <app-action
-              .actions="${['back', 'searchInput']}">
-            </app-action>`;
+            <app-action .actions="${['back', 'searchInput']}"> </app-action>
+          `;
           break;
         case '/albums':
           content = html`
             <app-album-list
               .getData="${getAllAlbum}"
-              .data="${store.albumData}">
-            </app-album-list>`;
+              .data="${store.albumData}"
+            >
+            </app-album-list>
+          `;
           action = html`
-            <app-action
-              .actions="${['menu', 'title', 'upload', 'search']}">
-            </app-action>`;
+            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            </app-action>
+          `;
           break;
         case '/artists':
           content = html`
             <app-artist-list
               .getData="${getAllArtist}"
-              .data="${store.artistData}">
-            </app-artist-list>`;
+              .data="${store.artistData}"
+            >
+            </app-artist-list>
+          `;
           action = html`
-            <app-action
-              .actions="${['menu', 'title', 'upload', 'search']}">
-            </app-action>`;
+            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            </app-action>
+          `;
           break;
         case '/playlists':
           content = html`
             <app-playlist-list
               .getData="${getAllPlaylist}"
-              .data="${store.playlistData}">
-            </app-playlist-list>`;
+              .data="${store.playlistData}"
+            >
+            </app-playlist-list>
+          `;
           action = html`
             <app-action
-              .actions="${['menu', 'title', 'add-playlist', 'search']}">
-            </app-action>`;
+              .actions="${['menu', 'title', 'add-playlist', 'search']}"
+            >
+            </app-action>
+          `;
           break;
         default:
-          content = html`<app-notfound></app-notfound>`;
+          content = html`
+            <app-notfound></app-notfound>
+          `;
           action = html`
             <app-action
-              .actions="${mediaQuery.isPhone ? ['menu', 'title'] : []}">
-            </app-action>`;
+              .actions="${mediaQuery.isPhone ? ['menu', 'title'] : []}"
+            >
+            </app-action>
+          `;
       }
       return html`
         <style>
@@ -115,8 +133,13 @@ customElements.define(
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            padding: var(--list-padding) var(--list-padding) 0 calc(var(--drawer-width) + var(--list-padding));
-            background: linear-gradient(to top, var(--list-background-color), var(--list-background-light-color));
+            padding: var(--list-padding) var(--list-padding) 0
+              calc(var(--drawer-width) + var(--list-padding));
+            background: linear-gradient(
+              to top,
+              var(--list-background-color),
+              var(--list-background-light-color)
+            );
             color: var(--list-text-primary-color);
             fill: var(--list-text-primary-color);
             overflow: auto;
@@ -146,7 +169,9 @@ customElements.define(
               margin-bottom: var(--player-height);
             }
           }
-          @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
+          @media ${mediaQuery.PHONE_LANDSCAPE},
+            ${mediaQuery.PHONE},
+            ${mediaQuery.TABLET} {
             :host {
               padding: var(--list-padding) var(--list-padding) 0;
             }
@@ -159,8 +184,7 @@ customElements.define(
           }
         </style>
         <div class="wrap">
-          ${action}
-          ${content}
+          ${action} ${content}
         </div>
       `;
     }

@@ -34,7 +34,7 @@ customElements.define(
       const input = this.shadowRoot.querySelector('input');
       const file = input.files[0];
       if (this.limit) {
-        compressionImg({ file }, this.limit).then((f) => {
+        compressionImg({ file }, this.limit).then(f => {
           this.revokeURL();
           this.setState({
             file: f,
@@ -99,8 +99,14 @@ customElements.define(
             }
           }
         </style>
-        <input type="file" accept="image/*" @change="${this.changeHandle}" name="${name}" hidden>
-        <img src="${getSrc(blobUrl || src)}">
+        <input
+          type="file"
+          accept="image/*"
+          @change="${this.changeHandle}"
+          name="${name}"
+          hidden
+        />
+        <img src="${getSrc(blobUrl || src)}" />
         <div class="hint">change picture</div>
       `;
     }

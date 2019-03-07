@@ -10,8 +10,8 @@ customElements.define(
         html`
           <style>
             :root {
-              --scrollbar-track-color: rgba(0, 0, 0, .2);
-              --scrollbar-color: rgba(255, 255, 255, .2);
+              --scrollbar-track-color: rgba(0, 0, 0, 0.2);
+              --scrollbar-color: rgba(255, 255, 255, 0.2);
 
               --background-color: #202b27;
               --theme-color: #18d150;
@@ -21,7 +21,7 @@ customElements.define(
               --drawer-width: 22rem;
               --drawer-user-background-color: transparent;
               --drawer-user-text-color: #fff;
-              --drawer-background-color: rgba(0, 0, 0, .25);
+              --drawer-background-color: rgba(0, 0, 0, 0.25);
               --drawer-text-primary-color: #fff;
               --drawer-text-secondary-color: #707070;
 
@@ -53,7 +53,7 @@ customElements.define(
               --menu-hover-background-color: #263238;
               --menu-text-color: #c3c3c3;
               --menu-hover-text-color: #fff;
-              --menu-box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+              --menu-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
               --modal-margin: 2.4rem;
               --modal-background-color: #fff;
@@ -67,9 +67,11 @@ customElements.define(
               --form-text-secondary-color: #707070;
               --form-text-disabled-color: #c3c3c3;
             }
-            @media ${mediaQuery.PHONE_LANDSCAPE}, ${mediaQuery.PHONE}, ${mediaQuery.TABLET} {
+            @media ${mediaQuery.PHONE_LANDSCAPE},
+              ${mediaQuery.PHONE},
+              ${mediaQuery.TABLET} {
               :root {
-                --drawer-background-color: rgba(0, 0, 0, .75);
+                --drawer-background-color: rgba(0, 0, 0, 0.75);
 
                 --list-padding: 1.6rem;
               }
@@ -86,7 +88,7 @@ customElements.define(
                 --action-background-color: #202b27;
                 --action-text-color: #fff;
                 --action-border-color: #eee;
-                --action-box-shadow: 0 -4px 4px 4px rgba(0,0,0,.4);
+                --action-box-shadow: 0 -4px 4px 4px rgba(0, 0, 0, 0.4);
 
                 --list-padding: 0;
                 --list-background-color: #fff;

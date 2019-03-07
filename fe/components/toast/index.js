@@ -49,7 +49,10 @@ export default class AppToast extends Component {
       showToastList.push({
         text,
         timer: setTimeout(() => {
-          showToastList.splice(showToastList.findIndex(({ text: t }) => t === text), 1);
+          showToastList.splice(
+            showToastList.findIndex(({ text: t }) => t === text),
+            1,
+          );
           this.update();
         }, LIFE_TIME),
       });
@@ -66,36 +69,39 @@ export default class AppToast extends Component {
     } = this.state;
 
     return html`
-    <style>
-      :host {
-        z-index: 9;
-        position: fixed;
-        left: 1.6rem;
-        bottom: calc(1.6rem + var(--player-height));
-        display: flex;
-        flex-direction: column;
-        color: var(--toast-text-color);
-        font-size: 1.4rem;
-      }
-      div {
-        min-width: 20em;
-        padding: .6em;
-        border: 1px solid var(--toast-border-color);
-        background: var(--toast-background-color);
-      }
-      div:not(:last-of-type) {
-        margin-bottom: .6em;
-      }
-    </style>
-    ${showToastList.map(({ text }) => html`<div>${text}</div>`)}
-    <div ?hidden="${!showUploaderState}">
-      ${
-  showUploaderState === 'uploaded'
-    ? `upload compelete: failure ${errorList.length}`
-    : `${showUploaderState} songs are being uploaded...`
-}
-    </div>
-  `;
+      <style>
+        :host {
+          z-index: 9;
+          position: fixed;
+          left: 1.6rem;
+          bottom: calc(1.6rem + var(--player-height));
+          display: flex;
+          flex-direction: column;
+          color: var(--toast-text-color);
+          font-size: 1.4rem;
+        }
+        div {
+          min-width: 20em;
+          padding: 0.6em;
+          border: 1px solid var(--toast-border-color);
+          background: var(--toast-background-color);
+        }
+        div:not(:last-of-type) {
+          margin-bottom: 0.6em;
+        }
+      </style>
+      ${showToastList.map(
+        ({ text }) =>
+          html`
+            <div>${text}</div>
+          `,
+      )}
+      <div ?hidden="${!showUploaderState}">
+        ${showUploaderState === 'uploaded'
+          ? `upload compelete: failure ${errorList.length}`
+          : `${showUploaderState} songs are being uploaded...`}
+      </div>
+    `;
   }
 }
 
