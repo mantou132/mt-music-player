@@ -16,7 +16,10 @@ module.exports = {
     worker: true,
     serviceworker: true,
   },
-  extends: [/* 'eslint:recommended',*/ 'airbnb-base', 'plugin:prettier/recommended'],
+  extends: [
+    /* 'eslint:recommended',*/ 'airbnb-base',
+    'plugin:prettier/recommended',
+  ],
   // https://eslint.org/docs/rules/
   rules: {
     'import/extensions': 0,
@@ -36,6 +39,8 @@ module.exports = {
         ],
       },
     ],
+    'no-restricted-syntax': 0,
     'import/no-unresolved': [2, { ignore: ['^http'] }],
+    'import/prefer-default-export': 0,
   },
 };
