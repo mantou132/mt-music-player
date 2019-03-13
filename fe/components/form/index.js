@@ -8,10 +8,13 @@ import './text.js';
 customElements.define(
   'app-form',
   class extends Component {
+    get elements() {
+      return this.querySelectorAll('[name]');
+    }
+
     get value() {
-      const elements = this.querySelectorAll('[name]');
       const formData = new FormData();
-      elements.forEach(ele => {
+      this.elements.forEach(ele => {
         if ('value' in ele) {
           formData.append(ele.getAttribute('name'), ele.value);
         }
@@ -29,6 +32,17 @@ customElements.define(
         </style>
         <slot></slot>
       `;
+    }
+
+    valid() {
+      let valid = true;
+      this.elements.forEach(ele => {
+        // Verify each element
+        if (ele.validity && !ele.validity.valid) {
+          valid = false;
+        }
+      });
+      return valid;
     }
   },
 );

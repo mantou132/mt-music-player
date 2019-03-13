@@ -1,6 +1,7 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import { throttle } from '../../utils/misc.js';
+import { htmlClass } from '../../utils/string.js';
 
 customElements.define(
   'form-text',
@@ -14,17 +15,37 @@ customElements.define(
       this.isComposition = false;
       this.inputHandle = this.inputHandle.bind(this);
       this.compositionHandle = this.compositionHandle.bind(this);
+      this.state = {
+        isStartedInput: false,
+      };
+    }
+
+    get input() {
+      return this.shadowRoot.querySelector('input');
     }
 
     get value() {
-      return this.shadowRoot.querySelector('input').value;
+      return this.input.value;
     }
 
     set value(v) {
-      this.shadowRoot.querySelector('input').value = v;
+      this.input.value = v;
+    }
+
+    get validity() {
+      this.setStartedInput();
+      return this.input.validity;
+    }
+
+    setStartedInput() {
+      const { isStartedInput } = this.state;
+      if (!isStartedInput) {
+        this.setState({ isStartedInput: true });
+      }
     }
 
     inputHandle() {
+      this.setStartedInput();
       if (!this.isComposition) {
         this.dispatchEvent(new CustomEvent('change', { detail: this.value }));
       }
@@ -37,11 +58,14 @@ customElements.define(
     render() {
       const name = this.getAttribute('name');
       const label = this.getAttribute('label');
+      const pattern = this.getAttribute('pattern') || '.*';
       const value = this.getAttribute('value') || '';
       const placeholder = this.getAttribute('placeholder') || '';
 
+      const required = this.hasAttribute('required');
       const disabled = this.hasAttribute('disabled');
 
+      const { isStartedInput } = this.state;
       return html`
         <style>
           :host(:not([hidden])) {
@@ -93,20 +117,29 @@ customElements.define(
             background: var(--theme-color);
             transform: scaleX(1);
           }
+          input.started-input:invalid {
+            border-color: var(--theme-error-color);
+          }
+          input.started-input:invalid + .border {
+            background: var(--theme-error-color);
+          }
         </style>
         <label class="wrap">
           <div class="label" ?hidden="${!label}">${label}</div>
           <input
-            name="${name}"
+            class="${htmlClass({ startedInput: isStartedInput })}"
             type="text"
+            name="${name}"
             value="${value}"
+            pattern="${pattern}"
             placeholder="${placeholder}"
+            ?required="${required}"
+            ?disabled="${disabled}"
             autocomplete="off"
             @input="${throttle(this.inputHandle, 1000)}"
             @compositionstart="${this.compositionHandle}"
             @compositionupdate="${this.compositionHandle}"
             @compositionend="${this.compositionHandle}"
-            ?disabled="${disabled}"
             spellcheck="false"
           />
           <div class="border"></div>
@@ -122,7 +155,7 @@ customElements.define(
     }
 
     focus() {
-      this.shadowRoot.querySelector('input').focus();
+      this.input.focus();
     }
   },
 );

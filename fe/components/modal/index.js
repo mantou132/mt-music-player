@@ -35,11 +35,15 @@ export default class Modal extends Component {
     this.cancelHandle = this.cancelHandle.bind(this);
   }
 
-  okHandle() {
+  async okHandle() {
     const { oncomplete } = this.state;
-    if (oncomplete) oncomplete();
-    Modal.close();
-    history.back();
+    try {
+      if (oncomplete) await oncomplete();
+      Modal.close();
+      history.back();
+    } catch (err) {
+      //
+    }
   }
 
   cancelHandle() {
