@@ -198,7 +198,7 @@ export default class Drawer extends Component {
             width: 100%;
             height: 100%;
             opacity: 0;
-            background: var(--backdrop-color);
+            background: var(--theme-backdrop-color);
           }
           .menu {
             position: relative;

@@ -13,10 +13,10 @@ customElements.define(
               --scrollbar-track-color: rgba(0, 0, 0, 0.2);
               --scrollbar-color: rgba(255, 255, 255, 0.2);
 
-              --background-color: #202b27;
+              --theme-background-color: #202b27;
               --theme-color: #18d150;
-              --error-color: red;
-              --backdrop-color: rgba(0, 0, 0, 0.6);
+              --theme-error-color: red;
+              --theme-backdrop-color: rgba(0, 0, 0, 0.6);
 
               --drawer-width: 22rem;
               --drawer-user-background-color: transparent;

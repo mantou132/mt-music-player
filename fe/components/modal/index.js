@@ -140,7 +140,7 @@ export default class Modal extends Component {
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
           }
           .backdrop {
-            background: var(--backdrop-color);
+            background: var(--theme-backdrop-color);
           }
           .modal {
             display: flex;

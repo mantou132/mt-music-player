@@ -122,7 +122,7 @@ export default class AppMenu extends Component {
           height: 100%;
         }
         .backdrop.center {
-          background: var(--backdrop-color);
+          background: var(--theme-backdrop-color);
         }
         .menu {
           position: absolute;

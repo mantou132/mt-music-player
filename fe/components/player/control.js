@@ -88,8 +88,8 @@ customElements.define(
             fill: var(--player-text-secondary-color);
           }
           [error] {
-            color: var(--error-color);
-            fill: var(--error-color);
+            color: var(--theme-error-color);
+            fill: var(--theme-error-color);
           }
           @media ${mediaQuery.PHONE} {
             :host(:not([maximize])) {
