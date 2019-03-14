@@ -34,7 +34,11 @@ export default class AppPlaylistList extends AppSongList {
   // eslint-disable-next-line
   renderItem({ id, title, image, updatedAt }) {
     return html`
-      <app-link path="/playlist?id=${id}" title="playlist">
+      <app-link
+        path="/playlist?id=${id}"
+        data-title="playlist - ${title}"
+        title="${title}"
+      >
         <gallery-item .data="${{ id, image, title }}" updatedat="${updatedAt}">
         </gallery-item>
       </app-link>

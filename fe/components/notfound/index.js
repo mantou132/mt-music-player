@@ -38,7 +38,7 @@ customElements.define(
           }
         </style>
         <h1>not found</h1>
-        <app-link path="/" title="songs">
+        <app-link path="/" data-title="songs" title="go back">
           <span>${capitalize('go to song list')}</span>
         </app-link>
       `;

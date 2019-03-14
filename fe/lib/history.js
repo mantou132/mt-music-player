@@ -27,6 +27,15 @@ const history = {
     window.history.back();
   },
 
+  /**
+   * push history item
+   * @param {Object} options
+   * @param {String} options.path equivalent `location.pathname`
+   * @param {String} options.query equivalent `location.search`
+   * @param {String} options.title equivalent `document.title`
+   * @param {Function} options.close back button callback function
+   * @param {Object} options.data serializable object, equivalent `history.state`
+   */
   push(options) {
     const { path, close } = options;
     const query = options.query || '';

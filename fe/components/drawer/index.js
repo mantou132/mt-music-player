@@ -78,7 +78,11 @@ export default class Drawer extends Component {
   static renderPlaylist({ id, title }) {
     return html`
       <li>
-        <app-link path="${`/playlist?id=${id}`}" title="playlist">
+        <app-link
+          path="${`/playlist?id=${id}`}"
+          title="${title}"
+          data-title="playlist - ${title}"
+        >
           <span>${title || '<empty name>'}</span>
           <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
         </app-link>

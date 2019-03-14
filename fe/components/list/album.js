@@ -9,7 +9,8 @@ customElements.define(
       return html`
         <app-link
           path="/songs?album=${encodeURIComponent(title)}"
-          title="songs"
+          data-title="album - ${title}"
+          title="${title}"
         >
           <gallery-item .data="${{ image: cover, title }}"> </gallery-item>
         </app-link>
