@@ -12,7 +12,18 @@ customElements.define(
   class extends Component {
     constructor() {
       super();
+      this.href = window.location.href;
       this.state = store.historyState;
+    }
+
+    shouldUpdate() {
+      const { href } = window.location;
+      if (href !== this.href) {
+        this.scrollTop = 0;
+        this.href = href;
+        return true;
+      }
+      return false;
     }
 
     render() {

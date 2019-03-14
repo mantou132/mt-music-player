@@ -86,9 +86,15 @@ export default class Component extends HTMLElement {
     throw new Error('Prohibit multiple direct assignments');
   }
 
+  shouldUpdate() {
+    return true;
+  }
+
   update() {
-    render(this.render(), this.shadowRoot);
-    this.updated();
+    if (this.shouldUpdate()) {
+      render(this.render(), this.shadowRoot);
+      this.updated();
+    }
   }
 
   updated() {}
