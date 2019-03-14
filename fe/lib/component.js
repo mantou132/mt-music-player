@@ -4,8 +4,17 @@ import { mergeObject } from '../utils/object.js';
 
 const uniqueDataPropMap = new WeakMap();
 const uniqueConnectedPageMap = new WeakMap();
+const instanceSymbol = Symbol('instance');
 
 export default class Component extends HTMLElement {
+  static get instance() {
+    return this[instanceSymbol];
+  }
+
+  static set instance(lastInstance) {
+    this[instanceSymbol] = lastInstance;
+  }
+
   static get observedAttributes() {
     return [];
   }
@@ -27,6 +36,7 @@ export default class Component extends HTMLElement {
     this.attributeChanged = this.attributeChanged.bind(this);
     this.setState = this.setState.bind(this);
 
+    this.constructor.instance = this;
     const { observedPropertys } = this.constructor;
     observedPropertys.forEach(prop => {
       let propValue;

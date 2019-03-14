@@ -3,11 +3,9 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { upload } from '../../services/song.js';
 
-let Instance;
-
 export default class AppUpload extends Component {
   static open() {
-    const input = Instance.shadowRoot.querySelector('input');
+    const input = AppUpload.instance.shadowRoot.querySelector('input');
     input.click();
   }
 
@@ -15,7 +13,6 @@ export default class AppUpload extends Component {
     super();
     this.state = store.playerState;
     this.changeHandle = this.changeHandle.bind(this);
-    Instance = this;
   }
 
   render() {
