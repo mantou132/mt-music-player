@@ -16,7 +16,6 @@ export default class Modal extends Component {
       isOpen: true,
     });
     history.push({
-      title: state.title,
       path: window.location.pathname,
       query: window.location.search,
       close: Modal.close,
