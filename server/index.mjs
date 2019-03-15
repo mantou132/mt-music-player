@@ -1,6 +1,7 @@
 import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import routes from './routers';
 
 const app = express();
@@ -12,7 +13,7 @@ process.on('unhandledRejection', (reason, p) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api', routes);
+app.use('/api', cors(), routes);
 app.use('/', express.static('fe'));
 app.use((req, res) => res.sendfile('./fe/index.html'));
 
