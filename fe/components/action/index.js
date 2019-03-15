@@ -54,7 +54,7 @@ function getAddPlaylistButton() {
 
 function getBackButton() {
   return html`
-    <app-link path="/" title="back">
+    <app-link path="/" title="back" data-title="songs">
       <app-icon name="arrow-back">
         <app-ripple scale=".8" circle></app-ripple>
       </app-icon>

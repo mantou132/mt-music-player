@@ -125,13 +125,14 @@ window.addEventListener('popstate', event => {
       // reason: reload modal
     }
   }
-  updateStore('historyState', {
-    currentIndex: newStateIndex,
-  });
 
   if (list[newStateIndex]) {
     document.title = capitalize(list[newStateIndex].title);
   }
+
+  updateStore('historyState', {
+    currentIndex: newStateIndex,
+  });
 });
 
 export default history;
