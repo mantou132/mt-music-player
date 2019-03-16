@@ -1,6 +1,7 @@
 import { html } from '../../js_modules/lit-html.js';
 import AppSongList from './song.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import routeMap from '../router/map.js';
 
 export default class AppPlaylistList extends AppSongList {
   constructor() {
@@ -35,8 +36,8 @@ export default class AppPlaylistList extends AppSongList {
   renderItem({ id, title, image, updatedAt }) {
     return html`
       <app-link
-        path="/playlist?id=${id}"
-        data-title="playlist - ${title}"
+        path="${routeMap.PLAYLIST.path}?id=${id}"
+        data-title="${routeMap.PLAYLISTS.getSubPageTitle(title)}"
         title="${title}"
       >
         <gallery-item .data="${{ id, image, title }}" updatedat="${updatedAt}">

@@ -2,6 +2,7 @@ import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import { capitalize } from '../../utils/string.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import routeMap from '../router/map.js';
 
 customElements.define(
   'app-notfound',
@@ -38,8 +39,12 @@ customElements.define(
           }
         </style>
         <h1>not found</h1>
-        <app-link path="/" data-title="songs" title="go back">
-          <span>${capitalize('go to song list')}</span>
+        <app-link
+          path="${routeMap.HOME.path}"
+          data-title="${routeMap.SONGS.title}"
+          title="go homepage"
+        >
+          <span>${capitalize('go homepage')}</span>
         </app-link>
       `;
     }

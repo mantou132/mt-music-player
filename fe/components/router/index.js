@@ -6,6 +6,7 @@ import { getFavorite } from '../../services/song.js';
 import { get as getAllPlaylist, getSong } from '../../services/playlist.js';
 import { get as getAllAlbum } from '../../services/album.js';
 import { get as getAllArtist } from '../../services/artist.js';
+import routeMap from './map.js';
 
 customElements.define(
   'app-router',
@@ -29,33 +30,39 @@ customElements.define(
     render() {
       const { pathname, search } = window.location;
       const query = new URLSearchParams(search);
-      const filtername = query.has('artist')
-        ? 'artist'
-        : query.has('album') && 'album';
+      const filtername = query.has(routeMap.ARTISTS.subTitle)
+        ? routeMap.ARTISTS.subTitle
+        : query.has(routeMap.ALBUMS.subTitle) && routeMap.ALBUMS.subTitle;
+      const filtervalue = query.get(filtername);
 
       let content;
       let action;
       switch (pathname) {
-        case '/':
-        case '/songs':
+        case routeMap.HOME.path:
+        case routeMap.SONGS.path:
           content = html`
             <app-song-list
               filtername="${filtername || ''}"
-              filtervalue="${query.get(filtername)}"
+              filtervalue="${filtervalue}"
               .data="${store.songData}"
             >
             </app-song-list>
           `;
           action = html`
-            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            <app-action
+              data-title="${filtername
+                ? routeMap.SONGS.getSubPageTitle(filtername, filtervalue)
+                : routeMap.SONGS.title}"
+              .actions="${['menu', 'title', 'upload', 'search']}"
+            >
             </app-action>
           `;
           break;
-        case '/playlist':
+        case routeMap.PLAYLIST.path:
           content = html`
             <app-song-list
               id="${query.get('id')}"
-              .getData="${() => getSong(query.get('id'))}"
+              .fetchData="${() => getSong(query.get('id'))}"
               .data="${store.playlistData}"
             >
             </app-song-list>
@@ -65,63 +72,77 @@ customElements.define(
             </app-action>
           `;
           break;
-        case '/favorites':
+        case routeMap.FAVORITES.path:
           content = html`
             <app-song-list
-              .getData="${getFavorite}"
+              .fetchData="${getFavorite}"
               .data="${store.favoriteData}"
             >
             </app-song-list>
           `;
           action = html`
-            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            <app-action
+              data-title="${routeMap.FAVORITES.title}"
+              .actions="${['menu', 'title', 'upload', 'search']}"
+            >
             </app-action>
           `;
           break;
-        case '/search':
+        case routeMap.SEARCH.path:
           content = html`
             <app-song-list .data="${store.searchData}"> </app-song-list>
           `;
           action = html`
-            <app-action .actions="${['back', 'searchInput']}"> </app-action>
+            <app-action
+              data-title="${routeMap.SEARCH.title}"
+              .actions="${['back', 'searchInput']}"
+            >
+            </app-action>
           `;
           break;
-        case '/albums':
+        case routeMap.ALBUMS.path:
           content = html`
             <app-album-list
-              .getData="${getAllAlbum}"
+              .fetchData="${getAllAlbum}"
               .data="${store.albumData}"
             >
             </app-album-list>
           `;
           action = html`
-            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            <app-action
+              data-title="${routeMap.ALBUMS.title}"
+              .actions="${['menu', 'title', 'upload', 'search']}"
+            >
             </app-action>
           `;
           break;
-        case '/artists':
+        case routeMap.ARTISTS.path:
           content = html`
             <app-artist-list
-              .getData="${getAllArtist}"
+              .fetchData="${getAllArtist}"
               .data="${store.artistData}"
             >
             </app-artist-list>
           `;
           action = html`
-            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            <app-action
+              data-title="${routeMap.ARTISTS.title}"
+              .actions="${['menu', 'title', 'upload', 'search']}"
+            >
             </app-action>
           `;
           break;
-        case '/playlists':
+        case routeMap.PLAYLISTS.path:
           content = html`
             <app-playlist-list
-              .getData="${getAllPlaylist}"
+              .fetchData="${getAllPlaylist}"
               .data="${store.playlistData}"
             >
             </app-playlist-list>
           `;
           action = html`
             <app-action
+              data-title="${routeMap.PLAYLISTS.title}"
               .actions="${['menu', 'title', 'add-playlist', 'search']}"
             >
             </app-action>
@@ -133,6 +154,7 @@ customElements.define(
           `;
           action = html`
             <app-action
+              data-title="${routeMap[404].title}"
               .actions="${mediaQuery.isPhone ? ['menu', 'title'] : []}"
             >
             </app-action>

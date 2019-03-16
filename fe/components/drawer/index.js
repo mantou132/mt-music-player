@@ -8,6 +8,7 @@ import { transformTextToSVG } from '../../utils/canvas.js';
 import { get } from '../../services/playlist.js';
 import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
+import routeMap from '../router/map.js';
 
 const menus = [
   // {
@@ -16,29 +17,29 @@ const menus = [
   //   text: 'play queue',
   // },
   {
-    path: '/albums',
+    path: routeMap.ALBUMS.path,
     icon: 'album',
-    text: 'albums',
+    text: routeMap.ALBUMS.title,
   },
   {
-    path: '/artists',
+    path: routeMap.ARTISTS.path,
     icon: 'person',
-    text: 'artists',
+    text: routeMap.ARTISTS.title,
   },
   {
-    path: '/',
+    path: routeMap.SONGS.path,
     icon: 'music-note',
-    text: 'songs',
+    text: routeMap.SONGS.title,
   },
   {
-    path: '/favorites',
+    path: routeMap.FAVORITES.path,
     icon: 'star',
-    text: 'favorites',
+    text: routeMap.FAVORITES.title,
   },
   {
-    path: '/playlists',
+    path: routeMap.PLAYLISTS.path,
     icon: 'playlist-play',
-    text: 'playlists',
+    text: routeMap.PLAYLISTS.title,
   },
 ];
 
@@ -69,7 +70,7 @@ export default class Drawer extends Component {
         <app-link path="${path}" title="${text}">
           <app-icon name="${icon}"></app-icon>
           <span>${text}</span>
-          <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
+          <app-ripple type="${mediaQuery.isPhone ? 'touch' : ''}"></app-ripple>
         </app-link>
       </li>
     `;
@@ -79,12 +80,12 @@ export default class Drawer extends Component {
     return html`
       <li>
         <app-link
-          path="${`/playlist?id=${id}`}"
+          path="${routeMap.PLAYLIST.path}?id=${id}"
           title="${title}"
-          data-title="playlist - ${title}"
+          data-title="${routeMap.PLAYLISTS.getSubPageTitle(title)}"
         >
           <span>${title || '<empty name>'}</span>
-          <app-ripple type="${mediaQuery.isPhone ? 'type' : ''}"></app-ripple>
+          <app-ripple type="${mediaQuery.isPhone ? 'touch' : ''}"></app-ripple>
         </app-link>
       </li>
     `;

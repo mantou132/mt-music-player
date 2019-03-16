@@ -8,10 +8,17 @@ import { capitalize } from '../../utils/string.js';
 import Drawer from '../drawer/index.js';
 import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
+import routeMap from '../router/map.js';
 
-function getTitle() {
+function updateDocTitle(title) {
+  if (title && title !== document.title) {
+    document.title = capitalize(title);
+  }
+}
+
+function getTitle(title) {
   return html`
-    <h1 class="title">${capitalize(document.title)}</h1>
+    <h1 class="title">${capitalize(title || document.title)}</h1>
   `;
 }
 
@@ -33,7 +40,7 @@ function getMenuButton() {
 
 function getSearchButton() {
   return html`
-    <app-link path="/search" title="search">
+    <app-link path="${routeMap.SEARCH.path}">
       <app-icon name="search">
         <app-ripple scale=".8" circle></app-ripple>
       </app-icon>
@@ -54,7 +61,11 @@ function getAddPlaylistButton() {
 
 function getBackButton() {
   return html`
-    <app-link path="/" title="back" data-title="songs">
+    <app-link
+      path="${routeMap.HOME.path}"
+      title="back"
+      data-title="${routeMap.HOME.title}"
+    >
       <app-icon name="arrow-back">
         <app-ripple scale=".8" circle></app-ripple>
       </app-icon>
@@ -89,7 +100,7 @@ customElements.define(
 
     getContents() {
       return this.actions.map(ele => {
-        if (ele === 'title') return getTitle();
+        if (ele === 'title') return getTitle(this.dataset.title);
         if (ele === 'upload') return getUploadButton();
         if (ele === 'search') return getSearchButton();
         if (ele === 'back') return getBackButton();
@@ -102,7 +113,7 @@ customElements.define(
 
     render() {
       if (!this.actions.length) return html``;
-
+      updateDocTitle(this.dataset.title);
       return html`
         <style>
           :host {

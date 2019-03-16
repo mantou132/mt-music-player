@@ -1,15 +1,21 @@
 import { html } from '../../js_modules/lit-html.js';
 import AppPlaylistList from './playlist.js';
+import routeMap from '../router/map.js';
 
 customElements.define(
   'app-artist-list',
   class extends AppPlaylistList {
     // eslint-disable-next-line
     renderItem({ name, photo }) {
+      const query = `?${routeMap.ARTISTS.subTitle}=${encodeURIComponent(name)}`;
+      const pageTitle = routeMap.SONGS.getSubPageTitle(
+        routeMap.ARTISTS.subTitle,
+        name,
+      );
       return html`
         <app-link
-          path="/songs?artist=${encodeURIComponent(name)}"
-          data-title="artist - ${name}"
+          path="${routeMap.SONGS.path + query}"
+          data-title="${pageTitle}"
           title="${name}"
         >
           <gallery-item .data="${{ image: photo, title: name }}">

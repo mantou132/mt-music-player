@@ -58,11 +58,11 @@ export default class AppSongList extends Component {
   }
 
   connected() {
-    if (this.getData) this.getData();
+    if (this.fetchData) this.fetchData();
   }
 
   attributeChanged() {
-    if (this.getData) this.getData();
+    if (this.fetchData) this.fetchData();
   }
 }
 
