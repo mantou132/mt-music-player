@@ -39,11 +39,7 @@ customElements.define(
           }
         </style>
         <h1>not found</h1>
-        <app-link
-          path="${routeMap.HOME.path}"
-          data-title="${routeMap.SONGS.title}"
-          title="go homepage"
-        >
+        <app-link path="${routeMap.HOME.path}" title="go homepage">
           <span>${capitalize('go homepage')}</span>
         </app-link>
       `;

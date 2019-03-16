@@ -6,6 +6,7 @@ import { getFavorite } from '../../services/song.js';
 import { get as getAllPlaylist, getSong } from '../../services/playlist.js';
 import { get as getAllAlbum } from '../../services/album.js';
 import { get as getAllArtist } from '../../services/artist.js';
+import AppAction from '../action/index.js';
 import routeMap from './map.js';
 
 customElements.define(
@@ -50,10 +51,12 @@ customElements.define(
           `;
           action = html`
             <app-action
-              data-title="${filtername
-                ? routeMap.SONGS.getSubPageTitle(filtername, filtervalue)
-                : routeMap.SONGS.title}"
-              .actions="${['menu', 'title', 'upload', 'search']}"
+              .actions="${[
+                AppAction.MENU,
+                AppAction.TITLE,
+                AppAction.UPLOAD,
+                AppAction.SEARCH,
+              ]}"
             >
             </app-action>
           `;
@@ -68,7 +71,14 @@ customElements.define(
             </app-song-list>
           `;
           action = html`
-            <app-action .actions="${['menu', 'title', 'upload', 'search']}">
+            <app-action
+              .actions="${[
+                AppAction.MENU,
+                AppAction.TITLE,
+                AppAction.UPLOAD,
+                AppAction.SEARCH,
+              ]}"
+            >
             </app-action>
           `;
           break;
@@ -82,8 +92,12 @@ customElements.define(
           `;
           action = html`
             <app-action
-              data-title="${routeMap.FAVORITES.title}"
-              .actions="${['menu', 'title', 'upload', 'search']}"
+              .actions="${[
+                AppAction.MENU,
+                AppAction.TITLE,
+                AppAction.UPLOAD,
+                AppAction.SEARCH,
+              ]}"
             >
             </app-action>
           `;
@@ -93,10 +107,7 @@ customElements.define(
             <app-song-list .data="${store.searchData}"> </app-song-list>
           `;
           action = html`
-            <app-action
-              data-title="${routeMap.SEARCH.title}"
-              .actions="${['back', 'searchInput']}"
-            >
+            <app-action .actions="${[AppAction.BACK, AppAction.SEARCH_INPUT]}">
             </app-action>
           `;
           break;
@@ -110,8 +121,12 @@ customElements.define(
           `;
           action = html`
             <app-action
-              data-title="${routeMap.ALBUMS.title}"
-              .actions="${['menu', 'title', 'upload', 'search']}"
+              .actions="${[
+                AppAction.MENU,
+                AppAction.TITLE,
+                AppAction.UPLOAD,
+                AppAction.SEARCH,
+              ]}"
             >
             </app-action>
           `;
@@ -126,8 +141,12 @@ customElements.define(
           `;
           action = html`
             <app-action
-              data-title="${routeMap.ARTISTS.title}"
-              .actions="${['menu', 'title', 'upload', 'search']}"
+              .actions="${[
+                AppAction.MENU,
+                AppAction.TITLE,
+                AppAction.UPLOAD,
+                AppAction.SEARCH,
+              ]}"
             >
             </app-action>
           `;
@@ -142,8 +161,12 @@ customElements.define(
           `;
           action = html`
             <app-action
-              data-title="${routeMap.PLAYLISTS.title}"
-              .actions="${['menu', 'title', 'add-playlist', 'search']}"
+              .actions="${[
+                AppAction.MENU,
+                AppAction.TITLE,
+                AppAction.ADD_PLAYLIST,
+                AppAction.SEARCH,
+              ]}"
             >
             </app-action>
           `;
@@ -154,8 +177,9 @@ customElements.define(
           `;
           action = html`
             <app-action
-              data-title="${routeMap[404].title}"
-              .actions="${mediaQuery.isPhone ? ['menu', 'title'] : []}"
+              .actions="${mediaQuery.isPhone
+                ? [AppAction.MENU, AppAction.TITLE]
+                : []}"
             >
             </app-action>
           `;

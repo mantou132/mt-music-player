@@ -29,17 +29,16 @@ customElements.define(
 
     clickHandle() {
       const { $close } = window.history.state;
-      const { title = this.getAttribute('title') || '' } = this.dataset;
       const path = this.getAttribute('path');
       const query = this.getAttribute('query') || '';
       if (!this.active) {
         if ($close) {
           history.back();
           setTimeout(() => {
-            history.push({ title, path, query });
+            history.push({ path, query });
           }, 200);
         } else {
-          history.push({ title, path, query });
+          history.push({ path, query });
         }
       }
     }

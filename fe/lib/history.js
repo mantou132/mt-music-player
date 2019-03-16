@@ -1,6 +1,5 @@
 import { store, updateStore } from '../models/index.js';
 import storage from '../utils/storage.js';
-import { capitalize } from '../utils/string.js';
 
 const colseHandleMap = new WeakMap();
 
@@ -40,7 +39,7 @@ const history = {
     const { path, close } = options;
     const query = options.query || '';
     const data = options.data || {};
-    const title = options.title || document.title;
+    const title = options.title || '';
 
     const { list, currentIndex } = store.historyState;
     const state = generateState(data, close);
@@ -54,7 +53,6 @@ const history = {
     window.history.pushState(state, title, path + query);
 
     const newList = list.slice(0, currentIndex + 1).concat(historyItem);
-    document.title = capitalize(title);
     updateStore('historyState', {
       list: newList,
       currentIndex: newList.length - 1,
@@ -65,7 +63,7 @@ const history = {
     const { path, close } = options;
     const query = options.query || '';
     const data = options.data || {};
-    const title = options.title || document.title;
+    const title = options.title || '';
 
     const state = generateState(data, close);
     window.history.replaceState(state, title, path + query);
@@ -77,7 +75,6 @@ const history = {
       state,
       title,
     });
-    document.title = capitalize(title);
     updateStore('historyState', {
       list,
     });
@@ -124,10 +121,6 @@ window.addEventListener('popstate', event => {
     } else {
       // reason: reload modal
     }
-  }
-
-  if (list[newStateIndex]) {
-    document.title = capitalize(list[newStateIndex].title);
   }
 
   updateStore('historyState', {

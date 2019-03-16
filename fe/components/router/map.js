@@ -10,7 +10,7 @@ export default {
   },
   PLAYLIST: {
     path: '/playlist',
-    title: '/playlist',
+    title: 'playlist',
   },
   FAVORITES: {
     path: '/favorites',

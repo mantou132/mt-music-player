@@ -36,8 +36,8 @@ export default class AppPlaylistList extends AppSongList {
   renderItem({ id, title, image, updatedAt }) {
     return html`
       <app-link
-        path="${routeMap.PLAYLIST.path}?id=${id}"
-        data-title="${routeMap.PLAYLISTS.getSubPageTitle(title)}"
+        path="${routeMap.PLAYLIST.path}"
+        query="?id=${id}"
         title="${title}"
       >
         <gallery-item .data="${{ id, image, title }}" updatedat="${updatedAt}">

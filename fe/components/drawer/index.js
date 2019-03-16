@@ -80,9 +80,9 @@ export default class Drawer extends Component {
     return html`
       <li>
         <app-link
-          path="${routeMap.PLAYLIST.path}?id=${id}"
+          path="${routeMap.PLAYLIST.path}"
+          query="?id=${id}"
           title="${title}"
-          data-title="${routeMap.PLAYLISTS.getSubPageTitle(title)}"
         >
           <span>${title || '<empty name>'}</span>
           <app-ripple type="${mediaQuery.isPhone ? 'touch' : ''}"></app-ripple>

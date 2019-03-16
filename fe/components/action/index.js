@@ -4,21 +4,14 @@ import AppUpload from '../upload/index.js';
 import { store } from '../../models/index.js';
 import { search } from '../../services/song.js';
 import mediaQuery from '../../lib/mediaquery.js';
-import { capitalize } from '../../utils/string.js';
 import Drawer from '../drawer/index.js';
 import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
 import routeMap from '../router/map.js';
 
-function updateDocTitle(title) {
-  if (title && title !== document.title) {
-    document.title = capitalize(title);
-  }
-}
-
-function getTitle(title) {
+function getTitle() {
   return html`
-    <h1 class="title">${capitalize(title || document.title)}</h1>
+    <app-title class="title"></app-title>
   `;
 }
 
@@ -61,11 +54,7 @@ function getAddPlaylistButton() {
 
 function getBackButton() {
   return html`
-    <app-link
-      path="${routeMap.HOME.path}"
-      title="back"
-      data-title="${routeMap.HOME.title}"
-    >
+    <app-link path="${routeMap.HOME.path}" title="back">
       <app-icon name="arrow-back">
         <app-ripple scale=".8" circle></app-ripple>
       </app-icon>
@@ -85,93 +74,114 @@ function getSearchInput() {
     </form-text>
   `;
 }
+export default class AppAction extends Component {
+  static TITLE() {}
 
-customElements.define(
-  'app-action',
-  class extends Component {
-    constructor() {
-      super();
-      this.state = store.selectorState;
-    }
+  static UPLOAD() {}
 
-    static get observedPropertys() {
-      return ['actions'];
-    }
+  static SEARCH() {}
 
-    getContents() {
-      return this.actions.map(ele => {
-        if (ele === 'title') return getTitle(this.dataset.title);
-        if (ele === 'upload') return getUploadButton();
-        if (ele === 'search') return getSearchButton();
-        if (ele === 'back') return getBackButton();
-        if (ele === 'add-playlist') return getAddPlaylistButton();
-        if (ele === 'menu') return getMenuButton();
-        if (ele === 'searchInput') return getSearchInput();
-        return '';
-      });
-    }
+  static BACK() {}
 
-    render() {
-      if (!this.actions.length) return html``;
-      updateDocTitle(this.dataset.title);
-      return html`
-        <style>
-          :host {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            padding: 1.6rem;
-          }
-          .title {
+  static ADD_PLAYLIST() {}
+
+  static MENU() {}
+
+  static SEARCH_INPUT() {}
+
+  static get observedPropertys() {
+    return ['actions'];
+  }
+
+  constructor() {
+    super();
+    this.state = store.selectorState;
+  }
+
+  getContents() {
+    return this.actions.map(ele => {
+      switch (ele) {
+        case AppAction.TITLE:
+          return getTitle();
+        case AppAction.UPLOAD:
+          return getUploadButton();
+        case AppAction.SEARCH:
+          return getSearchButton();
+        case AppAction.BACK:
+          return getBackButton();
+        case AppAction.ADD_PLAYLIST:
+          return getAddPlaylistButton();
+        case AppAction.MENU:
+          return getMenuButton();
+        case AppAction.SEARCH_INPUT:
+          return getSearchInput();
+        default:
+          return '';
+      }
+    });
+  }
+
+  render() {
+    if (!this.actions.length) return html``;
+
+    return html`
+      <style>
+        :host {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          padding: 1.6rem;
+        }
+        .title {
+          display: none;
+        }
+        .contents {
+          display: contents;
+        }
+        .contents app-icon {
+          margin-right: 1.6rem;
+        }
+        @media ${mediaQuery.LAPTOP}, ${mediaQuery.DESKTOP} {
+          app-icon[name='menu'] {
             display: none;
           }
-          .contents {
-            display: contents;
+        }
+        @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
+          :host {
+            z-index: 4;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            padding: 0.4rem;
+            background: var(--action-background-color);
+            color: var(--action-text-color);
+            fill: var(--action-text-color);
+            box-shadow: var(--action-box-shadow);
+          }
+          .title {
+            flex-grow: 1;
+            display: block;
+            margin: 0;
+            padding: 0 1.2rem;
+            font-size: 2rem;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .contents app-icon {
-            margin-right: 1.6rem;
+            padding: 1.2rem;
+            margin-right: 0;
           }
-          @media ${mediaQuery.LAPTOP}, ${mediaQuery.DESKTOP} {
-            app-icon[name='menu'] {
-              display: none;
-            }
+          .input {
+            padding-right: 1.2rem;
           }
-          @media ${mediaQuery.PHONE} and ${mediaQuery.PWA} {
-            :host {
-              z-index: 4;
-              position: -webkit-sticky;
-              position: sticky;
-              top: 0;
-              padding: 0.4rem;
-              background: var(--action-background-color);
-              color: var(--action-text-color);
-              fill: var(--action-text-color);
-              box-shadow: var(--action-box-shadow);
-            }
-            .title {
-              flex-grow: 1;
-              display: block;
-              margin: 0;
-              padding: 0 1.2rem;
-              font-size: 2rem;
-              font-weight: 500;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-            }
-            .contents app-icon {
-              padding: 1.2rem;
-              margin-right: 0;
-            }
-            .input {
-              padding-right: 1.2rem;
-            }
-          }
-        </style>
-        <div class="contents">
-          ${this.getContents()}
-        </div>
-      `;
-    }
-  },
-);
+        }
+      </style>
+      <div class="contents">
+        ${this.getContents()}
+      </div>
+    `;
+  }
+}
+customElements.define('app-action', AppAction);

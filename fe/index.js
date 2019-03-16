@@ -16,6 +16,7 @@ import './components/range/index.js';
 import './components/ripple/index.js';
 import './components/router/index.js';
 import './components/splash/index.js';
+import './components/title/index.js';
 import './components/toast/index.js';
 import './components/upload/index.js';
 
