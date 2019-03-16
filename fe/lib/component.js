@@ -5,6 +5,7 @@ import { mergeObject } from '../utils/object.js';
 const uniqueDataPropMap = new WeakMap();
 const uniqueConnectedPageMap = new WeakMap();
 const instanceSymbol = Symbol('instance');
+const readyUpdateSymbol = Symbol('readyUpdate');
 
 export default class Component extends HTMLElement {
   static get instance() {
@@ -92,8 +93,13 @@ export default class Component extends HTMLElement {
 
   update() {
     if (this.shouldUpdate()) {
-      render(this.render(), this.shadowRoot);
-      this.updated();
+      if (this[readyUpdateSymbol]) {
+        window.cancelAnimationFrame(this[readyUpdateSymbol]);
+      }
+      this[readyUpdateSymbol] = window.requestAnimationFrame(() => {
+        render(this.render(), this.shadowRoot);
+        this.updated();
+      });
     }
   }
 
