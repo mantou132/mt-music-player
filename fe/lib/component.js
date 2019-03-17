@@ -130,13 +130,8 @@ export default class Component extends HTMLElement {
   attributeChanged() {}
 
   attributeChangedCallback(...rest) {
-    this.attributeChanged(...rest);
-    const { observedAttributes } = this.constructor;
-    if (
-      this[connectedSymbol] &&
-      observedAttributes &&
-      observedAttributes.includes(rest[0])
-    ) {
+    if (this[connectedSymbol]) {
+      this.attributeChanged(...rest);
       this.update();
     }
   }
