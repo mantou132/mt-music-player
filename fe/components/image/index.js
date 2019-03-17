@@ -7,6 +7,7 @@ import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import { getSrc, getPinYin } from '../../utils/misc.js';
 import { transformTextToSVG } from '../../utils/canvas.js';
+import { htmlClass } from '../../utils/string.js';
 
 const altPlaceholderMap = new Map();
 
@@ -41,6 +42,7 @@ customElements.define(
     render() {
       const { aspectRatio = 1, fit = 'cover', src } = this.dataset;
       const { altPlaceholder } = this.state;
+      const autoSizeClass = htmlClass({ autosize: aspectRatio === 'auto' });
 
       return html`
         <style>
@@ -48,6 +50,8 @@ customElements.define(
             display: block;
             position: relative;
             overflow: hidden;
+            contain: content;
+            font-size: 0;
           }
           .img {
             position: absolute;
@@ -57,6 +61,9 @@ customElements.define(
             left: 0;
             object-fit: ${fit};
             color: transparent;
+          }
+          .img.autosize {
+            position: static;
           }
           .img::before {
             content: '';
@@ -73,9 +80,16 @@ customElements.define(
             width: 100%;
             padding-bottom: ${aspectRatio * 100}%;
           }
+          .dimension.autosize {
+            display: none;
+          }
         </style>
-        <img class="img" alt=" " src="${getSrc(src || altPlaceholder)}" />
-        <div class="dimension"></div>
+        <img
+          alt=" "
+          class="img ${autoSizeClass}"
+          src="${getSrc(src || altPlaceholder)}"
+        />
+        <div class="dimension ${autoSizeClass}"></div>
       `;
     }
 
