@@ -1,6 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
@@ -17,22 +16,6 @@ customElements.define(
           :host {
             position: relative;
             text-align: center;
-          }
-          .image {
-            position: relative;
-          }
-          .image::after {
-            content: '';
-            display: block;
-            padding-bottom: 100%;
-          }
-          img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            object-fit: cover;
           }
           .footer {
             padding: 1rem;
@@ -55,9 +38,7 @@ customElements.define(
             }
           }
         </style>
-        <div class="image">
-          <img src="${getSrc(image)}" />
-        </div>
+        <app-img data-src="${image}"></app-img>
         <div class="footer">
           <div class="title">${title}</div>
           <div class="dec">${dec}</div>

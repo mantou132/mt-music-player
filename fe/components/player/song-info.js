@@ -1,7 +1,6 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
-import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { update } from '../../services/song.js';
 import AppMenu from '../menu/index.js';
@@ -48,29 +47,6 @@ customElements.define(
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
             box-shadow: var(--player-cover-box-shadow);
-          }
-          .img::after {
-            content: '';
-            display: block;
-            padding-bottom: 100%;
-          }
-          img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            overflow: hidden;
-          }
-          img::before {
-            content: '';
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-            background: var(--player-text-secondary-color) center no-repeat;
-            background-size: contain;
-          }
-          img:not([src])::before {
-            visibility: hidden;
           }
           .wrap {
             display: contents;
@@ -159,9 +135,7 @@ customElements.define(
             }
           }
         </style>
-        <div class="img">
-          <img alt="" src="${getSrc(song.picture)}" />
-        </div>
+        <app-img class="img" data-src="${song.picture}"></app-img>
         <div class="wrap">
           <div class="text">
             <div class="name">${song.title}</div>

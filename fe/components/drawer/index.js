@@ -3,8 +3,6 @@ import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
-import { getSrc } from '../../utils/misc.js';
-import { transformTextToSVG } from '../../utils/canvas.js';
 import { get } from '../../services/playlist.js';
 import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
@@ -104,14 +102,6 @@ export default class Drawer extends Component {
     };
   }
 
-  get avatar() {
-    const { name } = this.state.user;
-    if (!this.$avatar) {
-      this.$avatar = transformTextToSVG((name || 'Login').substr(0, 2));
-    }
-    return this.$avatar;
-  }
-
   render() {
     const { name, avatar } = this.state.user;
     const { list } = this.state.data;
@@ -141,7 +131,7 @@ export default class Drawer extends Component {
           background: var(--drawer-user-background-color);
           color: var(--drawer-user-text-color);
         }
-        .user img {
+        .avatar {
           margin: 0 1.6rem 0 0;
           border-radius: 100%;
           width: 3.2rem;
@@ -229,7 +219,7 @@ export default class Drawer extends Component {
             align-items: flex-start;
             margin-bottom: 1.6rem;
           }
-          .user img {
+          .avatar {
             margin: 0 0 1.6rem 0;
           }
           .default {
@@ -260,7 +250,11 @@ export default class Drawer extends Component {
       <div class="backdrop" @click="${Drawer.closeHandle}"></div>
       <div class="menu">
         <div class="user">
-          <img src="${avatar ? getSrc(avatar) : this.avatar}" />
+          <app-img
+            class="avatar"
+            data-alt="avatar"
+            data-src="${avatar}"
+          ></app-img>
           <div>${name || 'Login'}</div>
         </div>
         <ol class="default">

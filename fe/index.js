@@ -5,6 +5,7 @@ import './icons/index.js';
 import './components/action/index.js';
 import './components/confirm/index.js';
 import './components/drawer/index.js';
+import './components/image/index.js';
 import './components/form/index.js';
 import './components/link/index.js';
 import './components/list/index.js';
