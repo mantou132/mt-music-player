@@ -78,6 +78,16 @@ customElements.define(
             width: 100%;
             height: 100%;
             object-fit: cover;
+            overflow: hidden;
+            position: absolute;
+          }
+          img::before {
+            content: '';
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            background: var(--player-text-secondary-color) center no-repeat;
+            background-size: contain;
           }
           .hint {
             position: absolute;
@@ -106,7 +116,7 @@ customElements.define(
           name="${name}"
           hidden
         />
-        <img src="${getSrc(blobUrl || src)}" />
+        <img alt=" " src="${getSrc(blobUrl || src)}" />
         <div class="hint">change picture</div>
       `;
     }
