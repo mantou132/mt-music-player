@@ -1,13 +1,22 @@
 /**
- * * Placeholder
- * * Async render
+ * [x] Async render placeholder
  * * Lazy loading
  * [x] Aspect ratio
  */
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { getSrc } from '../../utils/misc.js';
-// import { transformTextToSVG } from '../../utils/canvas.js';
+import { getSrc, getPinYin } from '../../utils/misc.js';
+import { transformTextToSVG } from '../../utils/canvas.js';
+
+const altPlaceholderMap = new Map();
+
+const getAltPlaceholder = async (alt = '') => {
+  if (!altPlaceholderMap.has(alt)) {
+    const altAbbr = (await getPinYin(alt)).substr(0, 2).toUpperCase();
+    altPlaceholderMap.set(alt, transformTextToSVG(altAbbr));
+  }
+  return altPlaceholderMap.get(alt);
+};
 
 customElements.define(
   'app-img',
@@ -22,8 +31,16 @@ customElements.define(
       ];
     }
 
+    constructor() {
+      super();
+      this.state = {
+        altPlaceholder: null,
+      };
+    }
+
     render() {
       const { aspectRatio = 1, fit = 'cover', src } = this.dataset;
+      const { altPlaceholder } = this.state;
 
       return html`
         <style>
@@ -57,9 +74,30 @@ customElements.define(
             padding-bottom: ${aspectRatio * 100}%;
           }
         </style>
-        <img class="img" alt=" " src="${getSrc(src)}" />
+        <img class="img" alt=" " src="${getSrc(src || altPlaceholder)}" />
         <div class="dimension"></div>
       `;
+    }
+
+    async connected() {
+      const { alt, src } = this.dataset;
+      if (!src) {
+        this.setState({
+          altPlaceholder: await getAltPlaceholder(alt),
+        });
+      }
+    }
+
+    async attributeChanged(attr) {
+      const { src, alt } = this.dataset;
+      if (attr === 'data-alt' || attr === 'data-src') {
+        // component is sync update !!!
+        // if the dependency of `getAltPlaceholder` is already loaded
+        // will not cause redundant updates
+        this.setState({
+          altPlaceholder: src ? null : await getAltPlaceholder(alt),
+        });
+      }
     }
   },
 );
