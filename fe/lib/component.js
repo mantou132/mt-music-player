@@ -6,6 +6,7 @@ const uniqueDataPropMap = new WeakMap();
 const uniqueConnectedPageMap = new WeakMap();
 const instanceSymbol = Symbol('instance');
 const readyUpdateSymbol = Symbol('readyUpdate');
+const connectedSymbol = Symbol('connected');
 
 export default class Component extends HTMLElement {
   static get instance() {
@@ -113,6 +114,7 @@ export default class Component extends HTMLElement {
     this.connectStart();
     render(this.render(), this.shadowRoot);
     this.connected();
+    this[connectedSymbol] = true;
   }
 
   disconnected() {}
@@ -122,6 +124,7 @@ export default class Component extends HTMLElement {
       disConnect(page, this.update);
     });
     this.disconnected();
+    this[connectedSymbol] = false;
   }
 
   attributeChanged() {}
@@ -130,7 +133,7 @@ export default class Component extends HTMLElement {
     this.attributeChanged(...rest);
     const { observedAttributes } = this.constructor;
     if (
-      this.isConnected &&
+      this[connectedSymbol] &&
       observedAttributes &&
       observedAttributes.includes(rest[0])
     ) {
