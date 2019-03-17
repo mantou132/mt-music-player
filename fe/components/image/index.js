@@ -5,7 +5,7 @@
  */
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { getSrc, getPinYin } from '../../utils/misc.js';
+import { getSrc, getAbbrPinyin } from '../../utils/misc.js';
 import { transformTextToSVG } from '../../utils/canvas.js';
 import { htmlClass } from '../../utils/string.js';
 
@@ -13,8 +13,7 @@ const altPlaceholderMap = new Map();
 
 const getAltPlaceholder = async (alt = '') => {
   if (!altPlaceholderMap.has(alt)) {
-    const altAbbr = (await getPinYin(alt)).substr(0, 2).toUpperCase();
-    altPlaceholderMap.set(alt, transformTextToSVG(altAbbr));
+    altPlaceholderMap.set(alt, transformTextToSVG(await getAbbrPinyin(alt)));
   }
   return altPlaceholderMap.get(alt);
 };
