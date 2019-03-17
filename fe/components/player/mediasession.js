@@ -1,4 +1,5 @@
 import { getSrc } from '../../utils/misc.js';
+import { transformTextToBitmap } from '../../utils/canvas.js';
 
 const emptyFunction = () => {};
 
@@ -9,15 +10,11 @@ const mediaSession = {
 
       if (artist) metadata.artist = artist;
       if (album) metadata.album = album;
-      if (picture) {
-        metadata.artwork = [
-          {
-            src: getSrc(picture),
-          },
-        ];
-      } else {
-        // navigator.mediaSession.metadata.artwork = [];
-      }
+      metadata.artwork = [
+        {
+          src: getSrc(picture || transformTextToBitmap(title)),
+        },
+      ];
 
       navigator.mediaSession.metadata = new window.MediaMetadata(metadata);
       navigator.mediaSession.setActionHandler('play', mediaSession.onplay);

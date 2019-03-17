@@ -12,13 +12,8 @@ export async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let pinyin = 汉字 => {
-  import('../js_modules/pinyin.js').then(({ default: py }) => {
-    pinyin = py;
-  });
-  return [汉字];
-};
-export function getPinYin(汉字) {
+export async function getPinYin(汉字) {
+  const { default: pinyin } = await import('../js_modules/pinyin.js');
   const py = pinyin(汉字, { style: pinyin.STYLE_INITIALS }).flat();
   if (py.length < 2) return py.join('');
   return py.map(str => str.substr(0, 1)).join('');

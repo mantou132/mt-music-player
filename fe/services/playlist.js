@@ -1,22 +1,9 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
-import { transformTextToSVG } from '../utils/canvas.js';
-import { getPinYin } from '../utils/misc.js';
 
 export const get = async () => {
   const list = await request('/playlist');
-  updateStore('playlistData', {
-    list: list.map(e => ({
-      ...e,
-      image:
-        e.image ||
-        transformTextToSVG(
-          getPinYin(e.title)
-            .substr(0, 2)
-            .toUpperCase(),
-        ),
-    })),
-  });
+  updateStore('playlistData', { list });
 
   return list;
 };
@@ -52,18 +39,7 @@ export const create = async body => {
   const { list } = store.playlistData;
   const data = await request('/playlist', { method: 'post', body });
   updateStore('playlistData', {
-    list: [
-      {
-        ...data,
-        image:
-          data.image ||
-          transformTextToSVG(
-            getPinYin(data.title)
-              .substr(0, 2)
-              .toUpperCase(),
-          ),
-      },
-    ].concat(list),
+    list: [data].concat(list),
   });
 
   return data;

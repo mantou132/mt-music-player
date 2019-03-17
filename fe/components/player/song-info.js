@@ -135,7 +135,11 @@ customElements.define(
             }
           }
         </style>
-        <app-img class="img" data-src="${song.picture}"></app-img>
+        <app-img
+          class="img"
+          data-src="${song.picture || ''}"
+          data-alt="${song.title}"
+        ></app-img>
         <div class="wrap">
           <div class="text">
             <div class="name">${song.title}</div>

@@ -1,30 +1,11 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
 import { toQuerystring } from '../utils/object.js';
-import { transformTextToBitmap } from '../utils/canvas.js';
-import { getPinYin } from '../utils/misc.js';
 import history from '../lib/history.js';
-
-const pictureKey = Symbol('picture');
-
-const handler = {
-  get(target, key) {
-    if (key === 'picture' && !target[key]) {
-      if (!target[pictureKey]) {
-        const pinyin = getPinYin(target.title);
-        target[pictureKey] = transformTextToBitmap(
-          pinyin.substr(0, 2).toUpperCase(),
-        );
-      }
-      return target[pictureKey];
-    }
-    return target[key];
-  },
-};
 
 export const get = async () => {
   const list = await request('/songs');
-  updateStore('songData', { list: list.map(e => new Proxy(e, handler)) });
+  updateStore('songData', { list });
 
   return list;
 };
@@ -32,7 +13,7 @@ export const get = async () => {
 export const getFavorite = async () => {
   await get();
   const list = store.songData.list.filter(data => data.star);
-  updateStore('favoriteData', { list: list.map(e => new Proxy(e, handler)) });
+  updateStore('favoriteData', { list });
   return list;
 };
 
@@ -66,7 +47,7 @@ export const upload = files => {
     } else {
       updateStore('uploaderState', { list });
       updateStore('songData', {
-        list: [new Proxy(data, handler)].concat(store.songData.list),
+        list: [data].concat(store.songData.list),
       });
     }
   });
@@ -101,7 +82,7 @@ export const search = async text => {
     `/search?${toQuerystring({ q: text, type: 'song' })}`,
   );
   updateStore('searchData', {
-    list: list.map(e => new Proxy(e, handler)),
+    list,
     text,
   });
   history.replace({

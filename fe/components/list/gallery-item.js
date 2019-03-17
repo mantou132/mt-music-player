@@ -38,7 +38,7 @@ customElements.define(
             }
           }
         </style>
-        <app-img data-src="${image}"></app-img>
+        <app-img data-src="${image || ''}" data-alt="${title}"></app-img>
         <div class="footer">
           <div class="title">${title}</div>
           <div class="dec">${dec}</div>
