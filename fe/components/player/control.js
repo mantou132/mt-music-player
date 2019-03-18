@@ -3,6 +3,7 @@ import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import mediaSession from './mediasession.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import shortcut from '../../lib/shortcut.js';
 
 customElements.define(
   'player-control',
@@ -15,11 +16,21 @@ customElements.define(
       this.clickPlayHandle = this.clickPlayHandle.bind(this);
       this.clickNextHandle = this.clickNextHandle.bind(this);
       this.clickModeHandle = this.clickModeHandle.bind(this);
+      this.initEventListener();
+    }
 
+    initEventListener() {
       mediaSession.onplay = this.clickPlayHandle;
       mediaSession.onpause = this.clickPlayHandle;
       mediaSession.onprevioustrack = this.clickPrevHandle;
       mediaSession.onnexttrack = this.clickNextHandle;
+      window.addEventListener('keydown', e => {
+        if (shortcut(e, 'left')) {
+          this.clickPrevHandle();
+        } else if (shortcut(e, 'right')) {
+          this.clickNextHandle();
+        }
+      });
     }
 
     clickShuffleHandle() {

@@ -1,6 +1,7 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import shortcut from '../../lib/shortcut.js';
 
 customElements.define(
   'player-volume',
@@ -10,6 +11,18 @@ customElements.define(
       this.state = store.playerState;
       this.changeHandle = this.changeHandle.bind(this);
       this.clickHandle = this.clickHandle.bind(this);
+      window.addEventListener('keydown', e => {
+        const { volume } = this.state;
+        if (shortcut(e, 'up')) {
+          this.setState({
+            volume: volume + 0.1 > 1 ? volume : volume + 0.1,
+          });
+        } else if (shortcut(e, 'down')) {
+          this.setState({
+            volume: volume - 0.1 < 0 ? 0 : volume - 0.1,
+          });
+        }
+      });
     }
 
     render() {
