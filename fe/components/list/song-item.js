@@ -12,7 +12,7 @@ import { addSong, removeSong } from '../../services/playlist.js';
 
 customElements.define(
   'song-list-item',
-  class extends Component {
+  class extends Component.Async {
     static get observedAttributes() {
       return ['id', 'updatedat'];
     }

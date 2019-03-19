@@ -30,3 +30,25 @@ export function getSrc(src) {
   }
   return `//${config.storage}/${src}`;
 }
+
+export class Pool {
+  constructor() {
+    this.currentId = 0;
+    this.count = 0;
+    this.pool = new Map();
+  }
+
+  add(item) {
+    this.pool.set(this.count, item);
+    this.count += 1;
+  }
+
+  get() {
+    const item = this.pool.get(this.currentId);
+    if (item) {
+      this.pool.delete(this.currentId);
+      this.currentId += 1;
+    }
+    return item;
+  }
+}

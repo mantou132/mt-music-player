@@ -4,7 +4,7 @@ import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'gallery-item',
-  class extends Component {
+  class extends Component.Async {
     static get observedAttributes() {
       return ['id', 'updatedat'];
     }

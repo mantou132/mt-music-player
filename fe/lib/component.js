@@ -1,14 +1,52 @@
 import { html, render } from '../js_modules/lit-html.js';
 import { store, connect, disConnect, PAGE_KEY } from '../models/index.js';
 import { mergeObject } from '../utils/object.js';
+import { Pool } from '../utils/misc.js';
 
 const uniqueDataPropMap = new WeakMap();
 const uniqueConnectedPageMap = new WeakMap();
 const instanceSymbol = Symbol('instance');
-const readyUpdateSymbol = Symbol('readyUpdate');
 const connectedSymbol = Symbol('connected');
 
+const renderTaskPool = new Pool();
+
+const exec = () =>
+  window.requestAnimationFrame(function callback(timestamp) {
+    const task = renderTaskPool.get();
+    if (task) {
+      task();
+      if (performance.now() - timestamp < 16) {
+        callback(timestamp);
+        return;
+      }
+    }
+    exec();
+  });
+
+exec();
 export default class Component extends HTMLElement {
+  static get Async() {
+    return class extends Component {
+      connectedCallback() {
+        this.connectStart();
+        renderTaskPool.add(() => {
+          render(this.render(), this.shadowRoot);
+          this.connected();
+          this[connectedSymbol] = true;
+        });
+      }
+
+      update() {
+        renderTaskPool.add(() => {
+          if (this.shouldUpdate()) {
+            render(this.render(), this.shadowRoot);
+            this.updated();
+          }
+        });
+      }
+    };
+  }
+
   static get instance() {
     return this[instanceSymbol];
   }
@@ -94,13 +132,8 @@ export default class Component extends HTMLElement {
 
   update() {
     if (this.shouldUpdate()) {
-      if (this[readyUpdateSymbol]) {
-        window.cancelAnimationFrame(this[readyUpdateSymbol]);
-      }
-      this[readyUpdateSymbol] = window.requestAnimationFrame(() => {
-        render(this.render(), this.shadowRoot);
-        this.updated();
-      });
+      render(this.render(), this.shadowRoot);
+      this.updated();
     }
   }
 
