@@ -25,28 +25,6 @@ const exec = () =>
 
 exec();
 export default class Component extends HTMLElement {
-  static get Async() {
-    return class extends Component {
-      connectedCallback() {
-        this.connectStart();
-        renderTaskPool.add(() => {
-          render(this.render(), this.shadowRoot);
-          this.connected();
-          this[connectedSymbol] = true;
-        });
-      }
-
-      update() {
-        renderTaskPool.add(() => {
-          if (this.shouldUpdate()) {
-            render(this.render(), this.shadowRoot);
-            this.updated();
-          }
-        });
-      }
-    };
-  }
-
   static get instance() {
     return this[instanceSymbol];
   }
@@ -203,5 +181,25 @@ export default class Component extends HTMLElement {
 
   render() {
     return html``;
+  }
+}
+
+export class AsyncComponent extends Component {
+  connectedCallback() {
+    this.connectStart();
+    renderTaskPool.add(() => {
+      render(this.render(), this.shadowRoot);
+      this.connected();
+      this[connectedSymbol] = true;
+    });
+  }
+
+  update() {
+    renderTaskPool.add(() => {
+      if (this.shouldUpdate()) {
+        render(this.render(), this.shadowRoot);
+        this.updated();
+      }
+    });
   }
 }

@@ -1,10 +1,10 @@
 import { html } from '../../js_modules/lit-html.js';
-import Component from '../../lib/component.js';
+import { AsyncComponent } from '../../lib/component.js';
 import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'gallery-item',
-  class extends Component.Async {
+  class extends AsyncComponent {
     static get observedAttributes() {
       return ['id', 'updatedat'];
     }

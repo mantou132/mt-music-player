@@ -1,5 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
-import Component from '../../lib/component.js';
+import { AsyncComponent } from '../../lib/component.js';
 import { store, updateStore } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
@@ -12,7 +12,7 @@ import { addSong, removeSong } from '../../services/playlist.js';
 
 customElements.define(
   'song-list-item',
-  class extends Component.Async {
+  class extends AsyncComponent {
     static get observedAttributes() {
       return ['id', 'updatedat'];
     }
