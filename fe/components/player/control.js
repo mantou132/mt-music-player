@@ -9,6 +9,7 @@ customElements.define(
   class extends Component {
     constructor() {
       super();
+      console.log('control constructor');
       this.state = store.playerState;
       this.clickShuffleHandle = this.clickShuffleHandle.bind(this);
       this.clickPrevHandle = this.clickPrevHandle.bind(this);

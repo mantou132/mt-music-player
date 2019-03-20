@@ -37,6 +37,8 @@ export const parts = new WeakMap();
 
 export const render = (result, container, options) => {
   let part = parts.get(container);
+  const isAppPlayer = container.host && container.host.tagName === 'APP-PLAYER';
+  if (isAppPlayer) console.log(`WeakMap.get(<APP-PLAYER>.shadowRoot)`, { part });
 
   if (part === undefined) {
     removeNodes(container, container.firstChild);
@@ -44,6 +46,7 @@ export const render = (result, container, options) => {
       templateFactory
     }, options)));
     part.appendInto(container);
+    if (isAppPlayer) console.log(`WeakMap.set(<APP-PLAYER>.shadowRoot)`);
   }
 
   part.setValue(result);
