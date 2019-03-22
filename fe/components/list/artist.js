@@ -7,15 +7,20 @@ customElements.define(
   class extends AppPlaylistList {
     // eslint-disable-next-line
     renderItem({ name, photo }) {
+      const link = {
+        path: routeMap.SONGS.path,
+        query: `?${routeMap.ARTISTS.subTitle}=${encodeURIComponent(name)}`,
+      };
+      const data = {
+        image: photo,
+        title: name,
+      };
       return html`
-        <app-link
-          path="${routeMap.SONGS.path}"
-          query="?${routeMap.ARTISTS.subTitle}=${encodeURIComponent(name)}"
+        <gallery-item
           title="${name}"
-        >
-          <gallery-item .data="${{ image: photo, title: name }}">
-          </gallery-item>
-        </app-link>
+          .link="${link}"
+          .data="${data}"
+        ></gallery-item>
       `;
     }
   },

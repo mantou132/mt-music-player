@@ -35,15 +35,23 @@ export default class AppPlaylistList extends AppSongList {
 
   // eslint-disable-next-line
   renderItem({ id, title, image, updatedAt }) {
+    const link = {
+      path: routeMap.PLAYLIST.path,
+      query: `?id=${id}`,
+    };
+    const data = {
+      id,
+      image,
+      title,
+    };
     return html`
-      <app-link
-        path="${routeMap.PLAYLIST.path}"
-        query="?id=${id}"
+      <gallery-item
         title="${title}"
+        .link="${link}"
+        .data="${data}"
+        updatedat="${updatedAt}"
       >
-        <gallery-item .data="${{ id, image, title }}" updatedat="${updatedAt}">
-        </gallery-item>
-      </app-link>
+      </gallery-item>
     `;
   }
 }
