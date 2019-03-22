@@ -73,7 +73,7 @@ customElements.define(
       if (index > -1) {
         errorList.splice(index, 1);
         this.setState({
-          errorList,
+          playerState: { errorList, state: 'playing' },
         });
       }
     }
@@ -85,8 +85,7 @@ customElements.define(
 
       if (!errorList.includes(currentSong)) errorList.push(currentSong);
       this.setState({
-        errorList,
-        playerState: { state: 'error' },
+        playerState: { errorList, state: 'error' },
       });
     }
 
