@@ -13,9 +13,11 @@ export default class AppSongList extends Component {
   }
 
   connectStart() {
+    const songStore = store.songData;
     this.state = {
       playerState: store.playerState,
       data: this.data,
+      songData: this.data === songStore ? '' : songStore,
     };
   }
 
