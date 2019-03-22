@@ -1,4 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
+import { repeat } from '../../js_modules/npm:lit-html@1.0.0/directives/repeat.js';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
 
@@ -35,7 +36,7 @@ export default class AppSongList extends Component {
           flex-grow: 1;
         }
       </style>
-      ${list.map(this.renderItem)}
+      ${repeat(list, data => data.id, this.renderItem)}
     `;
   }
 

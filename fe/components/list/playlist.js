@@ -1,4 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
+import { repeat } from '../../js_modules/npm:lit-html@1.0.0/directives/repeat.js';
 import AppSongList from './song.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import routeMap from '../router/map.js';
@@ -28,7 +29,7 @@ export default class AppPlaylistList extends AppSongList {
           }
         }
       </style>
-      ${list.map(this.renderItem)}
+      ${repeat(list, data => data.id, this.renderItem)}
     `;
   }
 
