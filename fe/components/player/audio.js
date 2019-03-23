@@ -16,12 +16,13 @@ customElements.define(
       };
       this.audio = new Audio();
       this.audio.onended = this.endHandle.bind(this);
+      this.audio.onerror = this.playError.bind(this);
+      this.audio.onplaying = this.playSuccess.bind(this);
+      this.audio.onabort = this.playSuccess.bind(this); // Enter the waiting stage
       this.setCurrentTime();
 
       this.randomPlay = this.randomPlay.bind(this);
       this.nextPlay = this.nextPlay.bind(this);
-      this.playError = this.playError.bind(this);
-      this.playSuccess = this.playSuccess.bind(this);
     }
 
     endHandle() {
@@ -66,12 +67,14 @@ customElements.define(
 
     playSuccess() {
       const {
-        playerState: { currentSong, errorList },
+        playerState: { currentSong, errorList, state },
       } = this.state;
 
       const index = errorList.indexOf(currentSong);
-      if (index > -1) {
-        errorList.splice(index, 1);
+      const isError = index > -1;
+      const isPlayingState = state === 'playing';
+      if (isError) errorList.splice(index, 1);
+      if (isError || !isPlayingState) {
         this.setState({
           playerState: { errorList, state: 'playing' },
         });
@@ -80,13 +83,17 @@ customElements.define(
 
     playError() {
       const {
-        playerState: { currentSong, errorList },
+        playerState: { currentSong, errorList, state },
       } = this.state;
 
-      if (!errorList.includes(currentSong)) errorList.push(currentSong);
-      this.setState({
-        playerState: { errorList, state: 'error' },
-      });
+      const isError = errorList.includes(currentSong);
+      const isErrorState = state === 'error';
+      if (!isError) errorList.push(currentSong);
+      if (!isError || !isErrorState) {
+        this.setState({
+          playerState: { errorList, state: 'error' },
+        });
+      }
     }
 
     render() {
@@ -121,10 +128,7 @@ customElements.define(
       }
       // play
       if (state === 'playing' && this.audio.paused) {
-        this.audio
-          .play()
-          .then(this.playSuccess)
-          .catch(this.playError);
+        this.audio.play();
       }
       // pause
       if (state === 'paused' && !this.audio.paused) {
