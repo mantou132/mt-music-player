@@ -1,5 +1,12 @@
 import { randomColor, luminance } from './color.js';
 
+export function createCanvas(width, height) {
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  return canvas;
+}
+
 export function transformTextToSVG(text) {
   const background = `rgb(${randomColor().join(',')})`;
   const color = luminance(...background) < 0.4 ? '#ffffff55' : '#00000055';
@@ -31,9 +38,7 @@ export function transformTextToBitmap(
   text,
   { width = 512, height = 512 } = {},
 ) {
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
+  const canvas = createCanvas(width, height);
 
   const background = randomColor();
   const ctx = canvas.getContext('2d');
@@ -67,6 +72,23 @@ export function transformTextToBitmap(
     ctx.restore();
   });
 
+  return canvas.toDataURL();
+}
+
+export async function transformSVGDataURLToBitmap(
+  dataUrl,
+  { width = 512, height = 512 } = {},
+) {
+  const img = new Image();
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
+  img.src = dataUrl;
+  await new Promise(resolve => {
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve();
+    };
+  });
   return canvas.toDataURL();
 }
 
