@@ -14,7 +14,12 @@ const altPlaceholderMap = new Map();
 export default class Image extends Component {
   static async getAltPlaceholder(alt = '') {
     if (!altPlaceholderMap.has(alt)) {
-      altPlaceholderMap.set(alt, transformTextToSVG(await getAbbrPinyin(alt)));
+      altPlaceholderMap.set(
+        alt,
+        new Promise(async resolve => {
+          resolve(transformTextToSVG(await getAbbrPinyin(alt)));
+        }),
+      );
     }
     return altPlaceholderMap.get(alt);
   }

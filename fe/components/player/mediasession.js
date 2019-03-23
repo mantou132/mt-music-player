@@ -4,6 +4,9 @@ import Image from '../image/index.js';
 
 const emptyFunction = () => {};
 
+const getPicture = async title =>
+  transformSVGDataURLToBitmap(await Image.getAltPlaceholder(title));
+
 const mediaSession = {
   async setMetadata({ title, artist, album, picture }) {
     if ('mediaSession' in navigator) {
@@ -11,11 +14,7 @@ const mediaSession = {
 
       if (artist) metadata.artist = artist;
       if (album) metadata.album = album;
-      const src =
-        picture ||
-        (await transformSVGDataURLToBitmap(
-          await Image.getAltPlaceholder(title),
-        ));
+      const src = picture || (await getPicture(title));
       metadata.artwork = [
         {
           src: getSrc(src),
