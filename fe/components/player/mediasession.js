@@ -1,5 +1,6 @@
-import { getSrc, getAbbrPinyin } from '../../utils/misc.js';
-import { transformTextToBitmap } from '../../utils/canvas.js';
+import { getSrc } from '../../utils/misc.js';
+import { transformSVGDataURLToBitmap } from '../../utils/canvas.js';
+import Image from '../image/index.js';
 
 const emptyFunction = () => {};
 
@@ -10,7 +11,11 @@ const mediaSession = {
 
       if (artist) metadata.artist = artist;
       if (album) metadata.album = album;
-      const src = picture || transformTextToBitmap(await getAbbrPinyin(title));
+      const src =
+        picture ||
+        (await transformSVGDataURLToBitmap(
+          await Image.getAltPlaceholder(title),
+        ));
       metadata.artwork = [
         {
           src: getSrc(src),
