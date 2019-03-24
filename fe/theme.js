@@ -10,6 +10,13 @@ customElements.define(
         html`
           <style>
             :root {
+              --safe-width: calc(
+                100% - env(safe-area-inset-left) - env(safe-area-inset-right)
+              );
+              --safe-height: calc(
+                100% - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+              );
+
               --scrollbar-track-color: rgba(0, 0, 0, 0.2);
               --scrollbar-color: rgba(255, 255, 255, 0.2);
 
@@ -38,7 +45,7 @@ customElements.define(
               --notfound-text-primary-color: #fff;
               --notfound-text-secondary-color: #707070;
 
-              --player-height: 9rem;
+              --player-height: calc(9rem + env(safe-area-inset-bottom));
               --player-background-color: #202b27;
               --player-separator-color: black;
               --player-text-primary-color: #fff;
@@ -104,7 +111,7 @@ customElements.define(
                 --menu-text-color: #000;
                 --menu-hover-text-color: #000;
 
-                --player-height: 5.6rem;
+                --player-height: calc(5.6rem + env(safe-area-inset-bottom));
               }
             }
             @media ${mediaQuery.WATCH}, ${mediaQuery.SHORT} {

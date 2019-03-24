@@ -121,13 +121,15 @@ export default class Drawer extends Component {
           scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
         }
         .menu {
+          box-sizing: border-box;
           height: 100%;
+          padding-bottom: env(safe-area-inset-bottom);
         }
         .user {
           position: relative;
           display: flex;
           align-items: center;
-          padding: 4.8rem 2.4rem 2.4rem;
+          padding: calc(4.8rem + env(safe-area-inset-top)) 2.4rem 2.4rem;
           background: var(--drawer-user-background-color);
           color: var(--drawer-user-text-color);
         }
@@ -150,6 +152,9 @@ export default class Drawer extends Component {
         .default app-icon {
           display: none;
         }
+        .playlist {
+          display: none;
+        }
         li {
           position: relative;
           display: flex;
@@ -170,6 +175,11 @@ export default class Drawer extends Component {
           }
           li {
             cursor: pointer;
+          }
+        }
+        @media ${mediaQuery.DESKTOP} {
+          .playlist {
+            display: block;
           }
         }
         @media ${mediaQuery.PHONE_LANDSCAPE},
@@ -225,9 +235,6 @@ export default class Drawer extends Component {
           .default {
             font-weight: normal;
           }
-          .playlist {
-            display: none;
-          }
           .default app-icon {
             display: block;
           }
@@ -260,16 +267,20 @@ export default class Drawer extends Component {
         <ol class="default">
           ${menus.map(Drawer.renderItem)}
         </ol>
-        <ol class="playlist">
-          ${list.map(Drawer.renderPlaylist)}
-        </ol>
-        <ol class="playlist">
-          <li @click="${Drawer.addPlaylistHandle}">
-            <app-icon name="playlist-add"></app-icon>
-            <span>add playlisy</span>
-            <app-ripple></app-ripple>
-          </li>
-        </ol>
+        ${mediaQuery.isDesktop
+          ? html`
+              <ol class="playlist">
+                ${list.map(Drawer.renderPlaylist)}
+              </ol>
+              <ol class="playlist">
+                <li @click="${Drawer.addPlaylistHandle}">
+                  <app-icon name="playlist-add"></app-icon>
+                  <span>add playlisy</span>
+                  <app-ripple></app-ripple>
+                </li>
+              </ol>
+            `
+          : ''}
       </div>
     `;
   }

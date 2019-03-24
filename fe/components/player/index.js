@@ -79,6 +79,8 @@ customElements.define(
             bottom: 0;
             flex-shrink: 0;
             height: var(--player-height);
+            padding-bottom: env(safe-area-inset-bottom);
+            box-sizing: border-box;
             display: flex;
             overflow: hidden;
             background: var(--player-background-color);
@@ -108,6 +110,7 @@ customElements.define(
               flex-direction: column;
               justify-content: space-between;
               height: 100%;
+              padding-top: env(safe-area-inset-top);
             }
             :host([maximize]) player-song-info {
               width: auto;

@@ -139,8 +139,8 @@ export default class AppMenu extends Component {
           left: 50%;
           transform: translate(-50%, -50%);
           width: 30rem;
-          max-width: 90%;
-          max-height: 90%;
+          max-width: calc(var(--safe-width) * 0.9);
+          max-height: calc(var(--safe-height) * 0.9);
         }
         .menu.center ol {
           transition: none;

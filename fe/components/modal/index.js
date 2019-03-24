@@ -151,6 +151,7 @@ export default class Modal extends Component {
           }
           .titlebar {
             border-bottom: 1px solid var(--action-border-color);
+            padding-top: env(safe-area-inset-top);
           }
           .title {
             padding-left: 1.6rem;

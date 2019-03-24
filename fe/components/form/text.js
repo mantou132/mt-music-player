@@ -97,6 +97,7 @@ customElements.define(
             color: inherit;
             caret-color: var(--theme-color);
             font-size: inherit;
+            border-radius: 0;
           }
           input + .border {
             pointer-events: none;
