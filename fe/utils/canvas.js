@@ -13,8 +13,9 @@ export function transformTextToSVG(text) {
     const total = e / 255;
     return range[i][0] + total * (range[i][1] - range[i][0]);
   });
-  const background = `rgb(${hslToRGB(...backgroundHSL).join(',')})`;
-  const color = luminance(...background) < 0.4 ? '#ffffff55' : '#00000055';
+  const backgroundRGB = hslToRGB(...backgroundHSL);
+  const background = `rgb(${backgroundRGB.join(',')})`;
+  const color = luminance(...backgroundRGB) < 0.2 ? '#ffffff44' : '#00000044';
   const getTranslate = () => Math.random() / 5;
   const getRotate = () => (Math.random() - 0.5) * 45;
 
