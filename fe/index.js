@@ -21,14 +21,17 @@ import './components/title/index.js';
 import './components/toast/index.js';
 import './components/upload/index.js';
 
+import {
+  isSupportPaintWorklet,
+  isSupportWerviceWorker,
+} from './utils/feature.js';
+
 window.addEventListener('load', () => {
-  if ('paintWorklet' in CSS) {
-    // Not ES module
-    // So load from the root directory
+  if (isSupportPaintWorklet()) {
     CSS.paintWorklet.addModule('paintworklet.js');
   }
 
-  if ('serviceWorker' in navigator) {
+  if (isSupportWerviceWorker()) {
     navigator.serviceWorker.register('serviceworker.js');
   }
 });
