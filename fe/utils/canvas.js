@@ -1,4 +1,4 @@
-import { randomColor, luminance } from './color.js';
+import { randomRGBColor, luminance, hslToRGB } from './color.js';
 
 export function createCanvas(width, height) {
   const canvas = document.createElement('canvas');
@@ -8,7 +8,12 @@ export function createCanvas(width, height) {
 }
 
 export function transformTextToSVG(text) {
-  const background = `rgb(${randomColor().join(',')})`;
+  const range = [[0, 1], [0.2, 0.7], [0.3, 0.6]];
+  const backgroundHSL = randomRGBColor().map((e, i) => {
+    const total = e / 255;
+    return range[i][0] + total * (range[i][1] - range[i][0]);
+  });
+  const background = `rgb(${hslToRGB(...backgroundHSL).join(',')})`;
   const color = luminance(...background) < 0.4 ? '#ffffff55' : '#00000055';
   const getTranslate = () => Math.random() / 5;
   const getRotate = () => (Math.random() - 0.5) * 45;
@@ -32,47 +37,6 @@ export function transformTextToSVG(text) {
       </style>
       ${strs.join('')}
     </svg>`)}`;
-}
-
-export function transformTextToBitmap(
-  text,
-  { width = 512, height = 512 } = {},
-) {
-  const canvas = createCanvas(width, height);
-
-  const background = randomColor();
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = `rgb(${background.join(',')})`;
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.textBaseline = 'middle';
-
-  ctx.font = `${height}px sans-serif`;
-  ctx.fillStyle = luminance(...background) < 0.4 ? '#ffffff55' : '#00000055';
-
-  [...String(text)].forEach(char => {
-    ctx.save();
-    const textMetrics = ctx.measureText(char);
-    const transform = {
-      rotate: (Math.random() - 0.5) * 45,
-      x: width / 2 + textMetrics.width,
-      y: height / 2,
-    };
-    const { a, b, c, d, e, f } = new DOMMatrix(
-      `rotate(${transform.rotate}deg) translate(${transform.x}px, ${
-        transform.y
-      }px)`,
-    );
-    ctx.transform(a, b, c, d, e, f);
-    ctx.fillText(
-      char,
-      (width - textMetrics.width) / 2 - transform.x,
-      height / 2 - transform.y,
-    );
-    ctx.restore();
-  });
-
-  return canvas.toDataURL();
 }
 
 export async function transformSVGDataURLToBitmap(

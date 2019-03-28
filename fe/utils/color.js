@@ -1,10 +1,10 @@
-export function randomColor(type) {
+export function randomRGBColor(type) {
   const randomNumber = () => Math.floor(Math.random() * 256);
   const color = [randomNumber(), randomNumber(), randomNumber()];
   if (type === 'hex') {
     return `#${color.reduce((p, c) => p + c.toString(16), '')}`;
   }
-  return [randomNumber(), randomNumber(), randomNumber()];
+  return color;
 }
 
 export function luminance(r, g, b) {
@@ -112,7 +112,7 @@ export function hslToRGB(h, s, l) {
     b = hueToRGB(p, q, h - 1 / 3);
   }
 
-  return [r * 255, g * 255, b * 255];
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
 
 export const hexToRGB = str =>
