@@ -64,11 +64,9 @@ const SongPlaylist = sequelize.define('song_playlist', {
 
 Playlist.belongsToMany(Song, {
   through: SongPlaylist,
-  foreignKey: 'playlistId',
 });
 Song.belongsToMany(Playlist, {
   through: SongPlaylist,
-  foreignKey: 'songId',
 });
 
 sequelize.sync();
