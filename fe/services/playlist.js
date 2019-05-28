@@ -1,45 +1,50 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
+import { songMap, playlistMap } from '../models/data-map.js';
 
 export const get = async () => {
   const list = await request('/playlist');
-  updateStore('playlistData', { list });
+  updateStore('playlistData', {
+    list: list.map(data => {
+      playlistMap.set(data.id, data);
+      return data.id;
+    }),
+  });
 
   return list;
 };
 
 export const getSong = async id => {
-  const list = await request(`/playlist/${id}/songs`);
-  updateStore('playlistData', {
-    [id]: list.map(e => store.songData.list.find(song => song.id === e.songId)),
+  const playlistData = await request(`/playlist/${id}/songs`);
+  playlistData.list = playlistData.songs.map(data => {
+    songMap.set(data.id, data);
+    return data.id;
   });
+  delete playlistData.songs;
+  playlistMap.set(id, playlistData);
+  updateStore('playlistData', {});
 };
 
 export const addSong = async (id, songId) => {
+  const { list = [] } = playlistMap.get(id);
   await request(`/playlist/${id}/songs/${songId}`, { method: 'post' });
-  updateStore('playlistData', {
-    [id]: [store.songData.list.find(song => song.id === songId)].concat(
-      store.playlistData[id],
-    ),
-  });
+  list.unshift(songId);
+  updateStore('playlistData', {});
 };
 
 export const removeSong = async (id, songId) => {
+  const { list = [] } = playlistMap.get(id);
   await request(`/playlist/${id}/songs/${songId}`, { method: 'delete' });
-  store.playlistData[id].splice(
-    store.playlistData[id].findIndex(song => songId === song.id),
-    1,
-  );
-  updateStore('playlistData', {
-    [id]: store.playlistData[id],
-  });
+  list.splice(songId, 1);
+  updateStore('playlistData', {});
 };
 
 export const create = async body => {
   const { list } = store.playlistData;
   const data = await request('/playlist', { method: 'post', body });
+  playlistMap.set(data.id, data);
   updateStore('playlistData', {
-    list: [data].concat(list),
+    list: [data.id].concat(list),
   });
 
   return data;

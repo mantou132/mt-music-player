@@ -65,11 +65,20 @@ export async function get(req, res) {
 }
 
 export async function getSongs(req, res) {
-  const list = await Models.song_playlist.findAll({
+  const list = await Models.playlist.findOne({
+    include: [
+      {
+        model: Models.song,
+        through: {
+          attributes: [],
+        },
+        attributes: { exclude: ['user'] },
+      },
+    ],
     attributes: { exclude: ['user'] },
     where: {
       user: req.header('x-user') || null,
-      playlistId: Number(req.param('id')),
+      id: Number(req.param('id')),
     },
     order: [['id', 'DESC']],
   });
@@ -77,14 +86,14 @@ export async function getSongs(req, res) {
 }
 
 export async function addSong(req, res) {
-  const data = await Models.song_playlist.findOrCreate({
+  const playlist = await Models.playlist.findOrCreate({
     where: {
       user: req.header('x-user') || null,
       playlistId: Number(req.param('id')),
-      songId: Number(req.param('songId')),
     },
   });
 
+  const data = await playlist.addSong(Number(req.param('songId')));
   return res.status(200).json(data);
 }
 

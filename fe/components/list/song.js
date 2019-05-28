@@ -2,6 +2,7 @@ import { html } from '../../js_modules/lit-html.js';
 import { repeat } from '../../js_modules/npm:lit-html@1.0.0/directives/repeat.js';
 import Component from '../../lib/component.js';
 import { store } from '../../models/index.js';
+import { playlistMap, songMap } from '../../models/data-map.js';
 
 export default class AppSongList extends Component {
   static get observedAttributes() {
@@ -26,34 +27,43 @@ export default class AppSongList extends Component {
     const id = this.getAttribute('id');
     const filtername = this.getAttribute('filtername');
     const filtervalue = this.getAttribute('filtervalue');
-    let { [id === null ? 'list' : id]: list = [] } = this.state.data;
+    let list;
+    if (id !== null) {
+      // playlist
+      ({ list = [] } = playlistMap.get(id));
+    } else {
+      ({ list = [] } = this.state.data);
+    }
     if (filtername) {
       list = list.filter(e => e[filtername] === filtervalue);
     }
+    console.count('[TODO pref] song lint render count');
+    setTimeout(() => console.countReset('[TODO pref] song lint render count'));
     return html`
       <style>
         :host {
           flex-grow: 1;
         }
       </style>
-      ${repeat(list, data => data.id, this.renderItem)}
+      ${repeat(list, songId => songId, this.renderItem)}
     `;
   }
 
-  renderItem(data) {
+  renderItem(songId) {
     const { errorList, currentSong, state } = this.state.playerState;
     const playIcon = state === 'paused' ? 'pause' : 'playing';
-    const isError = errorList.includes(data.id);
+    const isError = errorList.includes(songId);
+    const { updatedAt } = songMap.get(songId);
     return html`
       <song-list-item
-        id="${data.id}"
-        updatedat="${data.updatedAt}"
+        id="${songId}"
+        updatedat="${updatedAt}"
         ?error="${isError}"
-        ?active="${currentSong === data.id}"
+        ?active="${currentSong === songId}"
       >
         <app-icon
           name="${playIcon}"
-          ?hidden="${currentSong !== data.id || isError}"
+          ?hidden="${currentSong !== songId || isError}"
         >
         </app-icon>
       </song-list-item>

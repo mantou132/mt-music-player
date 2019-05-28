@@ -9,6 +9,7 @@ import Confirm from '../confirm/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import getSongEditModal from '../modals/song-edit.js';
 import { addSong, removeSong } from '../../services/playlist.js';
+import { songMap, playlistMap } from '../../models/data-map.js';
 
 customElements.define(
   'song-list-item',
@@ -38,10 +39,10 @@ customElements.define(
       const { list } = store.playlistData;
       AppMenu.open({
         type: 'center',
-        list: list.map(({ title, id }) => ({
-          text: title,
+        list: list.map(playlistId => ({
+          text: playlistMap.get(playlistId).title,
           handle() {
-            addSong(id, songId);
+            addSong(playlistId, songId);
           },
         })),
       });
@@ -81,9 +82,7 @@ customElements.define(
     }
 
     editHandle() {
-      const { list } = store.songData;
-      const song = list.find(e => String(e.id) === this.id);
-      Modal.open(getSongEditModal(song));
+      Modal.open(getSongEditModal(songMap.get(Number(this.id))));
     }
 
     deleteHandle() {
@@ -96,8 +95,7 @@ customElements.define(
     }
 
     render() {
-      const { list } = store.songData;
-      const song = list.find(e => String(e.id) === this.id) || {};
+      const song = songMap.get(Number(this.id));
       return html`
         <style>
           :host {

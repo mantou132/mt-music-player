@@ -2,17 +2,26 @@ import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
 import { toQuerystring } from '../utils/object.js';
 import history from '../lib/history.js';
+import { songMap } from '../models/data-map.js';
 
 export const get = async () => {
   const list = await request('/songs');
-  updateStore('songData', { list });
+  updateStore('songData', {
+    list: list.map(data => {
+      songMap.set(data.id, data);
+      return data.id;
+    }),
+  });
 
   return list;
 };
 
 export const getFavorite = async () => {
   await get();
-  const list = store.songData.list.filter(data => data.star);
+  const list = [];
+  songMap.forEach(({ star, id }) => {
+    if (star) list.push(id);
+  });
   updateStore('favoriteData', { list });
   return list;
 };
@@ -46,8 +55,9 @@ export const upload = files => {
       });
     } else {
       updateStore('uploaderState', { list });
+      songMap.set(data.id, data);
       updateStore('songData', {
-        list: [data].concat(store.songData.list),
+        list: [data.id].concat(store.songData.list),
       });
     }
   });
@@ -56,19 +66,18 @@ export const upload = files => {
 export const del = async id => {
   const { list } = store.songData;
   await request(`/songs/${id}`, { method: 'delete' });
-  const deletedIndex = list.findIndex(({ id: i }) => i === id);
+  const deletedIndex = list.findIndex(songId => songId === id);
   list.splice(deletedIndex, 1);
   updateStore('songData', { list });
 };
 
 export const update = async (id, song) => {
-  const { list } = store.songData;
   const { currentSong } = store.playerState;
   const data = await request(`/songs/${id}`, { method: 'put', body: song });
-  Object.assign(list.find(({ id: i }) => i === id), data, {
+  Object.assign(songMap.get(id), data, {
     picture: data.picture || undefined,
   });
-  updateStore('songData', { list });
+  updateStore('songData', {});
   if (currentSong === id) {
     updateStore('playerState', {});
   }
@@ -82,7 +91,10 @@ export const search = async text => {
     `/search?${toQuerystring({ q: text, type: 'song' })}`,
   );
   updateStore('searchData', {
-    list,
+    list: list.map(data => {
+      songMap.set(data.id, data);
+      return data.id;
+    }),
     text,
   });
   history.replace({

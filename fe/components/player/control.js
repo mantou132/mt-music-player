@@ -31,14 +31,14 @@ customElements.define(
     clickPrevHandle() {
       const { currentSong } = this.state;
       const { list } = store.songData;
-      const currentIndex = list.findIndex(data => data.id === currentSong);
+      const currentIndex = list.findIndex(songId => songId === currentSong);
       let prevIndex;
       if (currentIndex === 0) {
         prevIndex = list.length - 1;
       } else {
         prevIndex = currentIndex - 1;
       }
-      this.setState({ currentSong: list[prevIndex].id });
+      this.setState({ currentSong: list[prevIndex] });
     }
 
     clickPlayHandle() {
@@ -52,14 +52,14 @@ customElements.define(
     clickNextHandle() {
       const { currentSong } = this.state;
       const { list } = store.songData;
-      const currentIndex = list.findIndex(data => data.id === currentSong);
+      const currentIndex = list.findIndex(songId => songId === currentSong);
       let nextIndex;
       if (currentIndex === list.length - 1) {
         nextIndex = 0;
       } else {
         nextIndex = currentIndex + 1;
       }
-      this.setState({ currentSong: list[nextIndex].id, state: 'playing' });
+      this.setState({ currentSong: list[nextIndex], state: 'playing' });
     }
 
     clickModeHandle() {

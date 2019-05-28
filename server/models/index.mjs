@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import sequelize from '../db/postgres';
 
-sequelize.define('song', {
+const Song = sequelize.define('song', {
   user: {
     type: Sequelize.STRING,
   },
@@ -32,7 +32,7 @@ sequelize.define('song', {
   },
 });
 
-sequelize.define('playlist', {
+const Playlist = sequelize.define('playlist', {
   user: {
     type: Sequelize.STRING,
   },
@@ -56,16 +56,17 @@ sequelize.define('user', {
   },
 });
 
-sequelize.define('song_playlist', {
+const SongPlaylist = sequelize.define('song_playlist', {
   user: {
     type: Sequelize.STRING,
   },
-  playlistId: {
-    type: Sequelize.INTEGER,
-  },
-  songId: {
-    type: Sequelize.INTEGER,
-  },
+});
+
+Playlist.belongsToMany(Song, {
+  through: SongPlaylist,
+});
+Song.belongsToMany(Playlist, {
+  through: SongPlaylist,
 });
 
 sequelize.sync();

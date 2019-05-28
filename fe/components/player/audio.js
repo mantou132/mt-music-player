@@ -4,6 +4,7 @@ import { get } from '../../services/song.js';
 import mediaSession from './mediasession.js';
 import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import { songMap } from '../../models/data-map.js';
 
 customElements.define(
   'player-audio',
@@ -43,7 +44,7 @@ customElements.define(
       const { list } = store.songData;
       const randomIndex = Math.floor(Math.random() * list.length);
       this.setState({
-        playerState: { currentSong: list[randomIndex].id },
+        playerState: { currentSong: list[randomIndex] },
       });
     }
 
@@ -52,7 +53,7 @@ customElements.define(
         playerState: { currentSong },
       } = this.state;
       const { list } = store.songData;
-      const currentIndex = list.findIndex(data => data.id === currentSong);
+      const currentIndex = list.findIndex(songId => songId === currentSong);
       let nextIndex;
       if (currentIndex === list.length - 1) {
         nextIndex = 0;
@@ -61,7 +62,7 @@ customElements.define(
       }
 
       this.setState({
-        playerState: { state: 'playing', currentSong: list[nextIndex].id },
+        playerState: { state: 'playing', currentSong: list[nextIndex] },
       });
     }
 
@@ -101,9 +102,8 @@ customElements.define(
         playerState: { currentSong, state, volume, muted },
         audioState: { currentTime },
       } = this.state;
-      const { list } = store.songData;
-      const song = list.find(data => data.id === currentSong);
-      if (!song) return;
+      const song = songMap.get(currentSong);
+      if (!('id' in song)) return;
 
       // switch mute
       if (muted !== this.audio.muted) {
@@ -118,7 +118,7 @@ customElements.define(
         this.audio.currentTime = currentTime;
       }
       // Change track
-      if (String(song.id) !== this.id) {
+      if (song.id !== Number(this.id)) {
         this.id = song.id;
         this.audio.src = getSrc(song.src);
         this.setState({
