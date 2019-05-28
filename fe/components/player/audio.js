@@ -4,6 +4,7 @@ import { get } from '../../services/song.js';
 import mediaSession from './mediasession.js';
 import { getSrc } from '../../utils/misc.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import { songMap } from '../../models/data-map.js';
 
 customElements.define(
   'player-audio',
@@ -43,7 +44,7 @@ customElements.define(
       const { list } = store.songData;
       const randomIndex = Math.floor(Math.random() * list.length);
       this.setState({
-        playerState: { currentSong: list[randomIndex].id },
+        playerState: { currentSong: list[randomIndex] },
       });
     }
 
@@ -52,7 +53,7 @@ customElements.define(
         playerState: { currentSong },
       } = this.state;
       const { list } = store.songData;
-      const currentIndex = list.findIndex(data => data.id === currentSong);
+      const currentIndex = list.findIndex(songId => songId === currentSong);
       let nextIndex;
       if (currentIndex === list.length - 1) {
         nextIndex = 0;
@@ -101,8 +102,7 @@ customElements.define(
         playerState: { currentSong, state, volume, muted },
         audioState: { currentTime },
       } = this.state;
-      const { list } = store.songData;
-      const song = list.find(data => data.id === currentSong);
+      const song = songMap.get(currentSong);
       if (!song) return;
 
       // switch mute

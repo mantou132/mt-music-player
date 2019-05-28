@@ -5,6 +5,7 @@ import history from '../../lib/history.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import Modal from '../modal/index.js';
 import getSongEditModal from '../modals/song-edit.js';
+import { songMap } from '../../models/data-map.js';
 
 import './song-info.js';
 import './control.js';
@@ -50,8 +51,7 @@ customElements.define(
 
     editHandle() {
       const { currentSong } = this.state;
-      const { list } = store.songData;
-      const song = list.find(e => e.id === currentSong);
+      const song = songMap.get(currentSong);
       Modal.open(getSongEditModal(song));
     }
 

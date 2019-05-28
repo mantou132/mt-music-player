@@ -3,6 +3,7 @@ import { repeat } from '../../js_modules/npm:lit-html@1.0.0/directives/repeat.js
 import AppSongList from './song.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import routeMap from '../router/map.js';
+import { playlistMap } from '../../models/data-map.js';
 
 export default class AppPlaylistList extends AppSongList {
   constructor() {
@@ -29,12 +30,13 @@ export default class AppPlaylistList extends AppSongList {
           }
         }
       </style>
-      ${repeat(list, data => data.id, this.renderItem)}
+      ${repeat(list, playlistId => playlistId, this.renderItem)}
     `;
   }
 
   // eslint-disable-next-line
-  renderItem({ id, title, image, updatedAt }) {
+  renderItem(playlistId) {
+    const { id, title, image, updatedAt } = playlistMap.get(playlistId);
     const link = {
       path: routeMap.PLAYLIST.path,
       query: `?id=${id}`,

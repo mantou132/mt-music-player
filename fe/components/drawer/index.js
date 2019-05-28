@@ -7,6 +7,7 @@ import { get } from '../../services/playlist.js';
 import Modal from '../modal/index.js';
 import getAddPlaylistModal from '../modals/add-playlist.js';
 import routeMap from '../router/map.js';
+import { playlistMap } from '../../models/data-map.js';
 
 const menus = [
   // {
@@ -74,7 +75,8 @@ export default class Drawer extends Component {
     `;
   }
 
-  static renderPlaylist({ id, title }) {
+  static renderPlaylist(id) {
+    const { title } = playlistMap.get(id);
     return html`
       <li>
         <app-link

@@ -5,6 +5,7 @@ import mediaQuery from '../../lib/mediaquery.js';
 import { update } from '../../services/song.js';
 import AppMenu from '../menu/index.js';
 import { addSong } from '../../services/playlist.js';
+import { songMap, playlistMap } from '../../models/data-map.js';
 
 customElements.define(
   'player-song-info',
@@ -20,10 +21,10 @@ customElements.define(
       const { list } = store.playlistData;
       AppMenu.open({
         type: 'center',
-        list: list.map(({ title, id }) => ({
-          text: title,
+        list: list.map(playlistId => ({
+          text: playlistMap.get(playlistId).title,
           handle() {
-            addSong(id, currentSong);
+            addSong(playlistId, currentSong);
           },
         })),
       });
@@ -31,8 +32,7 @@ customElements.define(
 
     render() {
       const { currentSong } = this.state;
-      const { list } = store.songData;
-      const song = list.find(e => e.id === currentSong) || {};
+      const song = songMap.get(currentSong);
       return html`
         <style>
           :host {
