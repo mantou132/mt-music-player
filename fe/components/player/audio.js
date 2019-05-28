@@ -62,7 +62,7 @@ customElements.define(
       }
 
       this.setState({
-        playerState: { state: 'playing', currentSong: list[nextIndex].id },
+        playerState: { state: 'playing', currentSong: list[nextIndex] },
       });
     }
 
@@ -103,7 +103,7 @@ customElements.define(
         audioState: { currentTime },
       } = this.state;
       const song = songMap.get(currentSong);
-      if (!song) return;
+      if (!('id' in song)) return;
 
       // switch mute
       if (muted !== this.audio.muted) {
@@ -118,7 +118,7 @@ customElements.define(
         this.audio.currentTime = currentTime;
       }
       // Change track
-      if (String(song.id) !== this.id) {
+      if (song.id !== Number(this.id)) {
         this.id = song.id;
         this.audio.src = getSrc(song.src);
         this.setState({
