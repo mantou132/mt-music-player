@@ -17,7 +17,6 @@ customElements.define(
   class extends Component {
     constructor() {
       super();
-      console.log('player constructor');
       this.state = store.playerState;
       this.clickHandle = this.clickHandle.bind(this);
       this.editHandle = this.editHandle.bind(this);

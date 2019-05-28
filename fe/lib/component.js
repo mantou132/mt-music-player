@@ -44,7 +44,6 @@ export default class Component extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    // this['#shadowRoot'] = this.shadowRoot;
     uniqueDataPropMap.set(this, Symbol('data'));
     uniqueConnectedPageMap.set(this, new Set());
 
@@ -111,11 +110,7 @@ export default class Component extends HTMLElement {
 
   update() {
     if (this.shouldUpdate()) {
-      render(
-        this.render(),
-        this.shadowRoot,
-        this.tagName === 'APP-PLAYER' ? {} : undefined,
-      );
+      render(this.render(), this.shadowRoot);
       this.updated();
     }
   }
