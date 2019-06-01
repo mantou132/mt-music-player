@@ -46,7 +46,7 @@ export async function create(req, res) {
 
 export async function update(req, res) {
   const file = req.files && req.files[0];
-  const id = Number(req.param('id'));
+  const id = Number(req.params.id);
   if (!id) return res.send(400);
 
   let picture;
@@ -74,7 +74,7 @@ export async function update(req, res) {
 }
 
 export async function remove(req, res) {
-  const id = Number(req.param('id'));
+  const id = Number(req.params.id);
   if (!id) return res.send(400);
 
   const user = req.header('x-user') || null;
