@@ -35,7 +35,8 @@ export const addSong = async (id, songId) => {
 export const removeSong = async (id, songId) => {
   const { list = [] } = playlistMap.get(id);
   await request(`/playlist/${id}/songs/${songId}`, { method: 'delete' });
-  list.splice(songId, 1);
+  const songIndex = list.findIndex(sId => songId === sId);
+  list.splice(songIndex, 1);
   updateStore('playlistData', {});
 };
 

@@ -86,10 +86,10 @@ export async function getSongs(req, res) {
 }
 
 export async function addSong(req, res) {
-  const playlist = await Models.playlist.findOrCreate({
+  const [playlist] = await Models.playlist.findOrCreate({
     where: {
       user: req.header('x-user') || null,
-      playlistId: Number(req.param('id')),
+      id: Number(req.param('id')),
     },
   });
 

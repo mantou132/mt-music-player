@@ -5,7 +5,7 @@ export async function login(req, res) {
   const user = req.header('x-user');
   if (!user) return res.send(400);
 
-  const data = await Models.user.findOrCreate({
+  const [data] = await Models.user.findOrCreate({
     where: {
       key: req.header('x-user'),
     },
