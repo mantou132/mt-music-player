@@ -4,9 +4,10 @@
   "description": "A simply web music player app.",
   "main": "fe/index.js",
   "module": "fe/index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon --ignore fe/ --inspect --experimental-modules --loader ./script/loader.mjs ./server/index.mjs",
-    "start": "node --experimental-modules --loader ./script/loader.mjs ./server/index.mjs",
+    "dev": "nodemon --ignore fe/ --inspect --experimental-modules --es-module-specifier-resolution=node ./server/index.js",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node ./server/index.js",
     "lint": "eslint ./ --ext .js,.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +28,7 @@
   "author": "mantou",
   "license": "ISC",
   "dependencies": {
+    "@types/sequelize": "^4.28.3",
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
     "cors": "^2.8.5",
@@ -39,7 +41,7 @@
     "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.3.0",
-    "upyun": "^3.3.4"
+    "upyun": "^3.3.9"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -53,6 +55,6 @@
     "sequelize-cli": "^5.2.0"
   },
   "engines": {
-    "node": ">=9.11"
+    "node": ">=12"
   }
 }

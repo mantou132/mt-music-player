@@ -90,10 +90,42 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@types/bluebird@*":
+  version "3.5.27"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.27.tgz#61eb4d75dc6bfbce51cf49ee9bbebe941b2cb5d0"
+  integrity sha512-6BmYWSBea18+tSjjSC3QIyV93ZKAeNWGM7R6aYt1ryTZXrlHF+QLV0G2yV0viEGVyRkyQsWfMoJ0k/YghBX5sQ==
+
+"@types/continuation-local-storage@*":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@types/continuation-local-storage/-/continuation-local-storage-3.2.1.tgz#a33e0df9dce9b424d1c98fc4fdebd8578dceec7e"
+  integrity sha1-oz4N+dzptCTRyY/E/evYV43O7H4=
+  dependencies:
+    "@types/node" "*"
+
+"@types/lodash@*":
+  version "4.14.133"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.133.tgz#430721c96da22dd1694443e68e6cec7ba1c1003d"
+  integrity sha512-/3JqnvPnY58GLzG3Y7fpphOhATV1DDZ/Ak3DQufjlRK5E4u+s0CfClfNFtAGBabw+jDGtRFbOZe+Z02ZMWCBNQ==
+
 "@types/node@*":
   version "12.0.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.2.tgz#3452a24edf9fea138b48fad4a0a028a683da1e40"
   integrity sha512-5tabW/i+9mhrfEOUcLDu2xBPsHJ+X5Orqy9FKpale3SjDA17j5AEpYq5vfy3oAeAHGcvANRCO3NV3d2D6q3NiA==
+
+"@types/sequelize@^4.28.3":
+  version "4.28.3"
+  resolved "https://registry.yarnpkg.com/@types/sequelize/-/sequelize-4.28.3.tgz#c393bf3cbfea2e18786ce43267e5921d91e27d4e"
+  integrity sha512-Z+gbWsLmGnqnAz91I8Wtfbe+4D1aUyQ4aawYfohpvar4Azr8aSNwzS1rFQYO2dk6zcClt5k9n0qCek/YAq4WNw==
+  dependencies:
+    "@types/bluebird" "*"
+    "@types/continuation-local-storage" "*"
+    "@types/lodash" "*"
+    "@types/validator" "*"
+
+"@types/validator@*":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-10.11.0.tgz#aae9009ce28cc4f878e32c34d3900a81193c98d5"
+  integrity sha512-i1aY7RKb6HmQIEnK0cBmUZUp1URx0riIHw/GYNoZ46Su0GWfLiDmMI8zMRmaauMnOTg2bQag0qfwcyUFC9Tn+A==
 
 abbrev@1:
   version "1.1.1"
@@ -3840,7 +3872,7 @@ update-notifier@^2.5.0:
     semver-diff "^2.0.0"
     xdg-basedir "^3.0.0"
 
-upyun@^3.3.4:
+upyun@^3.3.9:
   version "3.3.9"
   resolved "https://registry.yarnpkg.com/upyun/-/upyun-3.3.9.tgz#42081c5002b485893c3448791ef4cde8163220f9"
   integrity sha512-UqvSKvvFgbQwLI+yjTO0WUnmS2i2KIvX4N2Je6ZTRN4cja17DHX7ARd13DO6h65/JOQJPs/Nua2zlnixNFIdWA==
