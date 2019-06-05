@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 import routes from './routers';
 
 const app = express();
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', cors(), routes);
 app.use('/', express.static('fe'));
-app.use((req, res) => res.sendFile('./fe/index.html'));
+app.use((req, res) => res.sendFile(path.resolve('fe/index.html')));
 
 const server = http.createServer(app);
 
