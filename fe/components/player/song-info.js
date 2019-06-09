@@ -1,6 +1,6 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import { update } from '../../services/song.js';
 import AppMenu from '../menu/index.js';
@@ -26,8 +26,13 @@ customElements.define(
       });
     };
 
+    tooglePipMode = () => {
+      const { pip } = store.playerState;
+      updateStore(store.playerState, { pip: !pip });
+    };
+
     render() {
-      const { currentSong } = store.playerState;
+      const { currentSong, pip } = store.playerState;
       const song = songMap.get(currentSong);
       return html`
         <style>
@@ -43,6 +48,9 @@ customElements.define(
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
             box-shadow: var(--player-cover-box-shadow);
+          }
+          .pip {
+            display: none;
           }
           .wrap {
             display: contents;
@@ -66,6 +74,20 @@ customElements.define(
           }
           .add-playlist {
             display: none;
+          }
+          @media ${mediaQuery.HOVER} {
+            .img:hover .pip:not([hidden]) {
+              display: flex;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              justify-content: center;
+              align-items: center;
+              background: rgba(0, 0, 0, 0.45);
+              cursor: pointer;
+            }
           }
           @media ${mediaQuery.PHONE} {
             :host(:not([maximize])) .img,
@@ -131,11 +153,19 @@ customElements.define(
             }
           }
         </style>
-        <app-img
-          class="img"
-          data-src="${song.picture || ''}"
-          data-alt="${song.title}"
-        ></app-img>
+        <div class="img">
+          <app-img
+            data-src="${song.picture || ''}"
+            data-alt="${song.title}"
+          ></app-img>
+          <div
+            class="pip"
+            ?hidden="${!document.pictureInPictureEnabled}"
+            @click="${this.tooglePipMode}"
+          >
+            <app-icon name="${pip ? 'pip-open' : 'pip'}"></app-icon>
+          </div>
+        </div>
         <div class="wrap">
           <div class="text">
             <div class="name">${song.title}</div>

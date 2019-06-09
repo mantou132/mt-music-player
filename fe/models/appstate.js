@@ -4,6 +4,7 @@ export const userData = {
   key: '',
 };
 export const playerState = {
+  pip: false,
   maximize: false,
   errorList: [],
   currentSong: null,

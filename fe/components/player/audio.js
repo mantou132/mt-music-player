@@ -14,10 +14,11 @@ customElements.define(
     constructor() {
       super();
       this.audio = new Audio();
-      this.audio.onended = this.endHandle;
-      this.audio.onerror = this.playError;
-      this.audio.onplaying = this.playSuccess;
-      this.audio.onabort = this.playSuccess; // Enter the waiting stage
+      this.audio.onended = this.endHandle.bind(this);
+      this.audio.onerror = this.playError.bind(this);
+      this.audio.onplaying = this.playSuccess.bind(this);
+      this.audio.onabort = this.playSuccess.bind(this); // Enter the waiting stage
+      this.setCurrentTime();
     }
 
     endHandle = () => {
@@ -79,10 +80,22 @@ customElements.define(
     };
 
     render = () => {
-      const { currentSong, state, volume, muted } = store.playerState;
+      const { currentSong, state, volume, muted, pip } = store.playerState;
       const { currentTime } = store.audioState;
       const song = songMap.get(currentSong);
       if (!('id' in song)) return;
+
+      // toggle pip
+      if (document.pictureInPictureElement && !pip) {
+        document.exitPictureInPicture().catch(() => {
+          updateStore(store.playerState, { pip: true });
+        });
+      }
+      if (!document.pictureInPictureElement && pip) {
+        this.audio.requestPictureInPicture().catch(() => {
+          updateStore(store.playerState, { pip: false });
+        });
+      }
 
       // switch mute
       if (muted !== this.audio.muted) {
