@@ -35,7 +35,9 @@ export default class AppSongList extends Component {
       ({ list = [] } = this.state.data);
     }
     if (filtername) {
-      list = list.filter(e => e[filtername] === filtervalue);
+      list = list.filter(
+        songId => songMap.get(songId)[filtername] === filtervalue,
+      );
     }
     console.count('[TODO pref] song lint render count');
     setTimeout(() => console.countReset('[TODO pref] song lint render count'));
