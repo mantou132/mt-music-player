@@ -4,7 +4,7 @@ import { store, updateStore } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
 import routeMap from '../router/map.js';
-import { del } from '../../services/song.js';
+import { del, update } from '../../services/song.js';
 import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
@@ -49,10 +49,6 @@ customElements.define(
       });
     }
 
-    removeFromPlaylist(id) {
-      removeSong(id, Number(this.id));
-    }
-
     openMenuHandle(event) {
       this.classList.add('hover');
       const { pathname, search } = window.location;
@@ -71,12 +67,18 @@ customElements.define(
       if (playlistId) {
         actions.push({
           text: 'remove from playlist',
-          handle: this.removeFromPlaylist.bind(this, playlistId),
+          handle: () => removeSong(playlistId, Number(this.id)),
         });
       } else {
         actions.push({
           text: 'add to playlist',
           handle: this.addToPlaylist,
+        });
+      }
+      if (pathname === routeMap.FAVORITES.path) {
+        actions.push({
+          text: 'remove from favorites',
+          handle: () => update(Number(this.id), { star: 0 }),
         });
       }
       AppMenu.open({
