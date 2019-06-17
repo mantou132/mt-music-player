@@ -3,6 +3,7 @@ import { AsyncComponent } from '../../lib/component.js';
 import { store, updateStore } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
+import routeMap from '../router/map.js';
 import { del } from '../../services/song.js';
 import Modal from '../modal/index.js';
 import Confirm from '../confirm/index.js';
@@ -56,24 +57,30 @@ customElements.define(
       this.classList.add('hover');
       const { pathname, search } = window.location;
       const query = new URLSearchParams(search);
-      const playlistId = pathname === '/playlist' && query.get('id');
+      const actions = [
+        {
+          text: 'edit',
+          handle: this.editHandle,
+        },
+        {
+          text: 'delete',
+          handle: this.deleteHandle,
+        },
+      ];
+      const playlistId = pathname === routeMap.PLAYLIST.path && query.get('id');
+      if (playlistId) {
+        actions.push({
+          text: 'remove from playlist',
+          handle: this.removeFromPlaylist.bind(this, playlistId),
+        });
+      } else {
+        actions.push({
+          text: 'add to playlist',
+          handle: this.addToPlaylist,
+        });
+      }
       AppMenu.open({
-        list: [
-          {
-            text: 'edit',
-            handle: this.editHandle,
-          },
-          {
-            text: 'delete',
-            handle: this.deleteHandle,
-          },
-          {
-            text: playlistId ? 'remove from playlist' : 'add to playlist',
-            handle: playlistId
-              ? this.removeFromPlaylist.bind(this, playlistId)
-              : this.addToPlaylist,
-          },
-        ],
+        list: actions,
         target: event.currentTarget,
         stage: mediaQuery.isPhone ? document.body : this.getRootNode().host,
         onclose: () => this.classList.remove('hover'),

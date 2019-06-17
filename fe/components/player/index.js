@@ -4,6 +4,7 @@ import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import mediaQuery from '../../lib/mediaquery.js';
 import Modal from '../modal/index.js';
+import routeMap from '../router/map.js';
 import getSongEditModal from '../modals/song-edit.js';
 import { songMap } from '../../models/data-map.js';
 
@@ -59,7 +60,7 @@ customElements.define(
       this.clickHandle();
       setTimeout(() => {
         history.push({
-          path: '/search',
+          path: routeMap.SEARCH.path,
           close: () => setTimeout(this.clickHandle, 100),
         });
       }, 100);
