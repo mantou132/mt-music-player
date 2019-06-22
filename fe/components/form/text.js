@@ -6,9 +6,14 @@ import { htmlClass } from '../../utils/string.js';
 customElements.define(
   'form-text',
   class extends Component {
-    static get observedAttributes() {
-      return ['name', 'label', 'value', 'placeholder', 'disabled', 'autofocus'];
-    }
+    static observedAttributes = [
+      'name',
+      'label',
+      'value',
+      'placeholder',
+      'disabled',
+      'autofocus',
+    ];
 
     constructor() {
       super();

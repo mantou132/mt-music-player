@@ -4,9 +4,7 @@ import Component from '../../lib/component.js';
 customElements.define(
   'app-range',
   class extends Component {
-    static get observedAttributes() {
-      return ['value'];
-    }
+    static observedAttributes = ['value'];
 
     constructor() {
       super();

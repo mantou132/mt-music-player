@@ -3,13 +3,8 @@ import { store, connect, disConnect, PAGE_KEY } from '../models/index.js';
 import { mergeObject } from '../utils/object.js';
 import { Pool } from '../utils/misc.js';
 
-const uniqueDataPropMap = new WeakMap();
-const uniqueConnectedPageMap = new WeakMap();
-const instanceSymbol = Symbol('instance');
-const connectedSymbol = Symbol('connected');
-
+// global component render task pool
 const renderTaskPool = new Pool();
-
 const exec = () =>
   window.requestAnimationFrame(function callback(timestamp) {
     const task = renderTaskPool.get();
@@ -24,73 +19,77 @@ const exec = () =>
   });
 
 exec();
+
+// No longer enclosing the class, so private fields cannot be used
+const isRenderedSymbol = Symbol('connected');
 export default class Component extends HTMLElement {
-  static get instance() {
-    return this[instanceSymbol];
-  }
+  // spec method; attributeChangedCallback
+  static observedAttributes;
 
-  static set instance(lastInstance) {
-    this[instanceSymbol] = lastInstance;
-  }
+  // simulation observedAttributes
+  static observedPropertys;
 
-  static get observedAttributes() {
-    return [];
-  }
+  // last a instance
+  // single instance component access
+  static instance;
 
-  static get observedPropertys() {
-    return [];
-  }
+  #currentState;
+
+  #connectedStorePages = new Set();
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    uniqueDataPropMap.set(this, Symbol('data'));
-    uniqueConnectedPageMap.set(this, new Set());
 
+    // assignment on a direct class
+    this.constructor.instance = this;
+
+    // observe property
+    const { observedPropertys } = this.constructor;
+    if (observedPropertys) {
+      observedPropertys.forEach(prop => {
+        let propValue;
+        Object.defineProperty(this, prop, {
+          get() {
+            return propValue;
+          },
+          set(v) {
+            if (v !== propValue) {
+              propValue = v;
+              this.update();
+            }
+          },
+        });
+      });
+    }
+
+    // component build-in public method binding this
+    this.setState = this.setState.bind(this);
+    this.shouldUpdate = this.shouldUpdate.bind(this);
     this.update = this.update.bind(this);
-    this.render = this.render.bind(this);
+    this.updated = this.updated.bind(this);
+    this.connectStart = this.connectStart.bind(this);
     this.connected = this.connected.bind(this);
     this.disconnected = this.disconnected.bind(this);
+    this.render = this.render.bind(this);
     this.attributeChanged = this.attributeChanged.bind(this);
-    this.setState = this.setState.bind(this);
-
-    this.constructor.instance = this;
-    const { observedPropertys } = this.constructor;
-    observedPropertys.forEach(prop => {
-      let propValue;
-      Object.defineProperty(this, prop, {
-        get() {
-          return propValue;
-        },
-        set(v) {
-          if (v !== propValue) {
-            propValue = v;
-            this.update();
-          }
-        },
-      });
-    });
   }
 
   get state() {
-    const currentState = this[uniqueDataPropMap.get(this)];
-    if (currentState && currentState[PAGE_KEY]) {
-      return store[currentState[PAGE_KEY]];
-    }
-    return currentState;
+    return this.#currentState;
   }
 
   set state(value) {
     if (typeof value !== 'object') throw new Error('Must use the object');
-    if (!this[uniqueDataPropMap.get(this)]) {
-      this[uniqueDataPropMap.get(this)] = value;
+    if (!this.#currentState) {
+      this.#currentState = value;
       const binding = obj => {
         if (obj[PAGE_KEY]) {
           connect(
             obj[PAGE_KEY],
             this.update,
           );
-          uniqueConnectedPageMap.get(this).add(obj[PAGE_KEY]);
+          this.#connectedStorePages.add(obj[PAGE_KEY]);
         } else {
           const keys = Object.keys(obj);
           keys.forEach(key => {
@@ -102,49 +101,6 @@ export default class Component extends HTMLElement {
       return true;
     }
     throw new Error('Prohibit multiple direct assignments');
-  }
-
-  shouldUpdate() {
-    return true;
-  }
-
-  update() {
-    if (this.shouldUpdate()) {
-      render(this.render(), this.shadowRoot);
-      this.updated();
-    }
-  }
-
-  updated() {}
-
-  connectStart() {}
-
-  connected() {}
-
-  connectedCallback() {
-    this.connectStart();
-    render(this.render(), this.shadowRoot);
-    this.connected();
-    this[connectedSymbol] = true;
-  }
-
-  disconnected() {}
-
-  disconnectedCallback() {
-    uniqueConnectedPageMap.get(this).forEach(page => {
-      disConnect(page, this.update);
-    });
-    this.disconnected();
-    this[connectedSymbol] = false;
-  }
-
-  attributeChanged() {}
-
-  attributeChangedCallback(...rest) {
-    if (this[connectedSymbol]) {
-      this.attributeChanged(...rest);
-      this.update();
-    }
   }
 
   /**
@@ -179,6 +135,61 @@ export default class Component extends HTMLElement {
     if (!changeStore) this.update();
   }
 
+  shouldUpdate() {
+    return true;
+  }
+
+  update() {
+    if (this.shouldUpdate()) {
+      render(this.render(), this.shadowRoot);
+      this.updated();
+    }
+  }
+
+  updated() {}
+
+  connectStart() {}
+
+  connected() {}
+
+  /**
+   * @private
+   * use `connectStart` or `connected`
+   */
+  connectedCallback() {
+    this.connectStart();
+    render(this.render(), this.shadowRoot);
+    this.connected();
+    this[isRenderedSymbol] = true;
+  }
+
+  disconnected() {}
+
+  /**
+   * @private
+   * use `disconnected`
+   */
+  disconnectedCallback() {
+    this.#connectedStorePages.forEach(page => {
+      disConnect(page, this.update);
+    });
+    this.disconnected();
+    this[isRenderedSymbol] = false;
+  }
+
+  attributeChanged() {}
+
+  /**
+   * @private
+   * use `attributeChanged`
+   */
+  attributeChangedCallback(...rest) {
+    if (this[isRenderedSymbol]) {
+      this.attributeChanged(...rest);
+      this.update();
+    }
+  }
+
   render() {
     return html``;
   }
@@ -190,7 +201,7 @@ export class AsyncComponent extends Component {
     renderTaskPool.add(() => {
       render(this.render(), this.shadowRoot);
       this.connected();
-      this[connectedSymbol] = true;
+      this[isRenderedSymbol] = true;
     });
   }
 

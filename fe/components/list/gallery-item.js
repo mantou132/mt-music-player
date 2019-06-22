@@ -6,9 +6,7 @@ import history from '../../lib/history.js';
 customElements.define(
   'gallery-item',
   class extends AsyncComponent {
-    static get observedAttributes() {
-      return ['id', 'updatedat'];
-    }
+    static observedAttributes = ['id', 'updatedat'];
 
     constructor() {
       super();

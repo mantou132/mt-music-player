@@ -3,9 +3,7 @@ import { html, render } from '../js_modules/lit-html.js';
 customElements.define(
   'app-icon',
   class extends HTMLElement {
-    static get observedAttributes() {
-      return ['name'];
-    }
+    static observedAttributes = ['name'];
 
     constructor() {
       super();

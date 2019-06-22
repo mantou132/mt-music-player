@@ -7,9 +7,7 @@ import mediaQuery from '../../lib/mediaquery.js';
 customElements.define(
   'form-img',
   class extends Component {
-    static get observedAttributes() {
-      return ['name'];
-    }
+    static observedAttributes = ['name'];
 
     get value() {
       return this.state.file;

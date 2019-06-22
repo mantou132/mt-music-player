@@ -75,23 +75,21 @@ function getSearchInput() {
   `;
 }
 export default class AppAction extends Component {
-  static TITLE() {}
+  static TITLE = 'title';
 
-  static UPLOAD() {}
+  static UPLOAD = 'upload';
 
-  static SEARCH() {}
+  static SEARCH = 'search';
 
-  static BACK() {}
+  static BACK = 'back';
 
-  static ADD_PLAYLIST() {}
+  static ADD_PLAYLIST = 'add playlist';
 
-  static MENU() {}
+  static MENU = 'menu';
 
-  static SEARCH_INPUT() {}
+  static SEARCH_INPUT = 'search input';
 
-  static get observedPropertys() {
-    return ['actions'];
-  }
+  static observedPropertys = ['actions'];
 
   constructor() {
     super();

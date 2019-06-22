@@ -15,9 +15,7 @@ import { songMap, playlistMap } from '../../models/data-map.js';
 customElements.define(
   'song-list-item',
   class extends AsyncComponent {
-    static get observedAttributes() {
-      return ['id', 'updatedat'];
-    }
+    static observedAttributes = ['id', 'updatedat'];
 
     constructor() {
       super();

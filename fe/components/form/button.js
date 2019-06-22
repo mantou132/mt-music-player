@@ -5,9 +5,7 @@ import mediaQuery from '../../lib/mediaquery.js';
 customElements.define(
   'form-button',
   class extends Component {
-    static get observedAttributes() {
-      return ['disabled', 'type'];
-    }
+    static observedAttributes = ['disabled', 'type'];
 
     render() {
       const disabled = this.getAttribute('disabled');
