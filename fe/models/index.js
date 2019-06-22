@@ -46,10 +46,22 @@ export const store = createStore({
 // eslint-disable-next-line
 window._store = store;
 
+const updaterSet = new Set();
 export const updateStore = (page, value) => {
+  if (!updaterSet.size) {
+    // delayed execution callback after updating store
+    queueMicrotask(() => {
+      updaterSet.forEach(func => func(value));
+      updaterSet.clear();
+    });
+  }
   Object.assign(store[page], value);
   const listeners = handles.get(page);
-  listeners.forEach(func => func.connectedPage.has(page) && func(value));
+  listeners.forEach(func => {
+    if (func.connectedPage.has(page)) {
+      updaterSet.add(func);
+    }
+  });
 };
 
 export const connect = (page, func) => {
