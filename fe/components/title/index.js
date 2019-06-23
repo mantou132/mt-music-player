@@ -3,6 +3,10 @@ import { store } from '../../models/index.js';
 import { capitalize } from '../../utils/string.js';
 import routeMap from '../router/map.js';
 
+/**
+ * Synchronize documet.title
+ * also show in AppBar
+ */
 customElements.define(
   'app-title',
   class extends Component {

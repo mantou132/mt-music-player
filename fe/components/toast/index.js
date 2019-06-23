@@ -1,6 +1,6 @@
 import { html } from '../../js_modules/lit-html.js';
 import { store, updateStore } from '../../models/index.js';
-import Component from '../../lib/component.js';
+import { SingleInstanceComponent } from '../../lib/component.js';
 
 const LIFE_TIME = 3000;
 const InitData = Object.assign({}, store.toastState);
@@ -8,7 +8,7 @@ const InitData = Object.assign({}, store.toastState);
 const showToastList = [];
 let showUploaderState = 0;
 
-export default class AppToast extends Component {
+export default class AppToast extends SingleInstanceComponent {
   static open(state) {
     updateStore('toastState', state);
     setTimeout(() => {

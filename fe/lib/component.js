@@ -23,15 +23,15 @@ exec();
 // No longer enclosing the class, so private fields cannot be used
 const isRenderedSymbol = Symbol('connected');
 export default class Component extends HTMLElement {
-  // spec method; attributeChangedCallback
+  /**
+   * @type {string[]}
+   */
   static observedAttributes;
 
-  // simulation observedAttributes
+  /**
+   * @type {string[]} simulation observedAttributes
+   */
   static observedPropertys;
-
-  // last a instance
-  // single instance component access
-  static instance;
 
   #currentState;
 
@@ -41,10 +41,6 @@ export default class Component extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
 
-    // assignment on a direct class
-    this.constructor.instance = this;
-
-    // observe property
     const { observedPropertys } = this.constructor;
     if (observedPropertys) {
       observedPropertys.forEach(prop => {
@@ -192,6 +188,22 @@ export default class Component extends HTMLElement {
 
   render() {
     return html``;
+  }
+}
+
+export class SingleInstanceComponent extends Component {
+  /**
+   * @type {SingleInstanceComponent}
+   */
+  static instance;
+
+  constructor() {
+    super();
+    if (this.constructor.instance) {
+      throw new Error('multiple instances are not allowed');
+    } else {
+      this.constructor.instance = this;
+    }
   }
 }
 

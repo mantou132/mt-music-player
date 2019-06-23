@@ -1,5 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
-import Component from '../../lib/component.js';
+import { SingleInstanceComponent } from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
 import mediaQuery from '../../lib/mediaquery.js';
@@ -8,7 +8,7 @@ import './body.js';
 
 const InitData = Object.assign({}, store.modalState);
 
-export default class Modal extends Component {
+export default class Modal extends SingleInstanceComponent {
   static open(state) {
     updateStore('modalState', {
       ...InitData,

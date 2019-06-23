@@ -1,9 +1,9 @@
 import { html } from '../../js_modules/lit-html.js';
-import Component from '../../lib/component.js';
+import { SingleInstanceComponent } from '../../lib/component.js';
 import { store } from '../../models/index.js';
 import { upload } from '../../services/song.js';
 
-export default class AppUpload extends Component {
+export default class AppUpload extends SingleInstanceComponent {
   static open() {
     const input = AppUpload.instance.shadowRoot.querySelector('input');
     input.click();

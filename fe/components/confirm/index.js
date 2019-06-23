@@ -1,5 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
-import Component from '../../lib/component.js';
+import { SingleInstanceComponent } from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { capitalize } from '../../utils/string.js';
 import { store, updateStore } from '../../models/index.js';
@@ -7,7 +7,7 @@ import mediaQuery from '../../lib/mediaquery.js';
 
 const InitData = Object.assign({}, store.confirmState);
 
-export default class Confirm extends Component {
+export default class Confirm extends SingleInstanceComponent {
   static open(state) {
     updateStore('confirmState', {
       ...InitData,
