@@ -2,3 +2,4 @@ node_modules
 *.log
 config/local.json
 .DS_Store
+fe/dist
