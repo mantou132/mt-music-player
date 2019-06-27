@@ -1,5 +1,5 @@
+import { connect, disConnect, STORE, STORE_MODULE_KEY } from './store.js';
 import { html, render } from '../js_modules/lit-html.js';
-import { store, connect, disConnect, PAGE_KEY } from '../models/index.js';
 import { mergeObject } from '../utils/object.js';
 import { Pool } from '../utils/misc.js';
 
@@ -80,12 +80,12 @@ export default class Component extends HTMLElement {
     if (!this.#currentState) {
       this.#currentState = value;
       const binding = obj => {
-        if (obj[PAGE_KEY]) {
+        if (obj[STORE_MODULE_KEY]) {
           connect(
-            obj[PAGE_KEY],
+            obj,
             this.update,
           );
-          this.#connectedStorePages.add(obj[PAGE_KEY]);
+          this.#connectedStorePages.add(obj);
         } else {
           const keys = Object.keys(obj);
           keys.forEach(key => {
@@ -106,11 +106,11 @@ export default class Component extends HTMLElement {
   setState(payload) {
     if (typeof payload !== 'object') throw new Error('Must use the object');
     let changeStore = false;
-    if (this.state[PAGE_KEY]) {
-      const page = this.state[PAGE_KEY];
+    if (this.state[STORE_MODULE_KEY]) {
+      const storeKey = this.state[STORE_MODULE_KEY];
       // Cannot be merged into new objects
       // Avoid `this.state` referencing obsolete objects
-      store[page] = mergeObject(this.state, payload);
+      this.state[STORE][storeKey] = mergeObject(this.state, payload);
     } else {
       // Only support for `Store` one layer packaging
       // ✔ correct: `{<Store>}` or `store`
@@ -118,11 +118,11 @@ export default class Component extends HTMLElement {
       const keys = Object.keys(this.state);
       keys.forEach(key => {
         const value = this.state[key];
-        const page = value && value[PAGE_KEY];
+        const storeKey = value && value[STORE_MODULE_KEY];
         if (!(key in payload)) return;
-        if (page) {
+        if (storeKey) {
           changeStore = true;
-          store[page] = mergeObject(value, payload[key]);
+          value[STORE][storeKey] = mergeObject(value, payload[key]);
         } else {
           this.state[key] = payload[key];
         }
@@ -166,8 +166,8 @@ export default class Component extends HTMLElement {
    * use `disconnected`
    */
   disconnectedCallback() {
-    this.#connectedStorePages.forEach(page => {
-      disConnect(page, this.update);
+    this.#connectedStorePages.forEach(storeModule => {
+      disConnect(storeModule, this.update);
     });
     this.disconnected();
     this[isRenderedSymbol] = false;

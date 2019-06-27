@@ -44,7 +44,7 @@ const menus = [
 
 export default class Drawer extends SingleInstanceComponent {
   static open() {
-    updateStore('drawerState', {
+    updateStore(store.drawerState, {
       isOpen: true,
     });
     history.push({
@@ -55,7 +55,7 @@ export default class Drawer extends SingleInstanceComponent {
   }
 
   static close() {
-    updateStore('drawerState', { isOpen: false });
+    updateStore(store.drawerState, { isOpen: false });
   }
 
   static closeHandle() {

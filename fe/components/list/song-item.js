@@ -27,7 +27,7 @@ customElements.define(
     }
 
     clickHandle() {
-      updateStore('playerState', {
+      updateStore(store.playerState, {
         currentSong: Number(this.id),
         state: 'playing',
       });

@@ -9,7 +9,7 @@ const InitData = Object.assign({}, store.confirmState);
 
 export default class Confirm extends SingleInstanceComponent {
   static open(state) {
-    updateStore('confirmState', {
+    updateStore(store.confirmState, {
       ...InitData,
       ...state,
       isOpen: true,
@@ -23,7 +23,7 @@ export default class Confirm extends SingleInstanceComponent {
   }
 
   static close() {
-    updateStore('confirmState', { isOpen: false });
+    updateStore(store.confirmState, { isOpen: false });
   }
 
   constructor() {

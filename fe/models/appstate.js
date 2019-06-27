@@ -25,13 +25,6 @@ export const selectorState = {
   type: '',
   list: [],
 };
-export const historyState = {
-  // coupling `lib/history.js`, `lib/component.js`
-  // {path, query, title, state}
-  // state: {$key, $close, ...}
-  list: [],
-  currentIndex: -1,
-};
 export const uploaderState = {
   // {file}
   list: [],

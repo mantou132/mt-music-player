@@ -1,5 +1,15 @@
-import { store, updateStore } from '../models/index.js';
+import { createStore, updateStore } from './store.js';
 import storage from '../utils/storage.js';
+
+const store = createStore({
+  historyState: {
+    // coupling `lib/history.js`, `lib/component.js`
+    // {path, query, title, state}
+    // state: {$key, $close, ...}
+    list: [],
+    currentIndex: -1,
+  },
+});
 
 const colseHandleMap = new WeakMap();
 
@@ -18,6 +28,7 @@ const generateState = (data, close) => {
 };
 
 const history = {
+  historyState: store.historyState,
   forward() {
     window.history.forward();
   },
@@ -53,7 +64,7 @@ const history = {
     window.history.pushState(state, title, path + query);
 
     const newList = list.slice(0, currentIndex + 1).concat(historyItem);
-    updateStore('historyState', {
+    updateStore(store.historyState, {
       list: newList,
       currentIndex: newList.length - 1,
     });
@@ -75,7 +86,7 @@ const history = {
       state,
       title,
     });
-    updateStore('historyState', {
+    updateStore(store.historyState, {
       list,
     });
   },
@@ -90,7 +101,7 @@ if (!window.history.state) {
   history.back();
 }
 
-updateStore('historyState', storage.getSession('historyState'));
+updateStore(store.historyState, storage.getSession('historyState'));
 window.addEventListener('unload', () => {
   storage.setSession('historyState', store.historyState);
 });
@@ -123,7 +134,7 @@ window.addEventListener('popstate', event => {
     }
   }
 
-  updateStore('historyState', {
+  updateStore(store.historyState, {
     currentIndex: newStateIndex,
   });
 });

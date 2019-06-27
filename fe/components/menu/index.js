@@ -8,7 +8,7 @@ const InitData = Object.assign({}, store.menuState);
 
 export default class AppMenu extends SingleInstanceComponent {
   static open(state) {
-    updateStore('menuState', {
+    updateStore(store.menuState, {
       ...InitData,
       ...state,
       isOpen: true,
@@ -24,13 +24,13 @@ export default class AppMenu extends SingleInstanceComponent {
   }
 
   static close() {
-    updateStore('menuState', { isOpen: false });
+    updateStore(store.menuState, { isOpen: false });
     setTimeout(() => {
       // Restore to default style
       // To perform the animation the next time you open the default menu.
       const { isOpen } = store.menuState;
       if (!isOpen) {
-        updateStore('menuState', { type: '' });
+        updateStore(store.menuState, { type: '' });
       }
     }, 200);
   }

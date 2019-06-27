@@ -1,7 +1,8 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import history from '../../lib/history.js';
 import mediaQuery from '../../lib/mediaquery.js';
+import { store } from '../../models/index.js';
 import { getFavorite } from '../../services/song.js';
 import { get as getAllPlaylist, getSong } from '../../services/playlist.js';
 import { get as getAllAlbum } from '../../services/album.js';
@@ -15,7 +16,7 @@ customElements.define(
     constructor() {
       super();
       this.href = window.location.href;
-      this.state = store.historyState;
+      this.state = history.historyState;
     }
 
     shouldUpdate() {

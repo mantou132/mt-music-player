@@ -10,9 +10,9 @@ let showUploaderState = 0;
 
 export default class AppToast extends SingleInstanceComponent {
   static open(state) {
-    updateStore('toastState', state);
+    updateStore(store.toastState, state);
     setTimeout(() => {
-      updateStore('toastState', InitData);
+      updateStore(store.toastState, InitData);
     }, LIFE_TIME);
   }
 

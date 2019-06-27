@@ -6,7 +6,7 @@ import { songMap } from '../models/data-map.js';
 
 export const get = async () => {
   const list = await request('/songs');
-  updateStore('songData', {
+  updateStore(store.songData, {
     list: list.map(data => {
       songMap.set(data.id, data);
       return data.id;
@@ -22,13 +22,13 @@ export const getFavorite = async () => {
   songMap.forEach(({ star, id }) => {
     if (star) list.push(id);
   });
-  updateStore('favoriteData', { list });
+  updateStore(store.favoriteData, { list });
   return list;
 };
 
 export const upload = files => {
   const fileArr = Array.from(files);
-  updateStore('uploaderState', {
+  updateStore(store.uploaderState, {
     list: store.uploaderState.list.concat(fileArr.map(file => ({ file }))),
     errorList: [],
   });
@@ -49,14 +49,14 @@ export const upload = files => {
     const uploadedIndex = list.findIndex(({ file: f }) => file === f);
     const uploadedItem = list.splice(uploadedIndex, 1);
     if (error) {
-      updateStore('uploaderState', {
+      updateStore(store.uploaderState, {
         list,
         errorList: errorList.concat(uploadedItem),
       });
     } else {
-      updateStore('uploaderState', { list });
+      updateStore(store.uploaderState, { list });
       songMap.set(data.id, data);
-      updateStore('songData', {
+      updateStore(store.songData, {
         list: [data.id].concat(store.songData.list),
       });
     }
@@ -68,7 +68,7 @@ export const del = async id => {
   await request(`/songs/${id}`, { method: 'delete' });
   const deletedIndex = list.findIndex(songId => songId === id);
   list.splice(deletedIndex, 1);
-  updateStore('songData', { list });
+  updateStore(store.songData, { list });
 };
 
 export const update = async (id, song) => {
@@ -77,12 +77,12 @@ export const update = async (id, song) => {
   Object.assign(songMap.get(id), data, {
     picture: data.picture || undefined,
   });
-  updateStore('songData', {});
+  updateStore(store.songData, {});
   if (currentSong === id) {
-    updateStore('playerState', {});
+    updateStore(store.playerState, {});
   }
   if ('star' in song) {
-    updateStore('favoriteData', { list: await getFavorite() });
+    updateStore(store.favoriteData, { list: await getFavorite() });
   }
 };
 
@@ -90,7 +90,7 @@ export const search = async text => {
   const list = await request(
     `/search?${toQuerystring({ q: text, type: 'song' })}`,
   );
-  updateStore('searchData', {
+  updateStore(store.searchData, {
     list: list.map(data => {
       songMap.set(data.id, data);
       return data.id;

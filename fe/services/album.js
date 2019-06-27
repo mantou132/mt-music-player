@@ -1,4 +1,4 @@
-import { updateStore, connect } from '../models/index.js';
+import { store, updateStore, connect } from '../models/index.js';
 import { songMap } from '../models/data-map.js';
 
 // eslint-disable-next-line
@@ -12,11 +12,11 @@ export const get = async () => {
     });
   });
   const list = [...map.values()];
-  updateStore('albumData', { list });
+  updateStore(store.albumData, { list });
   return list;
 };
 
 connect(
-  'songData',
+  store.songData,
   get,
 );

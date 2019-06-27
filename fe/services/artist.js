@@ -1,4 +1,4 @@
-import { updateStore, connect } from '../models/index.js';
+import { store, updateStore, connect } from '../models/index.js';
 import { songMap } from '../models/data-map.js';
 
 const map = new Map();
@@ -12,11 +12,11 @@ export const get = async () => {
     });
   });
   const list = [...map.values()];
-  updateStore('artistData', { list });
+  updateStore(store.artistData, { list });
   return list;
 };
 
 connect(
-  'songData',
+  store.songData,
   get,
 );

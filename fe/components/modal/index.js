@@ -10,7 +10,7 @@ const InitData = Object.assign({}, store.modalState);
 
 export default class Modal extends SingleInstanceComponent {
   static open(state) {
-    updateStore('modalState', {
+    updateStore(store.modalState, {
       ...InitData,
       ...state,
       isOpen: true,
@@ -23,7 +23,7 @@ export default class Modal extends SingleInstanceComponent {
   }
 
   static close() {
-    updateStore('modalState', { isOpen: false });
+    updateStore(store.modalState, { isOpen: false });
   }
 
   constructor() {

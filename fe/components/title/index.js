@@ -1,5 +1,5 @@
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import history from '../../lib/history.js';
 import { capitalize } from '../../utils/string.js';
 import routeMap from '../router/map.js';
 
@@ -13,11 +13,11 @@ customElements.define(
     constructor() {
       super();
       this.routeMap = Object.values(routeMap);
-      this.state = store.historyState;
+      this.state = history.historyState;
     }
 
     render() {
-      const { list, currentIndex } = store.historyState;
+      const { list, currentIndex } = history.historyState;
       const { path: currentPath, title } = list[currentIndex];
       const route = this.routeMap.find(({ path }) => path === currentPath);
 

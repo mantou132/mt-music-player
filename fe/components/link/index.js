@@ -1,5 +1,4 @@
 import { html } from '../../js_modules/lit-html.js';
-import { store } from '../../models/index.js';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import { isEqual } from '../../utils/object.js';
@@ -9,7 +8,7 @@ customElements.define(
   class extends Component {
     constructor() {
       super();
-      this.state = store.historyState;
+      this.state = history.historyState;
       this.onclick = this.clickHandle.bind(this);
     }
 
