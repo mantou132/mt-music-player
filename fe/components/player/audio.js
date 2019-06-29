@@ -1,5 +1,5 @@
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import { get } from '../../services/song.js';
 import mediaSession from './mediasession.js';
 import { getSrc } from '../../utils/misc.js';
@@ -9,27 +9,19 @@ import { songMap } from '../../models/data-map.js';
 customElements.define(
   'player-audio',
   class extends Component {
+    static observedStores = [store.playerState, store.audioState];
+
     constructor() {
       super();
-      this.state = {
-        playerState: store.playerState,
-        audioState: store.audioState,
-      };
       this.audio = new Audio();
-      this.audio.onended = this.endHandle.bind(this);
-      this.audio.onerror = this.playError.bind(this);
-      this.audio.onplaying = this.playSuccess.bind(this);
-      this.audio.onabort = this.playSuccess.bind(this); // Enter the waiting stage
-      this.setCurrentTime();
-
-      this.randomPlay = this.randomPlay.bind(this);
-      this.nextPlay = this.nextPlay.bind(this);
+      this.audio.onended = this.endHandle;
+      this.audio.onerror = this.playError;
+      this.audio.onplaying = this.playSuccess;
+      this.audio.onabort = this.playSuccess; // Enter the waiting stage
     }
 
-    endHandle() {
-      const {
-        playerState: { shuffle, mode },
-      } = this.state;
+    endHandle = () => {
+      const { shuffle, mode } = store.playerState;
       if (shuffle) {
         this.randomPlay();
       } else if (mode === 'repeat') {
@@ -38,20 +30,16 @@ customElements.define(
         // repeat-one
         this.audio.play();
       }
-    }
+    };
 
-    randomPlay() {
+    randomPlay = () => {
       const { list } = store.songData;
       const randomIndex = Math.floor(Math.random() * list.length);
-      this.setState({
-        playerState: { currentSong: list[randomIndex] },
-      });
-    }
+      updateStore(store.playerState, { currentSong: list[randomIndex] });
+    };
 
-    nextPlay() {
-      const {
-        playerState: { currentSong },
-      } = this.state;
+    nextPlay = () => {
+      const { currentSong } = store.playerState;
       const { list } = store.songData;
       const currentIndex = list.findIndex(songId => songId === currentSong);
       let nextIndex;
@@ -61,47 +49,38 @@ customElements.define(
         nextIndex = currentIndex + 1;
       }
 
-      this.setState({
-        playerState: { state: 'playing', currentSong: list[nextIndex] },
+      updateStore(store.playerState, {
+        state: 'playing',
+        currentSong: list[nextIndex],
       });
-    }
+    };
 
-    playSuccess() {
-      const {
-        playerState: { currentSong, errorList, state },
-      } = this.state;
+    playSuccess = () => {
+      const { currentSong, errorList, state } = store.playerState;
 
       const index = errorList.indexOf(currentSong);
       const isError = index > -1;
       const isPlayingState = state === 'playing';
       if (isError) errorList.splice(index, 1);
       if (isError || !isPlayingState) {
-        this.setState({
-          playerState: { errorList, state: 'playing' },
-        });
+        updateStore(store.playerState, { errorList, state: 'playing' });
       }
-    }
+    };
 
-    playError() {
-      const {
-        playerState: { currentSong, errorList, state },
-      } = this.state;
+    playError = () => {
+      const { currentSong, errorList, state } = store.playerState;
 
       const isError = errorList.includes(currentSong);
       const isErrorState = state === 'error';
       if (!isError) errorList.push(currentSong);
       if (!isError || !isErrorState) {
-        this.setState({
-          playerState: { errorList, state: 'error' },
-        });
+        updateStore(store.playerState, { errorList, state: 'error' });
       }
-    }
+    };
 
-    render() {
-      const {
-        playerState: { currentSong, state, volume, muted },
-        audioState: { currentTime },
-      } = this.state;
+    render = () => {
+      const { currentSong, state, volume, muted } = store.playerState;
+      const { currentTime } = store.audioState;
       const song = songMap.get(currentSong);
       if (!('id' in song)) return;
 
@@ -121,9 +100,7 @@ customElements.define(
       if (song.id !== Number(this.id)) {
         this.id = song.id;
         this.audio.src = getSrc(song.src);
-        this.setState({
-          audioState: { currentTime: 0 },
-        });
+        updateStore(store.audioState, { currentTime: 0 });
         mediaSession.setMetadata(song);
       }
       // play
@@ -134,30 +111,24 @@ customElements.define(
       if (state === 'paused' && !this.audio.paused) {
         this.audio.pause();
       }
-    }
+    };
 
-    setCurrentTime() {
+    setCurrentTime = () => {
       setInterval(() => {
-        const {
-          audioState: { duration },
-        } = this.state;
+        const { duration } = store.audioState;
         if (!this.audio.paused && !this.audio.error) {
-          this.setState({
-            audioState: {
-              currentTime: this.audio.duration ? this.audio.currentTime : 0,
-              duration: this.audio.duration || duration,
-            },
+          updateStore(store.audioState, {
+            currentTime: this.audio.duration ? this.audio.currentTime : 0,
+            duration: this.audio.duration || duration,
           });
         }
       }, 1000);
-    }
+    };
 
-    async connected() {
+    async mounted() {
       const list = await get();
       if (list[0]) {
-        this.setState({
-          playerState: { currentSong: list[0].id },
-        });
+        updateStore(store.playerState, { currentSong: list[0].id });
       }
     }
   },

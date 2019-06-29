@@ -1,4 +1,3 @@
-export const STORE = Symbol('key: get store');
 export const STORE_MODULE = Symbol('key: get store module');
 export const STORE_MODULE_KEY = Symbol('key: get store module key');
 
@@ -25,7 +24,6 @@ export const createStore = originStore => {
   const keys = Object.keys(originStore);
   keys.forEach(key => {
     const storeModule = originStore[key];
-    storeModule[STORE] = proxy;
     storeModule[STORE_MODULE] = storeModule;
     storeModule[STORE_MODULE_KEY] = key;
     storeModule[HANDLES_KEY] = new Map([[key, new Set()]]);
@@ -62,7 +60,7 @@ export const connect = (storeModule, func) => {
   listeners.add(func);
 };
 
-export const disConnect = (storeModule, func) => {
+export const disconnect = (storeModule, func) => {
   const storeKey = storeModule[STORE_MODULE_KEY];
   const listeners = storeModule[HANDLES_KEY].get(storeKey);
   listeners.delete(func);

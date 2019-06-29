@@ -95,18 +95,15 @@ export default class Drawer extends SingleInstanceComponent {
     Modal.open(getAddPlaylistModal());
   }
 
-  constructor() {
-    super();
-    this.state = {
-      drawer: store.drawerState,
-      user: store.userData,
-      data: store.playlistData,
-    };
-  }
+  static observedStores = [
+    store.drawerState,
+    store.userData,
+    store.playlistData,
+  ];
 
   render() {
-    const { name, avatar } = this.state.user;
-    const { list } = this.state.data;
+    const { name, avatar } = store.userData;
+    const { list } = store.playlistData;
 
     return html`
       <style>
@@ -287,12 +284,12 @@ export default class Drawer extends SingleInstanceComponent {
     `;
   }
 
-  connected() {
+  mounted() {
     get();
   }
 
   updated() {
-    const { isOpen } = this.state.drawer;
+    const { isOpen } = store.drawerState;
     if (isOpen) {
       this.classList.add('open');
     } else {

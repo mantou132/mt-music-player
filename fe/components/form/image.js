@@ -9,26 +9,25 @@ customElements.define(
   class extends Component {
     static observedAttributes = ['name'];
 
-    get value() {
-      return this.state.file;
-    }
-
     constructor() {
       super();
-      this.onclick = this.clickHandle.bind(this);
-      this.changeHandle = this.changeHandle.bind(this);
+      this.onclick = this.clickHandle;
       this.state = {
         file: null,
         blobUrl: '',
       };
     }
 
-    clickHandle() {
-      const input = this.shadowRoot.querySelector('input');
-      input.click();
+    get value() {
+      return this.state.file;
     }
 
-    changeHandle() {
+    clickHandle = () => {
+      const input = this.shadowRoot.querySelector('input');
+      input.click();
+    };
+
+    changeHandle = () => {
       const input = this.shadowRoot.querySelector('input');
       const file = input.files[0];
       if (this.limit) {
@@ -47,14 +46,14 @@ customElements.define(
         });
       }
       input.value = '';
-    }
+    };
 
-    revokeURL() {
+    revokeURL = () => {
       const { blobUrl } = this.state;
       if (blobUrl) {
         URL.revokeObjectURL(blobUrl);
       }
-    }
+    };
 
     render() {
       const { blobUrl } = this.state;
@@ -119,7 +118,7 @@ customElements.define(
       `;
     }
 
-    disconnected() {
+    unmounted() {
       this.revokeURL();
     }
   },

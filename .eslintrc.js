@@ -29,18 +29,23 @@ module.exports = {
       'error',
       {
         exceptMethods: [
-          'connectStart',
+          'willMount',
           'render',
+          'mounted',
           'shouldUpdate',
           'updated',
-          'connected',
-          'disconnected',
           'attributeChanged',
+          'unmounted',
         ],
       },
     ],
     'no-restricted-syntax': 0,
     'import/no-unresolved': [2, { ignore: ['^http'] }],
     'import/prefer-default-export': 0,
+    'lines-between-class-members': [
+      'error',
+      'always',
+      { exceptAfterSingleLine: true },
+    ],
   },
 };

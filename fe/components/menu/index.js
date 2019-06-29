@@ -35,27 +35,23 @@ export default class AppMenu extends SingleInstanceComponent {
     }, 200);
   }
 
-  constructor() {
-    super();
-    this.state = store.menuState;
-    this.closeHandle = this.closeHandle.bind(this);
-  }
+  static observedStores = [store.menuState];
 
-  closeHandle() {
-    const { onclose } = this.state;
+  closeHandle = () => {
+    const { onclose } = store.menuState;
     AppMenu.close();
     if (mediaQuery.isPhone) history.back();
     if (onclose) onclose();
-  }
+  };
 
-  clickHandle(index) {
-    const { list } = this.state;
+  clickHandle = index => {
+    const { list } = store.menuState;
     this.closeHandle();
     setTimeout(list[index].handle, 100);
-  }
+  };
 
   render() {
-    const { list, target, stage, type } = this.state;
+    const { list, target, stage, type } = store.menuState;
     const position = { x: 0, y: 0 };
     const translate = { x: 0, y: 0 };
     if (stage && target) {
@@ -196,12 +192,12 @@ export default class AppMenu extends SingleInstanceComponent {
     `;
   }
 
-  connected() {
+  mounted() {
     this.hidden = false;
   }
 
   updated() {
-    const { isOpen } = this.state;
+    const { isOpen } = store.menuState;
     if (isOpen) {
       this.classList.add('open');
     } else {

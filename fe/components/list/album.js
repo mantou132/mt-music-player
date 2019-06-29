@@ -5,8 +5,7 @@ import routeMap from '../router/map.js';
 customElements.define(
   'app-album-list',
   class extends AppPlaylistList {
-    // eslint-disable-next-line
-    renderItem({ title, cover }) {
+    renderItem = ({ title, cover }) => {
       const link = {
         path: routeMap.SONGS.path,
         query: `?${routeMap.ALBUMS.subTitle}=${encodeURIComponent(title)}`,
@@ -16,6 +15,6 @@ customElements.define(
         <gallery-item title="${title}" .link="${link}" .data="${data}">
         </gallery-item>
       `;
-    }
+    };
   },
 );

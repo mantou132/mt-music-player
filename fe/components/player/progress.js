@@ -1,20 +1,30 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'player-progress',
   class extends Component {
+    static observedStores = [store.audioState];
+
     constructor() {
       super();
-      this.state = store.audioState;
-      this.onclick = this.clickHandle.bind(this);
+      this.onclick = this.clickHandle;
     }
 
+    clickHandle = ({ x }) => {
+      const { duration } = store.audioState;
+      const { left, width } = this.getBoundingClientRect();
+      const nextTime = Math.floor(((x - left) * duration) / width);
+      updateStore(store.audioState, {
+        currentTime: nextTime,
+      });
+    };
+
     render() {
-      const { currentTime, duration } = this.state;
+      const { currentTime, duration } = store.audioState;
       return html`
         <style>
           :host {
@@ -75,15 +85,6 @@ customElements.define(
           <span>${secondToMinute(duration)}</span>
         </div>
       `;
-    }
-
-    clickHandle({ x }) {
-      const { duration } = this.state;
-      const { left, width } = this.getBoundingClientRect();
-      const nextTime = Math.floor(((x - left) * duration) / width);
-      this.setState({
-        currentTime: nextTime,
-      });
     }
   },
 );

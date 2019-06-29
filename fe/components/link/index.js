@@ -6,17 +6,18 @@ import { isEqual } from '../../utils/object.js';
 customElements.define(
   'app-link',
   class extends Component {
+    static observedStores = [history.historyState];
+
     constructor() {
       super();
-      this.state = history.historyState;
-      this.onclick = this.clickHandle.bind(this);
+      this.onclick = this.clickHandle;
     }
 
     get active() {
       const path = this.getAttribute('path');
       const query = this.getAttribute('query') || '';
 
-      const { list, currentIndex } = this.state;
+      const { list, currentIndex } = history.historyState;
       const currentState = list[currentIndex];
       if (
         isEqual(currentState, { path, query }, { ignores: ['state', 'title'] })
@@ -26,7 +27,7 @@ customElements.define(
       return false;
     }
 
-    clickHandle() {
+    clickHandle = () => {
       const { $close } = window.history.state;
       const path = this.getAttribute('path');
       const query = this.getAttribute('query') || '';
@@ -40,7 +41,7 @@ customElements.define(
           history.push({ path, query });
         }
       }
-    }
+    };
 
     render() {
       if (this.active) {

@@ -24,22 +24,17 @@ export default class Image extends Component {
     return altPlaceholderMap.get(alt);
   }
 
-  static get observedAttributes() {
-    return [
-      'data-alt',
-      'data-src',
-      'data-aspect-ratio',
-      'data-lazy',
-      'data-fit',
-    ];
-  }
+  static observedAttributes = [
+    'data-alt',
+    'data-src',
+    'data-aspect-ratio',
+    'data-lazy',
+    'data-fit',
+  ];
 
-  constructor() {
-    super();
-    this.state = {
-      altPlaceholder: null,
-    };
-  }
+  state = {
+    altPlaceholder: null,
+  };
 
   render() {
     const { aspectRatio = 1, fit = 'cover', src } = this.dataset;
@@ -95,7 +90,7 @@ export default class Image extends Component {
     `;
   }
 
-  async connected() {
+  async mounted() {
     const { alt, src } = this.dataset;
     if (!src) {
       this.setState({

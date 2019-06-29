@@ -16,19 +16,11 @@ export default class AppToast extends SingleInstanceComponent {
     }, LIFE_TIME);
   }
 
-  constructor() {
-    super();
-    this.state = {
-      toastState: store.toastState,
-      uploaderState: store.uploaderState,
-    };
-  }
+  static observedStores = [store.toastState, store.uploaderState];
 
   preprocess() {
-    const {
-      toastState: { text },
-      uploaderState: { list },
-    } = this.state;
+    const { text } = store.toastState;
+    const { list } = store.uploaderState;
     if (list.length) {
       showUploaderState = list.length;
     } else if (showUploaderState) {
@@ -64,9 +56,7 @@ export default class AppToast extends SingleInstanceComponent {
 
     if (!showToastList.length && !showUploaderState) return html``;
 
-    const {
-      uploaderState: { errorList },
-    } = this.state;
+    const { errorList } = store.uploaderState;
 
     return html`
       <style>

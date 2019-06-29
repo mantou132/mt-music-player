@@ -26,16 +26,10 @@ export default class Modal extends SingleInstanceComponent {
     updateStore(store.modalState, { isOpen: false });
   }
 
-  constructor() {
-    super();
-    this.state = store.modalState;
-    this.closeHandle = this.closeHandle.bind(this);
-    this.okHandle = this.okHandle.bind(this);
-    this.cancelHandle = this.cancelHandle.bind(this);
-  }
+  static observedStores = [store.modalState];
 
-  async okHandle() {
-    const { oncomplete } = this.state;
+  okHandle = async () => {
+    const { oncomplete } = store.modalState;
     try {
       if (oncomplete) await oncomplete();
       Modal.close();
@@ -43,23 +37,23 @@ export default class Modal extends SingleInstanceComponent {
     } catch (err) {
       //
     }
-  }
+  };
 
-  cancelHandle() {
-    const { oncancel } = this.state;
+  cancelHandle = () => {
+    const { oncancel } = store.modalState;
     if (oncancel) oncancel();
     Modal.close();
     history.back();
-  }
+  };
 
-  closeHandle() {
-    const { onclose } = this.state;
+  closeHandle = () => {
+    const { onclose } = store.modalState;
     if (onclose) onclose();
     history.back();
-  }
+  };
 
   render() {
-    const { title, complete, cancel } = this.state;
+    const { title, complete, cancel } = store.modalState;
 
     return html`
       <style>
@@ -227,12 +221,12 @@ export default class Modal extends SingleInstanceComponent {
     `;
   }
 
-  connected() {
+  mounted() {
     this.hidden = false;
   }
 
   updated() {
-    const { isOpen } = this.state;
+    const { isOpen } = store.modalState;
     if (isOpen) {
       this.classList.add('open');
     } else {

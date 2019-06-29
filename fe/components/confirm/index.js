@@ -26,29 +26,24 @@ export default class Confirm extends SingleInstanceComponent {
     updateStore(store.confirmState, { isOpen: false });
   }
 
-  constructor() {
-    super();
-    this.state = store.confirmState;
-    this.okHandle = this.okHandle.bind(this);
-    this.cancelHandle = this.cancelHandle.bind(this);
-  }
+  static observedStores = [store.confirmState];
 
-  okHandle() {
-    const { oncomplete } = this.state;
+  okHandle = () => {
+    const { oncomplete } = store.confirmState;
     if (oncomplete) oncomplete();
     Confirm.close();
     history.back();
-  }
+  };
 
-  cancelHandle() {
-    const { oncancel } = this.state;
+  cancelHandle = () => {
+    const { oncancel } = store.confirmState;
     if (oncancel) oncancel();
     Confirm.close();
     history.back();
-  }
+  };
 
   render() {
-    const { title, complete, cancel, text } = this.state;
+    const { title, complete, cancel, text } = store.confirmState;
 
     return html`
       <style>
@@ -134,12 +129,12 @@ export default class Confirm extends SingleInstanceComponent {
     `;
   }
 
-  connected() {
+  mounted() {
     this.hidden = false;
   }
 
   updated() {
-    const { isOpen } = this.state;
+    const { isOpen } = store.confirmState;
     if (isOpen) {
       this.classList.add('open');
     } else {

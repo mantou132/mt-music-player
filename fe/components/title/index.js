@@ -10,11 +10,9 @@ import routeMap from '../router/map.js';
 customElements.define(
   'app-title',
   class extends Component {
-    constructor() {
-      super();
-      this.routeMap = Object.values(routeMap);
-      this.state = history.historyState;
-    }
+    static observedStores = [history.historyState];
+
+    routeMap = Object.values(routeMap);
 
     render() {
       const { list, currentIndex } = history.historyState;

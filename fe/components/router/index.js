@@ -13,11 +13,9 @@ import routeMap from './map.js';
 customElements.define(
   'app-router',
   class extends Component {
-    constructor() {
-      super();
-      this.href = window.location.href;
-      this.state = history.historyState;
-    }
+    static observedStores = [history.historyState];
+
+    href = window.location.href;
 
     shouldUpdate() {
       const { href } = window.location;

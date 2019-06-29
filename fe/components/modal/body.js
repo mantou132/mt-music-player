@@ -6,13 +6,10 @@ import mediaQuery from '../../lib/mediaquery.js';
 customElements.define(
   'modal-body',
   class extends Component {
-    constructor() {
-      super();
-      this.state = store.modalState;
-    }
+    static observedStores = [store.modalState];
 
     render() {
-      const { template } = this.state;
+      const { template } = store.modalState;
       return html`
         <style>
           @media ${mediaQuery.PHONE} {

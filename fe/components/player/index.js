@@ -1,5 +1,5 @@
 import { html } from '../../js_modules/lit-html.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
 import mediaQuery from '../../lib/mediaquery.js';
@@ -17,46 +17,39 @@ import './audio.js';
 customElements.define(
   'app-player',
   class extends Component {
-    constructor() {
-      super();
-      this.state = store.playerState;
-      this.clickHandle = this.clickHandle.bind(this);
-      this.editHandle = this.editHandle.bind(this);
-      this.searchHandle = this.searchHandle.bind(this);
-      this.close = this.close.bind(this);
-    }
+    static observedStores = [store.playerState];
 
-    close() {
+    close = () => {
       this.removeAttribute('maximize');
-      this.setState({ maximize: false });
-    }
+      updateStore(store.playerState, { maximize: false });
+    };
 
-    clickHandle() {
+    clickHandle = () => {
       const { pathname, search } = window.location;
-      const { maximize } = this.state;
+      const { maximize } = store.playerState;
 
       if (maximize) {
         this.removeAttribute('maximize');
-        this.setState({ maximize: false });
+        updateStore(store.playerState, { maximize: false });
         history.back();
       } else {
         this.setAttribute('maximize', '');
-        this.setState({ maximize: true });
+        updateStore(store.playerState, { maximize: true });
         history.push({
           path: pathname,
           query: search,
           close: this.close,
         });
       }
-    }
+    };
 
-    editHandle() {
-      const { currentSong } = this.state;
+    editHandle = () => {
+      const { currentSong } = store.playerState;
       const song = songMap.get(currentSong);
       Modal.open(getSongEditModal(song));
-    }
+    };
 
-    searchHandle() {
+    searchHandle = () => {
       this.clickHandle();
       setTimeout(() => {
         history.push({
@@ -64,10 +57,10 @@ customElements.define(
           close: () => setTimeout(this.clickHandle, 100),
         });
       }, 100);
-    }
+    };
 
     render() {
-      const { maximize } = this.state;
+      const { maximize } = store.playerState;
 
       return html`
         <style>

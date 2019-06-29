@@ -10,14 +10,10 @@ import { songMap, playlistMap } from '../../models/data-map.js';
 customElements.define(
   'player-song-info',
   class extends Component {
-    constructor() {
-      super();
-      this.state = store.playerState;
-      this.addToPlaylist = this.addToPlaylist.bind(this);
-    }
+    static observedStores = [store.playerState];
 
-    addToPlaylist() {
-      const { currentSong } = this.state;
+    addToPlaylist = () => {
+      const { currentSong } = store.playerState;
       const { list } = store.playlistData;
       AppMenu.open({
         type: 'center',
@@ -28,10 +24,10 @@ customElements.define(
           },
         })),
       });
-    }
+    };
 
     render() {
-      const { currentSong } = this.state;
+      const { currentSong } = store.playerState;
       const song = songMap.get(currentSong);
       return html`
         <style>

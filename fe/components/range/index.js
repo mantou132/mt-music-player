@@ -6,10 +6,12 @@ customElements.define(
   class extends Component {
     static observedAttributes = ['value'];
 
-    constructor() {
-      super();
-      this.clickHandle = this.clickHandle.bind(this);
-    }
+    clickHandle = ({ x }) => {
+      const { left, width } = this.getBoundingClientRect();
+      const nextValue = Math.floor(((x - left) * 100) / width);
+      this.setAttribute('value', nextValue);
+      this.dispatchEvent(new CustomEvent('change', { detail: nextValue }));
+    };
 
     render() {
       const value = this.getAttribute('value');
@@ -50,13 +52,6 @@ customElements.define(
           </div>
         </div>
       `;
-    }
-
-    clickHandle({ x }) {
-      const { left, width } = this.getBoundingClientRect();
-      const nextValue = Math.floor(((x - left) * 100) / width);
-      this.setAttribute('value', nextValue);
-      this.dispatchEvent(new CustomEvent('change', { detail: nextValue }));
     }
   },
 );

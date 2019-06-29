@@ -7,12 +7,12 @@ class AppSplash extends HTMLElement {
     if (now > LIFE_TIME) {
       this.end();
     } else {
-      setTimeout(this.end.bind(this), LIFE_TIME - now);
+      setTimeout(this.end, LIFE_TIME - now);
     }
   }
 
-  end() {
+  end = () => {
     this.remove();
-  }
+  };
 }
 customElements.define('app-splash', AppSplash);

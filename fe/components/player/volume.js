@@ -1,19 +1,27 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 
 customElements.define(
   'player-volume',
   class extends Component {
-    constructor() {
-      super();
-      this.state = store.playerState;
-      this.changeHandle = this.changeHandle.bind(this);
-      this.clickHandle = this.clickHandle.bind(this);
-    }
+    static observedStores = [store.playerState];
+
+    changeHandle = ({ detail }) => {
+      updateStore(store.playerState, {
+        volume: detail / 100,
+      });
+    };
+
+    clickHandle = () => {
+      const { muted } = store.playerState;
+      updateStore(store.playerState, {
+        muted: !muted,
+      });
+    };
 
     render() {
-      const { volume, muted } = this.state;
+      const { volume, muted } = store.playerState;
       let icon;
       if (volume === 0 || muted) {
         icon = 'volume-off';
@@ -49,19 +57,6 @@ customElements.define(
           value="${volume * 100}"
         ></app-range>
       `;
-    }
-
-    changeHandle({ detail }) {
-      this.setState({
-        volume: detail / 100,
-      });
-    }
-
-    clickHandle() {
-      const { muted } = this.state;
-      this.setState({
-        muted: !muted,
-      });
     }
   },
 );

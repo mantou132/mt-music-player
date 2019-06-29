@@ -75,26 +75,16 @@ function getSearchInput() {
   `;
 }
 export default class AppAction extends Component {
-  static TITLE = 'title';
-
-  static UPLOAD = 'upload';
-
-  static SEARCH = 'search';
-
-  static BACK = 'back';
-
-  static ADD_PLAYLIST = 'add playlist';
-
-  static MENU = 'menu';
-
-  static SEARCH_INPUT = 'search input';
+  static TITLE = Symbol('title');
+  static UPLOAD = Symbol('upload');
+  static SEARCH = Symbol('search');
+  static BACK = Symbol('back');
+  static ADD_PLAYLIST = Symbol('add playlist');
+  static MENU = Symbol('menu');
+  static SEARCH_INPUT = Symbol('search input');
 
   static observedPropertys = ['actions'];
-
-  constructor() {
-    super();
-    this.state = store.selectorState;
-  }
+  static observedStores = [store.selectorState];
 
   getContents() {
     return this.actions.map(ele => {

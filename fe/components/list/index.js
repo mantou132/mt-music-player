@@ -5,5 +5,3 @@ import './album.js';
 import './artist.js';
 import './playlist.js';
 import './gallery-item.js';
-
-import './info.js';

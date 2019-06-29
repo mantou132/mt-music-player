@@ -1,20 +1,16 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
-import { store } from '../../models/index.js';
+import { store, updateStore } from '../../models/index.js';
 import mediaSession from './mediasession.js';
 import mediaQuery from '../../lib/mediaquery.js';
 
 customElements.define(
   'player-control',
   class extends Component {
+    static observedStores = [store.playerState];
+
     constructor() {
       super();
-      this.state = store.playerState;
-      this.clickShuffleHandle = this.clickShuffleHandle.bind(this);
-      this.clickPrevHandle = this.clickPrevHandle.bind(this);
-      this.clickPlayHandle = this.clickPlayHandle.bind(this);
-      this.clickNextHandle = this.clickNextHandle.bind(this);
-      this.clickModeHandle = this.clickModeHandle.bind(this);
 
       mediaSession.onplay = this.clickPlayHandle;
       mediaSession.onpause = this.clickPlayHandle;
@@ -22,14 +18,15 @@ customElements.define(
       mediaSession.onnexttrack = this.clickNextHandle;
     }
 
-    clickShuffleHandle() {
-      this.setState({
-        shuffle: !this.state.shuffle,
+    clickShuffleHandle = () => {
+      const { shuffle } = store.playerState;
+      updateStore(store.playerState, {
+        shuffle: !shuffle,
       });
-    }
+    };
 
-    clickPrevHandle() {
-      const { currentSong } = this.state;
+    clickPrevHandle = () => {
+      const { currentSong } = store.playerState;
       const { list } = store.songData;
       const currentIndex = list.findIndex(songId => songId === currentSong);
       let prevIndex;
@@ -38,19 +35,19 @@ customElements.define(
       } else {
         prevIndex = currentIndex - 1;
       }
-      this.setState({ currentSong: list[prevIndex] });
-    }
+      updateStore(store.playerState, { currentSong: list[prevIndex] });
+    };
 
-    clickPlayHandle() {
-      const { state, currentSong } = this.state;
-      this.setState({
+    clickPlayHandle = () => {
+      const { state, currentSong } = store.playerState;
+      updateStore(store.playerState, {
         currentSong: currentSong === null ? 0 : currentSong,
         state: state === 'paused' ? 'playing' : 'paused',
       });
-    }
+    };
 
-    clickNextHandle() {
-      const { currentSong } = this.state;
+    clickNextHandle = () => {
+      const { currentSong } = store.playerState;
       const { list } = store.songData;
       const currentIndex = list.findIndex(songId => songId === currentSong);
       let nextIndex;
@@ -59,16 +56,21 @@ customElements.define(
       } else {
         nextIndex = currentIndex + 1;
       }
-      this.setState({ currentSong: list[nextIndex], state: 'playing' });
-    }
+      updateStore(store.playerState, {
+        currentSong: list[nextIndex],
+        state: 'playing',
+      });
+    };
 
-    clickModeHandle() {
-      const { mode } = this.state;
-      this.setState({ mode: mode === 'repeat' ? 'repeat-one' : 'repeat' });
-    }
+    clickModeHandle = () => {
+      const { mode } = store.playerState;
+      updateStore(store.playerState, {
+        mode: mode === 'repeat' ? 'repeat-one' : 'repeat',
+      });
+    };
 
     render() {
-      const { state, shuffle, mode } = this.state;
+      const { state, shuffle, mode } = store.playerState;
       return html`
         <style>
           :host {

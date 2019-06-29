@@ -8,16 +8,11 @@ customElements.define(
   class extends AsyncComponent {
     static observedAttributes = ['id', 'updatedat'];
 
-    constructor() {
-      super();
-      this.onClick = this.onClick.bind(this);
-    }
-
-    onClick() {
+    onClick = () => {
       if (this.link) {
         history.push(this.link);
       }
-    }
+    };
 
     render() {
       const { image, title, dec = '' } = this.data;

@@ -19,21 +19,17 @@ customElements.define(
 
     constructor() {
       super();
-      this.onclick = this.clickHandle.bind(this);
-      this.openMenuHandle = this.openMenuHandle.bind(this);
-      this.editHandle = this.editHandle.bind(this);
-      this.deleteHandle = this.deleteHandle.bind(this);
-      this.addToPlaylist = this.addToPlaylist.bind(this);
+      this.onclick = this.clickHandle;
     }
 
-    clickHandle() {
+    clickHandle = () => {
       updateStore(store.playerState, {
         currentSong: Number(this.id),
         state: 'playing',
       });
-    }
+    };
 
-    async addToPlaylist() {
+    addToPlaylist = async () => {
       const songId = Number(this.id);
       const { list } = store.playlistData;
       AppMenu.open({
@@ -45,9 +41,9 @@ customElements.define(
           },
         })),
       });
-    }
+    };
 
-    openMenuHandle(event) {
+    openMenuHandle = event => {
       this.classList.add('hover');
       const { pathname, search } = window.location;
       const query = new URLSearchParams(search);
@@ -86,20 +82,20 @@ customElements.define(
         onclose: () => this.classList.remove('hover'),
       });
       event.stopPropagation();
-    }
+    };
 
-    editHandle() {
+    editHandle = () => {
       Modal.open(getSongEditModal(songMap.get(Number(this.id))));
-    }
+    };
 
-    deleteHandle() {
+    deleteHandle = () => {
       Confirm.open({
         complete: 'confirm',
         cancel: 'cancel',
         text: 'delete song?',
         oncomplete: () => del(Number(this.id)),
       });
-    }
+    };
 
     render() {
       const song = songMap.get(Number(this.id));

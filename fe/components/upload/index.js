@@ -9,11 +9,13 @@ export default class AppUpload extends SingleInstanceComponent {
     input.click();
   }
 
-  constructor() {
-    super();
-    this.state = store.playerState;
-    this.changeHandle = this.changeHandle.bind(this);
-  }
+  static observedStores = [store.playerState];
+
+  changeHandle = () => {
+    const input = this.shadowRoot.querySelector('input');
+    upload(input.files);
+    input.value = '';
+  };
 
   render() {
     return html`
@@ -29,12 +31,6 @@ export default class AppUpload extends SingleInstanceComponent {
         accept="audio/*"
       />
     `;
-  }
-
-  changeHandle() {
-    const input = this.shadowRoot.querySelector('input');
-    upload(input.files);
-    input.value = '';
   }
 }
 

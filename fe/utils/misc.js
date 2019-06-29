@@ -32,11 +32,9 @@ export function getSrc(src) {
 }
 
 export class Pool {
-  constructor() {
-    this.currentId = 0;
-    this.count = 0;
-    this.pool = new Map();
-  }
+  currentId = 0;
+  count = 0;
+  pool = new Map();
 
   add(item) {
     this.pool.set(this.count, item);

@@ -6,13 +6,8 @@ import routeMap from '../router/map.js';
 import { playlistMap } from '../../models/data-map.js';
 
 export default class AppPlaylistList extends AppSongList {
-  constructor() {
-    super();
-    this.renderItem = this.renderItem.bind(this);
-  }
-
   render() {
-    const { list } = this.state.data;
+    const { list } = this.data;
     return html`
       <style>
         :host {
@@ -34,8 +29,7 @@ export default class AppPlaylistList extends AppSongList {
     `;
   }
 
-  // eslint-disable-next-line
-  renderItem(playlistId) {
+  renderItem = playlistId => {
     const { id, title, image, updatedAt } = playlistMap.get(playlistId);
     const link = {
       path: routeMap.PLAYLIST.path,
@@ -55,7 +49,7 @@ export default class AppPlaylistList extends AppSongList {
       >
       </gallery-item>
     `;
-  }
+  };
 }
 
 customElements.define('app-playlist-list', AppPlaylistList);

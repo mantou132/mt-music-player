@@ -5,23 +5,9 @@ import { store } from '../../models/index.js';
 import { playlistMap, songMap } from '../../models/data-map.js';
 
 export default class AppSongList extends Component {
-  static get observedAttributes() {
-    return ['id', 'filtername', 'filtervalue'];
-  }
-
-  constructor() {
-    super();
-    this.renderItem = this.renderItem.bind(this);
-  }
-
-  connectStart() {
-    const songStore = store.songData;
-    this.state = {
-      playerState: store.playerState,
-      data: this.data,
-      songData: this.data === songStore ? '' : songStore,
-    };
-  }
+  static observedAttributes = ['id', 'filtername', 'filtervalue'];
+  static observedPropertys = ['data'];
+  static observedStores = [store.songData, store.playerState, store.searchData];
 
   render() {
     const id = this.getAttribute('id');
@@ -32,7 +18,7 @@ export default class AppSongList extends Component {
       // playlist
       ({ list = [] } = playlistMap.get(id));
     } else {
-      ({ list = [] } = this.state.data);
+      ({ list = [] } = this.data);
     }
     if (filtername) {
       list = list.filter(
@@ -49,8 +35,8 @@ export default class AppSongList extends Component {
     `;
   }
 
-  renderItem(songId) {
-    const { errorList, currentSong, state } = this.state.playerState;
+  renderItem = songId => {
+    const { errorList, currentSong, state } = store.playerState;
     const playIcon = state === 'paused' ? 'pause' : 'playing';
     const isError = errorList.includes(songId);
     const { updatedAt } = songMap.get(songId);
@@ -68,9 +54,9 @@ export default class AppSongList extends Component {
         </app-icon>
       </song-list-item>
     `;
-  }
+  };
 
-  connected() {
+  mounted() {
     if (this.fetchData) this.fetchData();
   }
 
