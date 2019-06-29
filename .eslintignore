@@ -1,2 +1,4 @@
+*.html
 fe/js_modules
+fe/dist
 /node_modules/
