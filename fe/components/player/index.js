@@ -25,7 +25,6 @@ customElements.define(
     };
 
     clickHandle = () => {
-      const { pathname, search } = window.location;
       const { maximize } = store.playerState;
 
       if (maximize) {
@@ -35,9 +34,7 @@ customElements.define(
       } else {
         this.setAttribute('maximize', '');
         updateStore(store.playerState, { maximize: true });
-        history.push({
-          path: pathname,
-          query: search,
+        history.pushState({
           close: this.close,
         });
       }

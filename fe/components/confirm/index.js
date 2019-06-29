@@ -14,10 +14,8 @@ export default class Confirm extends SingleInstanceComponent {
       ...state,
       isOpen: true,
     });
-    history.push({
+    history.pushState({
       title: state.title,
-      path: window.location.pathname,
-      query: window.location.search,
       close: Confirm.close,
     });
   }

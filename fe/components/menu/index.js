@@ -14,10 +14,8 @@ export default class AppMenu extends SingleInstanceComponent {
       isOpen: true,
     });
     if (mediaQuery.isPhone) {
-      history.push({
+      history.pushState({
         title: state.title,
-        path: window.location.pathname,
-        query: window.location.search,
         close: AppMenu.close,
       });
     }

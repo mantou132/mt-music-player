@@ -1,7 +1,6 @@
 import request from '../lib/request.js';
 import { store, updateStore } from '../models/index.js';
-import { toQuerystring } from '../utils/object.js';
-import history from '../lib/history.js';
+import history, { QueryString } from '../lib/history.js';
 import { songMap } from '../models/data-map.js';
 
 export const get = async () => {
@@ -88,7 +87,7 @@ export const update = async (id, song) => {
 
 export const search = async text => {
   const list = await request(
-    `/search?${toQuerystring({ q: text, type: 'song' })}`,
+    `/search${new QueryString({ q: text, type: 'song' })}`,
   );
   updateStore(store.searchData, {
     list: list.map(data => {
@@ -98,7 +97,7 @@ export const search = async text => {
     text,
   });
   history.replace({
-    path: window.location.pathname,
-    query: `?${toQuerystring({ q: text })}`,
+    path: history.location.path,
+    query: new QueryString({ q: text }),
   });
 };

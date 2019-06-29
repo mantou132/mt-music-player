@@ -15,10 +15,10 @@ customElements.define(
   class extends Component {
     static observedStores = [history.historyState];
 
-    href = window.location.href;
+    href = history.location.href;
 
     shouldUpdate() {
-      const { href } = window.location;
+      const { href } = history.location;
       if (href !== this.href) {
         this.scrollTop = 0;
         this.href = href;
@@ -28,8 +28,7 @@ customElements.define(
     }
 
     render() {
-      const { pathname, search } = window.location;
-      const query = new URLSearchParams(search);
+      const { path, query } = history.location;
       const filtername = query.has(routeMap.ARTISTS.subTitle)
         ? routeMap.ARTISTS.subTitle
         : query.has(routeMap.ALBUMS.subTitle) && routeMap.ALBUMS.subTitle;
@@ -37,7 +36,7 @@ customElements.define(
 
       let content;
       let action;
-      switch (pathname) {
+      switch (path) {
         case routeMap.HOME.path:
         case routeMap.SONGS.path:
           content = html`

@@ -1,7 +1,6 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
 import history from '../../lib/history.js';
-import { isEqual } from '../../utils/object.js';
 
 customElements.define(
   'app-link',
@@ -17,18 +16,12 @@ customElements.define(
       const path = this.getAttribute('path');
       const query = this.getAttribute('query') || '';
 
-      const { list, currentIndex } = history.historyState;
-      const currentState = list[currentIndex];
-      if (
-        isEqual(currentState, { path, query }, { ignores: ['state', 'title'] })
-      ) {
-        return true;
-      }
-      return false;
+      const { href } = history.location;
+      return path + query === href;
     }
 
     clickHandle = () => {
-      const { $close } = window.history.state;
+      const { $close } = history.location.state;
       const path = this.getAttribute('path');
       const query = this.getAttribute('query') || '';
       if (!this.active) {

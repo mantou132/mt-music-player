@@ -1,5 +1,6 @@
 import { html } from '../../js_modules/lit-html.js';
 import { AsyncComponent } from '../../lib/component.js';
+import history from '../../lib/history.js';
 import { store, updateStore } from '../../models/index.js';
 import { secondToMinute } from '../../utils/datetime.js';
 import AppMenu from '../menu/index.js';
@@ -45,8 +46,7 @@ customElements.define(
 
     openMenuHandle = event => {
       this.classList.add('hover');
-      const { pathname, search } = window.location;
-      const query = new URLSearchParams(search);
+      const { path, query } = history.location;
       const actions = [
         {
           text: 'edit',
@@ -57,7 +57,7 @@ customElements.define(
           handle: this.deleteHandle,
         },
       ];
-      const playlistId = pathname === routeMap.PLAYLIST.path && query.get('id');
+      const playlistId = path === routeMap.PLAYLIST.path && query.get('id');
       if (playlistId) {
         actions.push({
           text: 'remove from playlist',
@@ -69,7 +69,7 @@ customElements.define(
           handle: this.addToPlaylist,
         });
       }
-      if (pathname === routeMap.FAVORITES.path) {
+      if (path === routeMap.FAVORITES.path) {
         actions.push({
           text: 'remove from favorites',
           handle: () => update(Number(this.id), { star: 0 }),

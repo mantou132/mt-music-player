@@ -1,34 +1,116 @@
 import { createStore, updateStore } from './store.js';
 import storage from '../utils/storage.js';
 
-const store = createStore({
-  historyState: {
-    // coupling `lib/history.js`, `lib/component.js`
-    // {path, query, title, state}
-    // state: {$key, $close, ...}
-    list: [],
-    currentIndex: -1,
-  },
-});
+/**
+ * toString method contains "?"
+ */
+export class QueryString extends URLSearchParams {
+  constructor(param) {
+    if (param instanceof QueryString) {
+      return param;
+    }
+    if (typeof param === 'string') {
+      super(param);
+    } else {
+      super();
+      Object.keys(param).forEach(key => {
+        this.append(key, param[key]);
+      });
+    }
+  }
+
+  concat(param) {
+    let query;
+    if (typeof param === 'string') {
+      query = new URLSearchParams(param);
+    } else {
+      query = param;
+    }
+    Object.keys(query).forEach(key => {
+      this.append(key, query[key]);
+    });
+  }
+
+  toString() {
+    const string = super.toString();
+    return string ? `?${string}` : '';
+  }
+
+  toJSON() {
+    return this.toString();
+  }
+}
 
 const colseHandleMap = new WeakMap();
-
-const generateState = (data, close) => {
+function generateState(data, close) {
   if (data.$key) throw new Error('`$key` is not allowed');
   if (data.$close) throw new Error('`$close` is not allowed');
 
-  const $key = performance.now();
   const state = {
     ...data,
-    $key,
+    $key: Date.now() + performance.now(),
     $close: !!close,
   };
   colseHandleMap.set(state, close);
   return state;
+}
+
+/**
+ * @typedef {Object} HistoryItemState
+ * @property {boolean} $close
+ * @property {number} $key
+ */
+
+/**
+ * @typedef {Object} HistoryItem
+ * @property {String} path window.location.pathname
+ * @property {String|QueryString} query window.location.search
+ * @property {String} title  window.document.title
+ * @property {HistoryItemState} state window.history.state
+ */
+
+/**
+ * @typedef {Object} NavigationParameter
+ * @property {String} path
+ * @property {String|QueryString} query
+ * @property {String} title
+ * @property {function} close
+ * @property {object} data
+ */
+
+const initStore = {
+  historyState: {
+    /**
+     * @type {HistoryItem[]}
+     */
+    list: [],
+    currentIndex: -1,
+  },
 };
+
+/**
+ * @type {typeof initStore}
+ */
+const store = createStore(initStore);
 
 const history = {
   historyState: store.historyState,
+  basePath: '',
+
+  get location() {
+    const { list, currentIndex } = store.historyState;
+    const location = list[currentIndex];
+    // if (!location) return {};
+    const query = new QueryString(location.query);
+    return {
+      path: location.path,
+      query,
+      state: location.state,
+      title: location.title,
+      href: location.path + query,
+    };
+  },
+
   forward() {
     window.history.forward();
   },
@@ -39,37 +121,47 @@ const history = {
 
   /**
    * push history item
-   * @param {Object} options
-   * @param {String} options.path equivalent `location.pathname`
-   * @param {String} options.query equivalent `location.search`
-   * @param {String} options.title equivalent `document.title`
-   * @param {Function} options.close back button callback function
-   * @param {Object} options.data serializable object, equivalent `history.state`
+   * @param {NavigationParameter} options
    */
   push(options) {
     const { path, close } = options;
     const query = options.query || '';
-    const data = options.data || {};
     const title = options.title || '';
+    const data = options.data || {};
+
+    const state = generateState(data, close);
+
+    window.history.pushState(
+      state,
+      title,
+      history.basePath + path + new QueryString(query),
+    );
 
     const { list, currentIndex } = store.historyState;
-    const state = generateState(data, close);
-    const historyItem = {
+    const newList = list.slice(0, currentIndex + 1).concat({
       state,
       title,
       path,
       query,
-    };
-
-    window.history.pushState(state, title, path + query);
-
-    const newList = list.slice(0, currentIndex + 1).concat(historyItem);
+    });
     updateStore(store.historyState, {
       list: newList,
       currentIndex: newList.length - 1,
     });
   },
+  pushState(options) {
+    const { path, query } = history.location;
+    history.push({
+      path,
+      query,
+      ...options,
+    });
+  },
 
+  /**
+   * push history item
+   * @param {NavigationParameter} options
+   */
   replace(options) {
     const { path, close } = options;
     const query = options.query || '';
@@ -77,17 +169,30 @@ const history = {
     const title = options.title || '';
 
     const state = generateState(data, close);
-    window.history.replaceState(state, title, path + query);
+
+    window.history.replaceState(
+      state,
+      title,
+      history.basePath + path + new QueryString(query),
+    );
 
     const { list, currentIndex } = store.historyState;
     list.splice(currentIndex, 1, {
-      path,
-      query,
       state,
       title,
+      path,
+      query,
     });
     updateStore(store.historyState, {
       list,
+    });
+  },
+  replaceState(options) {
+    const { path, query } = history.location;
+    history.replace({
+      path,
+      query,
+      ...options,
     });
   },
 };
@@ -100,8 +205,8 @@ if (!window.history.state) {
   // reload on page with modal window
   history.back();
 }
-
 updateStore(store.historyState, storage.getSession('historyState'));
+
 window.addEventListener('unload', () => {
   storage.setSession('historyState', store.historyState);
 });
@@ -115,17 +220,21 @@ window.addEventListener('popstate', event => {
 
   if (event.state === null) {
     const { state, title, path, query } = list[0];
-    window.history.pushState(state, title, path + query);
+    window.history.pushState(
+      state,
+      title,
+      history.basePath + path + new QueryString(query),
+    );
     return;
   }
 
-  const currentState = list[currentIndex];
+  const { state } = list[currentIndex];
   const newStateIndex = list.findIndex(
-    historyState => historyState.state.$key === event.state.$key,
+    historyItem => historyItem.state.$key === event.state.$key,
   );
 
-  if (currentState.state.$close) {
-    const closeHandle = colseHandleMap.get(currentState.state);
+  if (state.$close) {
+    const closeHandle = colseHandleMap.get(state);
     if (closeHandle) {
       // reason: back button close modal
       closeHandle();

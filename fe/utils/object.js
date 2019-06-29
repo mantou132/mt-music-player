@@ -16,15 +16,6 @@ export function mergeObject(obj1, obj2, newObject) {
   return wrap;
 }
 
-export function toQuerystring(obj) {
-  const query = new URLSearchParams();
-  const keys = Object.keys(obj);
-  keys.forEach(key => {
-    query.append(key, obj[key]);
-  });
-  return query.toString();
-}
-
 export function isEqual(obj, obj2, option = {}) {
   if (!obj || !obj2) {
     return obj === obj2;

@@ -15,9 +15,7 @@ export default class Modal extends SingleInstanceComponent {
       ...state,
       isOpen: true,
     });
-    history.push({
-      path: window.location.pathname,
-      query: window.location.search,
+    history.pushState({
       close: Modal.close,
     });
   }

@@ -47,11 +47,7 @@ export default class Drawer extends SingleInstanceComponent {
     updateStore(store.drawerState, {
       isOpen: true,
     });
-    history.push({
-      path: window.location.pathname,
-      query: window.location.search,
-      close: Drawer.close,
-    });
+    history.pushState({ close: Drawer.close });
   }
 
   static close() {

@@ -1,5 +1,6 @@
 import { html } from '../../js_modules/lit-html.js';
 import Component from '../../lib/component.js';
+import history from '../../lib/history.js';
 import AppUpload from '../upload/index.js';
 import { store } from '../../models/index.js';
 import { search } from '../../services/song.js';
@@ -63,7 +64,7 @@ function getBackButton() {
 }
 
 function getSearchInput() {
-  const query = new URLSearchParams(window.location.search);
+  const { query } = history.location;
   return html`
     <form-text
       class="input"
