@@ -19,6 +19,8 @@ customElements.define(
       this.audio.onplaying = this.playSuccess.bind(this);
       this.audio.onabort = this.playSuccess.bind(this); // Enter the waiting stage
       this.setCurrentTime();
+
+      this.video = null;
     }
 
     endHandle = () => {
@@ -79,22 +81,63 @@ customElements.define(
       }
     };
 
+    getStream = () => {
+      const { pip } = store.playerState;
+      const canvas = document.createElement('canvas');
+      canvas.width = 300;
+      canvas.height = 300;
+      const ctx = canvas.getContext('2d');
+      const landscape = pip.naturalWidth > pip.naturalHeight;
+      ctx.drawImage(
+        pip,
+        landscape ? (pip.naturalWidth - pip.naturalHeight) / 2 : 0,
+        landscape ? 0 : -(pip.naturalWidth - pip.naturalHeight) / 2,
+        landscape ? pip.naturalHeight : pip.naturalWidth,
+        landscape ? pip.naturalHeight : pip.naturalWidth,
+        0,
+        0,
+        300,
+        300,
+      );
+      const canvsStream = canvas.captureStream(1);
+      canvsStream.getVideoTracks()[0].requestFrame();
+      return canvsStream;
+    };
+
+    enterPictureInPicture = () => {
+      this.video = document.createElement('video');
+      this.video.hidden = true;
+      this.video.srcObject = this.getStream();
+      this.video.addEventListener('leavepictureinpicture', () => {
+        this.video.remove();
+        updateStore(store.playerState, { pip: null });
+      });
+      document.body.append(this.video);
+      this.video
+        .play()
+        .then(() => this.video.requestPictureInPicture())
+        .catch(() => {
+          this.video.remove();
+          updateStore(store.playerState, { pip: null });
+        });
+    };
+
+    updatePictureInPicture = () => {
+      this.video.srcObject = this.getStream();
+      this.video.play();
+    };
+
     render = () => {
       const { currentSong, state, volume, muted, pip } = store.playerState;
       const { currentTime } = store.audioState;
       const song = songMap.get(currentSong);
       if (!('id' in song)) return;
 
-      // toggle pip
       if (document.pictureInPictureElement && !pip) {
-        document.exitPictureInPicture().catch(() => {
-          updateStore(store.playerState, { pip: true });
-        });
+        document.exitPictureInPicture();
       }
       if (!document.pictureInPictureElement && pip) {
-        this.audio.requestPictureInPicture().catch(() => {
-          updateStore(store.playerState, { pip: false });
-        });
+        this.enterPictureInPicture();
       }
 
       // switch mute
@@ -115,6 +158,11 @@ customElements.define(
         this.audio.src = getSrc(song.src);
         updateStore(store.audioState, { currentTime: 0 });
         mediaSession.setMetadata(song);
+        if (document.pictureInPictureElement) {
+          pip.addEventListener('load', this.updatePictureInPicture, {
+            once: true,
+          });
+        }
       }
       // play
       if (state === 'playing' && this.audio.paused) {

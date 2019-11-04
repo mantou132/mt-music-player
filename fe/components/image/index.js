@@ -32,6 +32,10 @@ export default class Image extends Component {
     'data-fit',
   ];
 
+  get img() {
+    return this.shadowRoot.querySelector('img');
+  }
+
   state = {
     altPlaceholder: null,
   };
@@ -82,6 +86,7 @@ export default class Image extends Component {
         }
       </style>
       <img
+        crossorigin="anonymous"
         alt=" "
         class="img ${autoSizeClass}"
         src="${getSrc(src || altPlaceholder)}"

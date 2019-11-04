@@ -28,7 +28,7 @@ export function transformTextToSVG(text) {
       transform="translate(${getTranslate()}, ${getTranslate()}) rotate(${getRotate()})"
     >${char}</text>`,
   );
-  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
+  return `data:image/svg+xml,${encodeURIComponent(`<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
       <style>
         :root {
           background: ${background};

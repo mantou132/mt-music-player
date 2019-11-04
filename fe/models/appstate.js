@@ -4,7 +4,7 @@ export const userData = {
   key: '',
 };
 export const playerState = {
-  pip: false,
+  pip: null, // pip 图片
   maximize: false,
   errorList: [],
   currentSong: null,

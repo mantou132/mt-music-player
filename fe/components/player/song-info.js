@@ -28,7 +28,9 @@ customElements.define(
 
     tooglePipMode = () => {
       const { pip } = store.playerState;
-      updateStore(store.playerState, { pip: !pip });
+      updateStore(store.playerState, {
+        pip: pip ? null : this.shadowRoot.querySelector('app-img').img,
+      });
     };
 
     render() {
@@ -48,6 +50,9 @@ customElements.define(
             margin: var(--padding);
             width: calc(var(--player-height) - (var(--padding)) * 2);
             box-shadow: var(--player-cover-box-shadow);
+          }
+          app-img {
+            height: 100%;
           }
           .pip {
             display: none;
