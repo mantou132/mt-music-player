@@ -18,6 +18,8 @@ customElements.define(
       this.audio.onerror = this.playError.bind(this);
       this.audio.onplaying = this.playSuccess.bind(this);
       this.audio.onabort = this.playSuccess.bind(this); // Enter the waiting stage
+      this.audio.onplay = () => this.video && this.video.play();
+      this.audio.onpause = () => this.video && this.video.pause();
       this.setCurrentTime();
 
       this.video = null;
