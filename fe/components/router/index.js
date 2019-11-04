@@ -63,7 +63,7 @@ customElements.define(
           content = html`
             <app-song-list
               id="${query.get('id')}"
-              .fetchData="${() => getSong(query.get('id'))}"
+              .fetchData="${() => getSong(history.location.query.get('id'))}"
               .data="${store.playlistData}"
             >
             </app-song-list>

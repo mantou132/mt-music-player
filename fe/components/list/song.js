@@ -7,7 +7,12 @@ import { playlistMap, songMap } from '../../models/data-map.js';
 export default class AppSongList extends Component {
   static observedAttributes = ['id', 'filtername', 'filtervalue'];
   static observedPropertys = ['data'];
-  static observedStores = [store.songData, store.playerState, store.searchData];
+  static observedStores = [
+    store.playlistData,
+    store.songData,
+    store.playerState,
+    store.searchData,
+  ];
 
   render() {
     const id = this.getAttribute('id');
