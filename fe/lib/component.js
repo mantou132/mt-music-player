@@ -38,6 +38,7 @@ export default class Component extends HTMLElement {
     this.shouldUpdate = this.shouldUpdate.bind(this);
     this.update = this.update.bind(this);
     this.updated = this.updated.bind(this);
+    this.connectStores = this.connectStores.bind(this);
     this.disconnectStores = this.disconnectStores.bind(this);
     this.attributeChanged = this.attributeChanged.bind(this);
     this.unmounted = this.unmounted.bind(this);
@@ -108,6 +109,19 @@ export default class Component extends HTMLElement {
   }
 
   updated() {}
+
+  /**
+   * @readonly
+   */
+  connectStores(storeModuleList) {
+    storeModuleList.forEach(storeModule => {
+      connect(
+        storeModule,
+        this.update,
+      );
+      this[connectedStorePages].add(storeModule);
+    });
+  }
 
   /**
    * @readonly
