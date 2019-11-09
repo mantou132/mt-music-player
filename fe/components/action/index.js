@@ -119,7 +119,7 @@ export default class AppAction extends Component {
           flex-shrink: 0;
           display: flex;
           align-items: center;
-          padding: calc(1.6rem + env(safe-area-inset-top)) 1.6rem 1.6rem;
+          padding: calc(1.6rem + var(--safe-area-inset-top)) 1.6rem 1.6rem;
         }
         .title {
           display: none;
@@ -141,7 +141,7 @@ export default class AppAction extends Component {
             position: -webkit-sticky;
             position: sticky;
             top: 0;
-            padding: calc(0.4rem + env(safe-area-inset-top)) 0.4rem 0.4rem;
+            padding: calc(0.4rem + var(--safe-area-inset-top)) 0.4rem 0.4rem;
             background: var(--action-background-color);
             color: var(--action-text-color);
             fill: var(--action-text-color);

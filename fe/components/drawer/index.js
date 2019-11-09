@@ -118,13 +118,13 @@ export default class Drawer extends SingleInstanceComponent {
         .menu {
           box-sizing: border-box;
           height: 100%;
-          padding-bottom: env(safe-area-inset-bottom);
+          padding-bottom: var(--safe-area-inset-bottom);
         }
         .user {
           position: relative;
           display: flex;
           align-items: center;
-          padding: calc(4.8rem + env(safe-area-inset-top)) 2.4rem 2.4rem;
+          padding: calc(4.8rem + var(--safe-area-inset-top)) 2.4rem 2.4rem;
           background: var(--drawer-user-background-color);
           color: var(--drawer-user-text-color);
         }

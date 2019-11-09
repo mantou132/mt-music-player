@@ -51,10 +51,10 @@ const mediaQuery = {
     return window.matchMedia(this.SHORT).matches;
   },
 
-  PWA: '(display-mode: standalone)',
+  PWA: navigator.standalone ? '(min-width: 1px)' : '(display-mode: standalone)',
   // PWA: '(display-mode: browser)', // debugging
   get isPWA() {
-    return window.matchMedia(this.PWA).matches;
+    return navigator.standalone || window.matchMedia(this.PWA).matches;
   },
 
   MOTION_REDUCE: '(prefers-reduced-motion: reduce)',

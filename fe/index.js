@@ -1,3 +1,4 @@
+import './jsbridge.js';
 import './theme.js';
 
 import './icons/index.js';

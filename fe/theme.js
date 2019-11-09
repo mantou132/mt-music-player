@@ -10,11 +10,31 @@ customElements.define(
         html`
           <style>
             :root {
+              /* support mtApp webview */
+              --safe-area-inset-top: calc(
+                env(safe-area-inset-top) +
+                  var(--mt-app-safe-area-inset-top, 0px)
+              );
+              --safe-area-inset-left: calc(
+                env(safe-area-inset-left) +
+                  var(--mt-app-safe-area-inset-left, 0px)
+              );
+              --safe-area-inset-right: calc(
+                env(safe-area-inset-right) +
+                  var(--mt-app-safe-area-inset-right, 0px)
+              );
+              --safe-area-inset-bottom: calc(
+                env(safe-area-inset-bottom) +
+                  var(--mt-app-safe-area-inset-bottom, 0px)
+              );
+
               --safe-width: calc(
-                100% - env(safe-area-inset-left) - env(safe-area-inset-right)
+                100% - var(--safe-area-inset-left) -
+                  var(--safe-area-inset-right)
               );
               --safe-height: calc(
-                100% - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+                100% - var(--safe-area-inset-top) -
+                  var(--safe-area-inset-bottom)
               );
 
               --scrollbar-track-color: rgba(0, 0, 0, 0.2);
@@ -45,7 +65,7 @@ customElements.define(
               --notfound-text-primary-color: #fff;
               --notfound-text-secondary-color: #707070;
 
-              --player-height: calc(9rem + env(safe-area-inset-bottom));
+              --player-height: calc(9rem + var(--safe-area-inset-bottom));
               --player-background-color: #20272b;
               --player-separator-color: black;
               --player-text-primary-color: #fff;
@@ -111,7 +131,7 @@ customElements.define(
                 --menu-text-color: #000;
                 --menu-hover-text-color: #000;
 
-                --player-height: calc(5.6rem + env(safe-area-inset-bottom));
+                --player-height: calc(5.6rem + var(--safe-area-inset-bottom));
               }
             }
             @media ${mediaQuery.WATCH}, ${mediaQuery.SHORT} {
