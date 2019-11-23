@@ -20,7 +20,7 @@ customElements.define(
               --scrollbar-track-color: rgba(0, 0, 0, 0.2);
               --scrollbar-color: rgba(255, 255, 255, 0.2);
 
-              --theme-background-color: #202b27;
+              --theme-background-color: #20272b;
               --theme-color: #18d150;
               --theme-error-color: red;
               --theme-backdrop-color: rgba(0, 0, 0, 0.6);
@@ -46,13 +46,13 @@ customElements.define(
               --notfound-text-secondary-color: #707070;
 
               --player-height: calc(9rem + env(safe-area-inset-bottom));
-              --player-background-color: #202b27;
+              --player-background-color: #20272b;
               --player-separator-color: black;
               --player-text-primary-color: #fff;
               --player-text-secondary-color: #707070;
               --player-cover-box-shadow: 0px 1px 3px #0007;
 
-              --toast-background-color: #202b27;
+              --toast-background-color: #20272b;
               --toast-text-color: #fff;
               --toast-border-color: #000;
 
@@ -86,13 +86,13 @@ customElements.define(
             @media ${mediaQuery.PHONE} {
               :root {
                 --drawer-width: 30.4rem;
-                --drawer-user-background-color: #202b27;
+                --drawer-user-background-color: #20272b;
                 --drawer-user-text-color: #fff;
                 --drawer-background-color: #fff;
                 --drawer-text-primary-color: #fff;
                 --drawer-text-secondary-color: #000;
 
-                --action-background-color: #202b27;
+                --action-background-color: #20272b;
                 --action-text-color: #fff;
                 --action-border-color: #eee;
                 --action-box-shadow: 0 -4px 4px 4px rgba(0, 0, 0, 0.4);

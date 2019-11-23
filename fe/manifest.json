@@ -1,8 +1,8 @@
 {
   "name": "MT Music Player",
   "short_name": "MTPlayer",
-  "theme_color": "#202b27",
-  "background_color": "#202b27",
+  "theme_color": "#20272b",
+  "background_color": "#20272b",
   "start_url": "./?utm_source=web_app_manifest",
   "display": "standalone",
   "description": "A simply web music player app.",
