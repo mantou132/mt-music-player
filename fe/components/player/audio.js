@@ -22,7 +22,40 @@ customElements.define(
       this.audio.onpause = () => this.video && this.video.pause();
       this.setCurrentTime();
 
-      this.video = null;
+      const canvas = document.createElement('canvas');
+      canvas.width = 300;
+      canvas.height = 300;
+      const ctx = canvas.getContext('2d');
+      this.video = document.createElement('video');
+      this.video.hidden = true;
+      this.video.muted = true;
+      this.video.srcObject = canvas.captureStream();
+      this.video.play();
+      const draw = () => {
+        const { pip } = store.playerState;
+        if (!pip) {
+          ctx.rect(0, 0, 1, 1);
+          ctx.fill();
+        } else {
+          const landscape = pip.naturalWidth > pip.naturalHeight;
+          ctx.drawImage(
+            pip,
+            landscape ? (pip.naturalWidth - pip.naturalHeight) / 2 : 0,
+            landscape ? 0 : -(pip.naturalWidth - pip.naturalHeight) / 2,
+            landscape ? pip.naturalHeight : pip.naturalWidth,
+            landscape ? pip.naturalHeight : pip.naturalWidth,
+            0,
+            0,
+            300,
+            300,
+          );
+        }
+        setTimeout(draw, 80);
+      };
+      draw();
+      this.video.addEventListener('leavepictureinpicture', () => {
+        updateStore(store.playerState, { pip: null });
+      });
     }
 
     endHandle = () => {
@@ -83,50 +116,11 @@ customElements.define(
       }
     };
 
-    getStream = () => {
-      const { pip } = store.playerState;
-      const canvas = document.createElement('canvas');
-      canvas.width = 300;
-      canvas.height = 300;
-      const ctx = canvas.getContext('2d');
-      const landscape = pip.naturalWidth > pip.naturalHeight;
-      ctx.drawImage(
-        pip,
-        landscape ? (pip.naturalWidth - pip.naturalHeight) / 2 : 0,
-        landscape ? 0 : -(pip.naturalWidth - pip.naturalHeight) / 2,
-        landscape ? pip.naturalHeight : pip.naturalWidth,
-        landscape ? pip.naturalHeight : pip.naturalWidth,
-        0,
-        0,
-        300,
-        300,
-      );
-      const canvsStream = canvas.captureStream(1);
-      canvsStream.getVideoTracks()[0].requestFrame();
-      return canvsStream;
-    };
-
     enterPictureInPicture = () => {
-      this.video = document.createElement('video');
-      this.video.hidden = true;
-      this.video.srcObject = this.getStream();
-      this.video.addEventListener('leavepictureinpicture', () => {
-        this.video.remove();
+      this.video.requestPictureInPicture().catch(error => {
+        console.error(error);
         updateStore(store.playerState, { pip: null });
       });
-      document.body.append(this.video);
-      this.video
-        .play()
-        .then(() => this.video.requestPictureInPicture())
-        .catch(() => {
-          this.video.remove();
-          updateStore(store.playerState, { pip: null });
-        });
-    };
-
-    updatePictureInPicture = () => {
-      this.video.srcObject = this.getStream();
-      this.video.play();
     };
 
     render = () => {
@@ -160,19 +154,16 @@ customElements.define(
         this.audio.src = getSrc(song.src);
         updateStore(store.audioState, { currentTime: 0 });
         mediaSession.setMetadata(song);
-        if (document.pictureInPictureElement) {
-          pip.addEventListener('load', this.updatePictureInPicture, {
-            once: true,
-          });
-        }
       }
       // play
       if (state === 'playing' && this.audio.paused) {
         this.audio.play();
+        this.video.play();
       }
       // pause
       if (state === 'paused' && !this.audio.paused) {
         this.audio.pause();
+        this.video.pause();
       }
     };
 
