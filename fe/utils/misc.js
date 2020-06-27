@@ -28,7 +28,7 @@ export function getSrc(src) {
   if (String(src).match(/^(\/\/|https?:|blob:|data:)/)) {
     return src;
   }
-  return `http://${config.storage}/${src}`;
+  return `//${config.storage}/${src}`;
 }
 
 export class Pool {

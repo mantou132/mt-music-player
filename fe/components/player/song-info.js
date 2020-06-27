@@ -81,7 +81,7 @@ customElements.define(
           .add-playlist {
             display: none;
           }
-          @media ${mediaQuery.HOVER} {
+          @media ${mediaQuery.DESKTOP} {
             .img:hover .pip:not([hidden]) {
               display: flex;
               position: absolute;
